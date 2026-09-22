@@ -57,6 +57,9 @@ jobs:
 
       - name: build apk (release)
         working-directory: android
+        env:
+          # RN 0.65 / Metro lama masih pakai hash MD4 yang dihapus OpenSSL 3
+          NODE_OPTIONS: --openssl-legacy-provider
         run: ./gradlew assembleRelease
 
       - name: release to github
