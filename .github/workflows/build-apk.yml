@@ -1,0 +1,74 @@
+name: build-apk
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: npm install
+        run: npm ci --legacy-peer-deps
+
+      - name: setup java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '11'
+
+      - name: setup android sdk
+        uses: android-actions/setup-android@v3
+
+      - name: install sdk components
+        run: |
+          yes | sdkmanager --licenses > /dev/null || true
+          sdkmanager "platforms;android-30" "build-tools;30.0.2" "ndk;20.1.5948944"
+
+      - name: generate release keystore
+        working-directory: android/app
+        run: |
+          keytool -genkeypair -v \
+            -keystore my-upload-key.keystore \
+            -alias my-key-alias \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass bismillah -keypass bismillah \
+            -dname "CN=BAQI, OU=GMJ, O=BAQI, L=Jakarta, ST=DKI Jakarta, C=ID"
+
+      - name: build apk (release)
+        working-directory: android
+        run: ./gradlew assembleRelease
+
+      - name: release to github
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          APK=android/app/build/outputs/apk/release/app-release.apk
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            gh release create "${{ github.ref_name }}" "$APK" \
+              --title "BAQI ${{ github.ref_name }}" \
+              --notes "Rilis dari tag ${{ github.ref_name }}." \
+              --repo "${{ github.repository }}"
+          else
+            gh release delete dev --repo "${{ github.repository }}" --yes 2>/dev/null || true
+            gh release create dev "$APK" \
+              --title "BAQI (build otomatis)" \
+              --notes "Build otomatis dari main. commit: ${{ github.sha }}" \
+              --repo "${{ github.repository }}"
+          fi
