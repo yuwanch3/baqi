@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -26,12 +26,8 @@ jobs:
       - name: npm install
         run: npm ci --legacy-peer-deps
 
-      - name: setup java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '11'
-
+      # sdkmanager (cmdline-tools 16+) requires JDK 17+,
+      # so install the Android SDK with the runner's default JDK first...
       - name: setup android sdk
         uses: android-actions/setup-android@v3
 
@@ -39,6 +35,13 @@ jobs:
         run: |
           yes | sdkmanager --licenses > /dev/null || true
           sdkmanager "platforms;android-30" "build-tools;30.0.2" "ndk;20.1.5948944"
+
+      # ...then switch to JDK 11, which Gradle 6.9 requires.
+      - name: setup java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '11'
 
       - name: generate release keystore
         working-directory: android/app
