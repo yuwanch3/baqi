@@ -32,6 +32,8 @@ const Home = (props) => {
   const openLinks = (type, uid, value) => {
     if(type === 'UnderstandQuran') {
       NavigatorService.navigate('UnderstandQuran')
+    } else if(type === 'Petrofisika'){
+      NavigatorService.navigate('Petrofisika')
     } else if(type === 'HomeExam'){
       NavigatorService.navigate('HomeExam')
     } else if(type === 'Rangking'){
@@ -50,6 +52,14 @@ const Home = (props) => {
                 <View style={styles.mnrow}>
                   <Text style={styles.titlemn}>{t('common:menuOne')}</Text>
                   <Text style={styles.titledt}>{t('common:deskMenu1')}</Text>
+                </View>
+              </Pressable>
+
+              <Pressable style={[styles.menu, {backgroundColor: '#1F618D', alignItems:'center'}]} onPress={() => openLinks('Petrofisika','','')}>
+                <Image source={allLogo.icLevel} style={{width:toDp(50), height:toDp(55)}}/>
+                <View style={styles.mnrow}>
+                  <Text style={styles.titlemn}>{t('common:menuPetro')}</Text>
+                  <Text style={styles.titledt}>{t('common:deskMenuPetro')}</Text>
                 </View>
               </Pressable>
 

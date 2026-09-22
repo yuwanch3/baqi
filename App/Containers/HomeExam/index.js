@@ -89,7 +89,11 @@ const HomeExam = (props) => {
     .then(result =>{
         if(result.data.status==200){
           //console.log('This level =>', result.data.value);
-          let data = result.data.value.map(doc => {
+          let data = result.data.value
+            .filter(doc => {
+              return String(doc.id).startsWith('LVC')
+            })
+            .map(doc => {
               return {
                 id: doc.id,
                 value: doc
