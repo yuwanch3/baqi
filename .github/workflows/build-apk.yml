@@ -28,13 +28,15 @@ jobs:
 
       # sdkmanager (cmdline-tools 16+) requires JDK 17+,
       # so install the Android SDK with the runner's default JDK first...
-      - name: setup android sdk
-        uses: android-actions/setup-android@v3
-
       - name: install sdk components
         run: |
-          yes | sdkmanager --licenses > /dev/null || true
-          sdkmanager "platforms;android-30" "build-tools;30.0.2" "ndk;20.1.5948944"
+          SDK=/usr/local/lib/android/sdk
+          echo "ANDROID_HOME=$SDK" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$SDK" >> "$GITHUB_ENV"
+          SM="$SDK/cmdline-tools/latest/bin/sdkmanager"
+          ls "$SDK/cmdline-tools"
+          yes | "$SM" --licenses > /dev/null || true
+          "$SM" "platforms;android-30" "build-tools;30.0.2" "ndk;20.1.5948944"
 
       # ...then switch to JDK 11, which Gradle 6.9 requires.
       - name: setup java
