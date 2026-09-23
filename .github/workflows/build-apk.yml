@@ -69,13 +69,17 @@ jobs:
           set -euo pipefail
           APK=android/app/build/outputs/apk/release/app-release.apk
           if [[ "${{ github.ref }}" == refs/tags/* ]]; then
-            gh release create "${{ github.ref_name }}" "$APK" \
+            APK_OUT="baqi-${{ github.ref_name }}.apk"
+            cp "$APK" "$APK_OUT"
+            gh release create "${{ github.ref_name }}" "$APK_OUT" \
               --title "BAQI ${{ github.ref_name }}" \
               --notes "Rilis dari tag ${{ github.ref_name }}." \
               --repo "${{ github.repository }}"
           else
+            APK_OUT="baqi-dev.apk"
+            cp "$APK" "$APK_OUT"
             gh release delete dev --repo "${{ github.repository }}" --yes 2>/dev/null || true
-            gh release create dev "$APK" \
+            gh release create dev "$APK_OUT" \
               --title "BAQI (build otomatis)" \
               --notes "Build otomatis dari main. commit: ${{ github.sha }}" \
               --repo "${{ github.repository }}"
