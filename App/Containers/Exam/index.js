@@ -692,7 +692,7 @@ const Exam = (props) => {
                             : option==correctOption
                             ? '#01880F'
                             : generateBackgroundColor(index),
-                            height: toDp(60), borderRadius: toDp(50),
+                            height: toDp(60), borderRadius: toDp(30), overflow: 'hidden',
                             flexDirection: 'row',
                             alignItems: 'center', justifyContent: 'space-between',
                             paddingHorizontal: toDp(20),
@@ -763,7 +763,7 @@ const Exam = (props) => {
                             : option==correctOption
                             ? '#01880F'
                             : generateBackgroundColor(index),
-                            height: toDp(60), borderRadius: toDp(50),
+                            height: toDp(60), borderRadius: toDp(30), overflow: 'hidden',
                             flexDirection: 'row',
                             alignItems: 'center', justifyContent: 'space-between',
                             paddingHorizontal: toDp(20),
@@ -946,7 +946,7 @@ const Exam = (props) => {
                             : option==currentOptionSelected
                             ? COLORS.error +'50'
                             : COLORS.secondary+'20',
-                            height: toDp(70), borderRadius: toDp(100),
+                            height: toDp(70), borderRadius: toDp(35), overflow: 'hidden',
                             width:'47%',
                             flexDirection:'row',
                             alignItems:'center',
@@ -1021,7 +1021,7 @@ const Exam = (props) => {
                             : option==currentOptionSelected
                             ? COLORS.error +'50'
                             : COLORS.secondary+'20',
-                            height: toDp(70), borderRadius: toDp(100),
+                            height: toDp(70), borderRadius: toDp(35), overflow: 'hidden',
                             width:'47%',
                             flexDirection:'row',
                             alignItems:'center',
@@ -1138,7 +1138,7 @@ const Exam = (props) => {
                         : selected
                         ? 'red' +'50'
                         : '#CCC'+'20',
-                        height: 60, borderRadius: 50,
+                        height: 60, borderRadius: 30, overflow: 'hidden',
                         flexDirection: 'row',
                         alignItems: 'center', justifyContent: 'space-between',
                         paddingHorizontal: 20,

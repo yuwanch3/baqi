@@ -1,5 +1,10 @@
 # Changelog BAQI
 
+## v0.4.3 — Ikon baru & perbaikan border pilihan jawaban
+
+- Ganti ikon menu "Petrofisika & CEOR" di halaman Beranda dengan versi baru yang lebih proporsional.
+- Perbaiki tampilan border pada pilihan jawaban soal (klik jawaban): `borderRadius` disamakan dengan setengah tinggi elemen + `overflow: hidden` sehingga garis border melengkung sempurna di semua sudut (tidak ada lagi garis yang "keluar" di pojok kanan), berlaku untuk semua tipe soal (pilihan ganda, multi, gambar, drag).
+
 ## v0.4.2 — Penyesuaian nama file APK
 
 - Nama file APK hasil build rilis diganti menjadi `baqi-vX.Y.Z.apk` (release bertag) dan `baqi-dev.apk` (build otomatis dari branch main).
