@@ -54,7 +54,6 @@ const Prosses = (props) => {
   const delay = 40;
   const textColor = '';
   const [max, setMax] = useState(0);
-  // const [progress, setProgress] = useState(new Animated.Value(0));
 
   const animatedValue = React.useRef(new Animated.Value(0)).current;
   const cirleRef = React.useRef();
@@ -68,9 +67,6 @@ const Prosses = (props) => {
         delay,
         useNativeDriver: true,
       }).start()
-     //  () => {
-     //    animation(toValue === 0 ? percentage : 0)
-     // });
   }
 
   const [userss, setUser] = useState({})
@@ -110,7 +106,6 @@ const Prosses = (props) => {
     })
     //Get data pengguna
     AsyncStorage.getItem('users').then(response => {
-      //console.log('response =>'+ response);
       let data    = JSON.parse(response);
       const datas = JSON.stringify(data[0]);
       let users   = JSON.parse(datas);
@@ -120,8 +115,6 @@ const Prosses = (props) => {
         email: users?.email,
         photo: users?.picture
       }))
-      //console.log(response)
-
     }).catch(err => {
       console.log('err', err)
     })
@@ -131,7 +124,6 @@ const Prosses = (props) => {
       setState(state => ({...state,
         id: ids
       }))
-
     }).catch(err =>{
       console.log('err', err)
     })
@@ -154,13 +146,11 @@ const Prosses = (props) => {
   },[state.id])
 
   useEffect(()=>{
-      //return () =>{
         AsyncStorage.getItem('percent').then(data =>{
           let news = JSON.parse(data);
           let maxs    = news.total;
           let percent = news.done;
             animation(percent)
-            //console.log('efek ke 2.1');
             animatedValue.addListener((v) =>{
               if(cirleRef?.current){
                 const maxPerc = (100 * v.value) / maxs;
@@ -180,13 +170,10 @@ const Prosses = (props) => {
               }
             })
         })
-      //}
       return () =>{
          animatedValue.removeAllListeners();
       }
   },[max])
-
-  //Lets update
 
   const getKalkulasi = (id) => {
     setState(state => ({...state, loading: true }))
@@ -198,11 +185,8 @@ const Prosses = (props) => {
              total : result.data.value.total,
              done : result.data.value.done
           }
-          //set data persentase di sini
-          //console.log('This refresh =>', datas);
           setMax(datas.total)
           AsyncStorage.setItem('percent', JSON.stringify(datas));
-          // //setState(state => ({...state, kalkulasiData: datas }))
           setState(state => ({...state, loading: false }))
           getLastest()
         }else if(result.data.status==500){
@@ -213,7 +197,6 @@ const Prosses = (props) => {
           setState(state => ({...state, loading: false }))
         }
     }).catch(err =>{
-      //console.log("----ee--------->"+err);
       alert(err_data)
       setState(state => ({...state, loading: false }))
     })
@@ -250,8 +233,6 @@ const Prosses = (props) => {
                 value: doc
               }
            })
-          //set data persentase di sini
-          //console.log('This data =>', JSON.stringify(id));
           setState(state => ({...state, lastestData: data }))
           setState(state => ({...state, loading: false }))
         }else if(result.data.status==404){
@@ -262,7 +243,6 @@ const Prosses = (props) => {
           setState(state => ({...state, loading: false }))
         }
     }).catch(err =>{
-      //console.log('---------e---->'+err);
       alert(dataNull)
       setState(state => ({...state, loading: false }))
     })
@@ -276,7 +256,7 @@ const Prosses = (props) => {
     } else if(index % 3 == 2) {
       return '#A7BD3C'
     } else {
-      return '#E8F0FD' // gak masuk sini ...
+      return '#E8F0FD'
     }
   }
 
@@ -287,6 +267,20 @@ const Prosses = (props) => {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
       }
     );
+  }
+
+  const subStr= (data)=>{
+    let text   = data;
+    let result ='';
+    let newtext='';
+    if(text.length > 20){
+       result = text.substring(0, 22);
+       newtext = result+'...';
+
+    }else{
+      newtext = text;
+    }
+    return newtext;
   }
 
   const CardLastest = (item, index) =>{
@@ -302,7 +296,6 @@ const Prosses = (props) => {
        per = (item.value.current/item.value.total)*100;
        max = (item.value.total/item.value.total)*100;
     }
-    //console.log('-----------------------s----- '+max);
     const toVal = Math.round(per);
 
     const progressAnim = progress.interpolate({
@@ -319,7 +312,7 @@ const Prosses = (props) => {
     return(
 
         <View key={index} style={[styles.manyCard, {backgroundColor: generateBackgroundColor(index)}]}>
-            <View style={{height:toDp(120), justifyContent:'center',}}>
+            <View style={{minHeight:toDp(120), justifyContent:'center',}}>
                 <Text style={{fontSize:toDp(15), color:'#0D4534', fontWeight:'bold'}}>{subStr(item.value.information)}</Text>
                 <View style={{marginTop:toDp(7)}}>
                     <View key={index} style={{
@@ -346,8 +339,20 @@ const Prosses = (props) => {
 
                 <View style={{flexDirection:'row', justifyContent:'space-between', width:'100%', marginTop:toDp(8)}}>
                   <View style={{width:'50%'}}>
-                      <Text style={{fontSize:toDp(14), color:'#0D4534', fontWeight:'bold'}}>{item.value.lname}</Text>
-                      <Text style={{fontSize:toDp(12), color:'#0D4534', fontWeight:'bold'}}>{item.value.name==item.value.lname ? item.value.excerpt : item.value.name}</Text>
+                      <Text
+                        style={{fontSize:toDp(14), color:'#0D4534', fontWeight:'bold'}}
+                        numberOfLines={2}
+                        ellipsizeMode="tail"
+                      >
+                        {subStr(item.value.lname)}
+                      </Text>
+                      <Text
+                        style={{fontSize:toDp(12), color:'#0D4534', fontWeight:'bold'}}
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                      >
+                        {item.value.name==item.value.lname ? item.value.excerpt : item.value.name}
+                      </Text>
                   </View>
                   <View style={{width:'50%', alignItems:'flex-end'}}>
                       <Text style={{fontSize:toDp(25), color:'#0D4534', fontWeight:'bold'}}>{Math.round(per)}%</Text>
@@ -360,39 +365,18 @@ const Prosses = (props) => {
 
   }
 
-  const subStr= (data)=>{
-    let text   = data;
-    let result ='';
-    let newtext='';
-    if(text.length > 20){
-       result = text.substring(0, 22);
-       newtext = result+'...';
-
-    }else{
-      newtext = text;
-    }
-    return newtext;
-  }
-
   const getBanner = () =>{
     return new Promise((resolve, reject) => {
           axios.get(svr.url+'banner/'+svr.api)
           .then(result =>{
               if(result.data.status==200){
-
-                //set data persentase di sini
-                //console.log('This data =>', JSON.stringify(result.data));
-                //setState(state => ({...state, banner: result.data.baner }))
-                //setState(state => ({...state, inload: false }))
                 resolve(result.data.baner)
               }else{
                 reject(false)
-                //setState(state => ({...state, loading: false }))
               }
 
           }).catch(err =>{
             reject(false)
-            //setState(state => ({...state, loading: false }))
           })
     })
   }
@@ -406,7 +390,7 @@ const Prosses = (props) => {
               <View style={{width:'20%'}}>
                   <Image
                     source={state.photo
-                  ? {uri: state.photo}                      // Use object with 'uri'
+                  ? {uri: state.photo}
                   : require('../../../Assets/img/profile.png')}
                     style={styles.imgProf} />
               </View>
@@ -479,11 +463,11 @@ const Prosses = (props) => {
                   </View>
               </View>
 
-              <View style={{height:toDp(135)}}>
+              <View style={{minHeight:toDp(135)}}>
                   {state.lastestData.length>0 ?
-                        <ScrollView horizontal={true}
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
+                        <ScrollView
+                          horizontal={true}
+                          showsHorizontalScrollIndicator={false}
                                   >
                           <View style={{flexDirection:'row', backgroundColor:'#FFF',  marginLeft:toDp(20), marginRight:toDp(20)}}>
                             {
@@ -544,7 +528,7 @@ const Prosses = (props) => {
                     state.inload==true ?
                       <ActivityIndicator size="large" color="#05B628" />
                     :<>
-                        <ScrollView horizontal={true}
+                        <ScrollView
                           horizontal={true}
                           showsHorizontalScrollIndicator={false}>
                             <View style={{flexDirection:'row', marginLeft:toDp(20), marginRight:toDp(20)}}>
@@ -612,9 +596,10 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'space-between',
     width:toDp(223),
-    height:toDp(120),
+    minHeight: toDp(120),
     borderRadius:toDp(15),
     paddingHorizontal:toDp(30),
+    paddingVertical: toDp(12),
     marginLeft:toDp(8),
     marginRight:toDp(8),
     shadowColor: "#000",

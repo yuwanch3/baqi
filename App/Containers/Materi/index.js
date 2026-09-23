@@ -23,6 +23,8 @@ import { useTranslation } from 'react-i18next';
 
 const Materi = (props) => {
   const { t } = useTranslation();
+  // Level Petrofisika & CEOR (prefix PFC) tidak punya ujian tata bahasa
+  const isPetro = String(props.navigation.state.params.lid || '').startsWith('PFC');
   let lang =  t('common:lang');
   let err_data = t('common:err_data');
   let err_trima = t('common:err_trima');
@@ -259,14 +261,18 @@ const Materi = (props) => {
             <Text style={styles.textFooter}>{props.navigation.state.params.value.name.split(' ')[1]} {pelajaran} {ujian}</Text>
           }
         </Pressable>
-        <View style={styles.line} />
-        <Pressable style={styles.presableMenuFooter} onPress={() => openLinkPGexam(props.navigation.state.params.value.id, 'Ujian Grammer', props.navigation.state.params.level)}>
-          {lang=='id' ?
-            <Text style={styles.textFooter}>{ujian} {props.navigation.state.params.value.name.split(' ')[1]} {tatabahasa}</Text>
-          :
-            <Text style={styles.textFooter}>{props.navigation.state.params.value.name.split(' ')[1]} {tatabahasa} {ujian}</Text>
-          }
-        </Pressable>
+        {!isPetro && (
+          <React.Fragment>
+            <View style={styles.line} />
+            <Pressable style={styles.presableMenuFooter} onPress={() => openLinkPGexam(props.navigation.state.params.value.id, 'Ujian Grammer', props.navigation.state.params.level)}>
+              {lang=='id' ?
+                <Text style={styles.textFooter}>{ujian} {props.navigation.state.params.value.name.split(' ')[1]} {tatabahasa}</Text>
+              :
+                <Text style={styles.textFooter}>{props.navigation.state.params.value.name.split(' ')[1]} {tatabahasa} {ujian}</Text>
+              }
+            </Pressable>
+          </React.Fragment>
+        )}
       </View>
 
     </View>
