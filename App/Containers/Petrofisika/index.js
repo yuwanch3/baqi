@@ -100,7 +100,7 @@ const Petrofisika = (props) => {
     }else if(!state.uid){
       showAlert(youareGuest)
     }else{
-      NavigatorService.navigate('FinalExam', {lid:lid, excerpt:final_test, uid:state.uid, title:title})
+      NavigatorService.navigate('FinalExam', {lid:lid, excerpt:'Final Test', uid:state.uid, title:title})
     }
   }
 
