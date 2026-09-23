@@ -120,6 +120,9 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 
 ## 📜 Changelog
 
+### v0.4.2 — Penyesuaian nama file APK
+- Nama file APK hasil build rilis diganti menjadi `baqi-vX.Y.Z.apk` (release bertag) dan `baqi-dev.apk` (build otomatis dari branch main).
+
 ### v0.4.1 — Menu baru & perbaikan tampilan
 - Ikon menu Petrofisika & CEOR di halaman Beranda diganti dengan ikon khusus.
 - Menu Petrofisika & CEOR dipecah menjadi dua sub-menu: **Petrofisika** (7 bab) dan **Chemical EOR** (5 bab), masing-masing dengan ikonnya sendiri.
