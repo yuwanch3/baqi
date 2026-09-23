@@ -32,7 +32,10 @@ const allLogo = {
   idFlag: require('./img/id_lang.png'),
   enFlag: require('./img/en_lang.png'),
   udc: require('./img/udc.png'),
-  icApple: require('./img/apple.png')
+  icApple: require('./img/apple.png'),
+  icPetro: require('./img/icon-petrofisika-chemical-eor.png'),
+  icPetroDetail: require('./img/icon-petrofisika.png'),
+  icCEOR: require('./img/icon-chemical-eor.png')
 }
 
 export { allLogo }

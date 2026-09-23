@@ -9,6 +9,7 @@ import Users from '../Containers/Home/User'
 import Cb from '../Containers/cb'
 import UnderstandQuran from '../Containers/UnderstandQuran'
 import Petrofisika from '../Containers/Petrofisika'
+import PetroLevel from '../Containers/PetroLevel'
 import SubLevel from '../Containers/SubLevel'
 import Materi from '../Containers/Materi'
 import Watch from '../Containers/Watch'
@@ -43,6 +44,7 @@ const AppNavigator = createStackNavigator(
     ForgotPassword: { screen: ForgotPassword },
     UnderstandQuran: { screen: UnderstandQuran },
     Petrofisika: { screen: Petrofisika },
+    PetroLevel: { screen: PetroLevel },
     SubLevel: { screen: SubLevel },
     Materi: { screen: Materi },
     Watch: { screen: Watch },

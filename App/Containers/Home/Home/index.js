@@ -56,7 +56,7 @@ const Home = (props) => {
               </Pressable>
 
               <Pressable style={[styles.menu, {backgroundColor: '#1F618D', alignItems:'center'}]} onPress={() => openLinks('Petrofisika','','')}>
-                <Image source={allLogo.icLevel} style={{width:toDp(50), height:toDp(55)}}/>
+                <Image source={allLogo.icPetro} style={{width:toDp(50), height:toDp(55)}}/>
                 <View style={styles.mnrow}>
                   <Text style={styles.titlemn}>{t('common:menuPetro')}</Text>
                   <Text style={styles.titledt}>{t('common:deskMenuPetro')}</Text>

@@ -1,92 +1,141 @@
-# BAQI
+# 📖 BAQI — Bahasa Qur'an Interaktif
 
+**BAQI** adalah aplikasi pembelajaran mobile berbasis **React Native** yang menyajikan kurikulum interaktif untuk belajar **Bahasa Qur'an** serta **Petrofisika & Chemical Enhanced Oil Recovery (CEOR)**. Setiap materi dilengkapi video (tonton), dokumen (baca & unduh), dan ujian berjenjang — dari kuis per materi, ujian per pelajaran, hingga ujian akhir bab — lengkap dengan peringkat dan grup belajar.
 
+> Rilis Android terbaru (APK): <https://github.com/yuwanch3/baqi/releases>
 
-## Getting started
+---
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## ✨ Fitur Unggulan
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- **📚 Dua Kurikulum dalam Satu Aplikasi**
+  - **Memahami Qur'an** — belajar Bahasa Qur'an dengan materi, latihan, dan ujian per pelajaran.
+  - **Petrofisika & Chemical EOR** — kurikulum teknik perminyakan lengkap: 12 bab, 36 sub-bab, 72 materi, dan **960 soal** (kuis materi, ujian pelajaran, dan final test per bab).
+- **🎬 Belajar Multi-Modal** — setiap materi memiliki menu **Tonton** (video), **Baca**, dan **Unduh** (PDF/dokumen).
+- **📝 Ujian Berjenjang**
+  - Kuis per materi (5 soal)
+  - Ujian Pelajaran per sub-bab (10 soal)
+  - Final Test per bab (20 soal)
+  - Mendukung soal pilihan ganda (`option`) dan jawaban banyak (`multi`), dengan posisi kunci jawaban diacak merata agar tidak bisa ditebak.
+- **🏆 Peringkat (Ranking)** — pantau progres belajar dan posisi kamu.
+- **👥 Grup Belajar** — buat grup, undang anggota, dan belajar bersama.
+- **🌐 Multi-Bahasa** — antarmuka Bahasa Indonesia & English (React i18next).
+- **👤 Akun & Autentikasi** — login/register, Google & Facebook sign-in, dan profil pengguna.
 
-## Add your files
+---
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+## 🧰 Teknologi yang Digunakan
+
+| Lapisan | Teknologi |
+|---|---|
+| Framework | **React Native 0.65.1** (Android + iOS) |
+| Navigasi | React Navigation (stack) |
+| Bahasa Utama | JavaScript (ES6+) |
+| State/Storage | React Hooks + AsyncStorage |
+| HTTP Client | Axios |
+| Internasionalisasi | react-i18next (id / en) |
+| Auth | Firebase Authentication, Google Sign-In, Facebook SDK |
+| Komponen UI | react-native-paper, react-native-vector-icons, react-native-linear-gradient |
+| Backend/API | REST API PHP + MySQL (server `baqi.jannahku.com`) |
+| CI/CD | GitHub Actions (build otomatis APK release per commit/tag) |
+
+---
+
+## 📂 Struktur Folder Project
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/gmj.globalenergy/baqi.git
-git branch -M main
-git push -uf origin main
+baqi/
+├─ App/                        # Kode utama aplikasi React Native
+│  ├─ Assets/                  # Logo, ikon menu (termasuk ikon Petrofisika & CEOR)
+│  ├─ Components/              # Komponen UI kecil yang dipakai ulang
+│  ├─ Configs/                 # Konfigurasi koneksi server/API (apikey)
+│  ├─ Containers/              # Layar (screen) aplikasi
+│  │  ├─ Home/                 # Menu utama (Beranda) & progres
+│  │  ├─ UnderstandQuran/      # Kurikulum Memahami Qur'an
+│  │  ├─ Petrofisika/          # Pemilih materi Petrofisika & CEOR
+│  │  ├─ PetroLevel/           # Daftar bab per materi (7 bab Petro / 5 bab CEOR)
+│  │  ├─ SubLevel/             # Sub-bab dari sebuah bab
+│  │  ├─ Materi/               # Detail materi (Tonton, Baca, Unduh, Ujian)
+│  │  ├─ Exam/                 # Ujian kuis materi
+│  │  ├─ FinalExam/            # Ujian Pelajaran & Final Test bab
+│  │  ├─ Rangking/             # Peringkat belajar
+│  │  ├─ Group/                # Grup belajar
+│  │  └─ ...                   # Login, Register, Watch, Read, Download, dll.
+│  ├─ Helper/                  # Fungsi bantu
+│  ├─ Navigations/             # Registrasi navigasi layar (AppNavigator)
+│  └─ Translate/               # File terjemahan id/ & en/ (react-i18next)
+├─ android/                    # Proyek Android (Gradle)
+│  └─ app/build.gradle         # Versi aplikasi (versionMajor/Minor/Patch)
+├─ ios/                        # Proyek iOS
+├─ .github/workflows/          # GitHub Actions (build-apk.yml → build APK release)
+├─ CHANGELOG.md                # Daftar perubahan versi
+└─ package.json                # Dependensi & skrip npm
 ```
 
-## Integrate with your tools
+---
 
-- [ ] [Set up project integrations](https://gitlab.com/gmj.globalenergy/baqi/-/settings/integrations)
+## 🚀 Cara Menjalankan (Development)
 
-## Collaborate with your team
+> Prasyarat: Node.js, npm, React Native CLI environment, Android SDK / Xcode.
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+```bash
+# 1. Install dependensi
+npm install --legacy-peer-deps   # atau: npm ci --legacy-peer-deps
 
-## Test and Deploy
+# 2. Jalankan Metro bundler
+npm start
 
-Use the built-in continuous integration in GitLab.
+# 3. Jalankan aplikasi (terminal lain)
+npm run android   # atau: npm run ios
+```
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+### Build APK Release Lokal
 
-***
+```bash
+cd android
+./gradlew assembleRelease
+# Hasil: android/app/build/outputs/apk/release/app-release.apk
+```
 
-# Editing this README
+> ⚠️ Proyek dikonfigurasi untuk React Native 0.65; beberapa skrip penting di CI menggunakan `NODE_OPTIONS=--openssl-legacy-provider` untuk kompatibilitas OpenSSL 3.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+---
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+## 📦 Versi & Rilis
 
-## Name
-Choose a self-explaining name for your project.
+Versi aplikasi diatur di `android/app/build.gradle` (`ext.versionMajor/Minor/Patch`, misal `0.4.1`).
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+Proses rilis otomatis via **GitHub Actions** (`.github/workflows/build-apk.yml`):
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+- **Push ke `main`** → build APK dan diunggah ke release `dev` (build otomatis terbaru).
+- **Push tag `v*`** (misal `v0.4.1`) → build APK dan dibuatkan **release ber-version baru** yang tidak menimpa rilis sebelumnya.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+```bash
+git tag v0.4.1 && git push origin v0.4.1
+```
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+---
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+## 📜 Changelog
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+### v0.4.1 — Menu baru & perbaikan tampilan
+- Ikon menu Petrofisika & CEOR di halaman Beranda diganti dengan ikon khusus.
+- Menu Petrofisika & CEOR dipecah menjadi dua sub-menu: **Petrofisika** (7 bab) dan **Chemical EOR** (5 bab), masing-masing dengan ikonnya sendiri.
+- Perbaiki daftar bab: konten bisa di-scroll penuh sampai bawah — item terakhir (Petrofisika Bab 7) beserta tombol "Ujian Akhir Bab · TES AKHIR" tidak lagi terpotong.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+### v0.4.0 — Rilis APK ber-version
+- Perbaiki bug Final Test di menu Petrofisika & CEOR.
+- Tombol "Ujian Tata Bahasa" tidak lagi ditampilkan pada materi Petrofisika & CEOR.
+- Konten lengkap: 12 bab, 36 sub-bab, 72 materi, 960 soal.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+---
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## 🤝 Kontribusi
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+Terbuka untuk kontribusi! Silakan buat *issue* untuk melaporkan bug atau *pull request* untuk perbaikan/fitur baru. Pastikan perubahan tetap konsisten dengan struktur dan gaya kode yang ada.
 
-## License
-For open source projects, say how it is licensed.
+## 📄 Lisensi
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Hak cipta © BAQI — GMJ Global Energy. Seluruh materi pembelajaran (materi, soal, kurikulum) adalah konten eksklusif aplikasi BAQI.
