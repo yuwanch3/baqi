@@ -1,5 +1,10 @@
 # Changelog BAQI
 
+## v0.4.4 — Perbaikan border & drag-and-drop di semua ujian
+
+- Perbaiki tampilan border pada pilihan jawaban **Ujian Akhir Bab / Final Test** (`FinalExam`): `borderRadius` disamakan dengan setengah tinggi elemen + `overflow: hidden` sehingga garis border melengkung sempurna di semua sudut (sebelumnya hanya `Exam` yang diperbaiki).
+- Perbaiki bug **drag & drop** di `Exam` dan `FinalExam`: clone kotak jawaban setelah di-drop kini benar-benar hilang (`opacity: 0`) melalui style `dragReleased` terpisah — tidak ada lagi sisa kotak transparan/lengkungan yang nyangkut di layar.
+
 ## v0.4.3 — Ikon baru & perbaikan border pilihan jawaban
 
 - Ganti ikon menu "Petrofisika & CEOR" di halaman Beranda dengan versi baru yang lebih proporsional.

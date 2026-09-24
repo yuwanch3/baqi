@@ -120,6 +120,10 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 
 ## 📜 Changelog
 
+### v0.4.4 — Perbaikan border & drag-and-drop di semua ujian
+- Perbaiki tampilan border pada pilihan jawaban **Ujian Akhir Bab / Final Test** (file `FinalExam`): `borderRadius` = setengah tinggi elemen + `overflow: hidden` — garis border tidak lagi "nyembul" di pojok kanan.
+- Perbaiki bug **drag & drop** di `Exam` dan `FinalExam`: clone kotak jawaban setelah di-drop benar-benar hilang (`opacity: 0`) — tidak ada sisa kotak transparan yang nyangkut di layar.
+
 ### v0.4.3 — Ikon baru & perbaikan border pilihan jawaban
 - Ganti ikon menu "Petrofisika & CEOR" di halaman Beranda dengan versi baru yang lebih proporsional.
 - Perbaiki tampilan border pada pilihan jawaban soal (`borderRadius` = setengah tinggi elemen + `overflow: hidden`) sehingga garis border melengkung sempurna di semua sudut — berlaku untuk semua tipe soal (pilihan ganda, multi, gambar, drag).

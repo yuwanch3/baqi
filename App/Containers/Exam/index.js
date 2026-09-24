@@ -1424,7 +1424,7 @@ const Exam = (props) => {
               <DraxView
                   style={[styles.draggable,{backgroundColor: generateBackgroundColorMD(index)}]}
                   draggingStyle={styles.dragging}
-                  dragReleasedStyle={styles.dragging}
+                  dragReleasedStyle={styles.dragReleased}
                   hoverDraggingStyle={styles.hoverDragging}
                   dragPayload={item}
                   longPressDelay={0}
@@ -1979,6 +1979,9 @@ const styles = StyleSheet.create({
   dragging: {
     opacity: 0.2,
     fontSize: 12
+  },
+  dragReleased: {
+    opacity: 0,
   },
   hoverDragging: {
     borderColor: '#FFF',
