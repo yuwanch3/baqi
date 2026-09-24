@@ -262,6 +262,13 @@ const FinalExam = (props) => {
                   }
                 })
 
+                // Acak urutan soal supaya tipe soal (option/multi/yesorno/drag)
+                // tercampur acak, tidak beruntun berdasarkan urutan di database.
+                for (let i = data.length - 1; i > 0; i--) {
+                  const j = Math.floor(Math.random() * (i + 1));
+                  [data[i], data[j]] = [data[j], data[i]];
+                }
+
                 setState(state => ({...state, arraSoal: data }))
                 setState(state => ({...state, loading: false }))
 
@@ -1418,6 +1425,7 @@ const FinalExam = (props) => {
                   style={[styles.draggable, {backgroundColor: generateBackgroundColorMD(index)}]}
                   draggingStyle={styles.dragging}
                   dragReleasedStyle={styles.dragReleased}
+                  hoverDragReleasedStyle={styles.hoverDragReleased}
                   hoverDraggingStyle={styles.hoverDragging}
                   dragPayload={item}
                   longPressDelay={0}
@@ -1663,6 +1671,11 @@ const FinalExam = (props) => {
                                     <DraxList
                                        data={allQuestions[currentQuestionIndex]?.value.options}
                                        renderItemContent={TouchDrag}
+                                       itemStyles={{
+                                         draggingStyle: styles.dragging,
+                                         dragReleasedStyle: styles.dragReleased,
+                                         hoverDragReleasedStyle: styles.hoverDragReleased,
+                                       }}
                                        keyExtractor={(item, index) => item.toString()}
                                        numColumns={2}
                                        ItemSeparatorComponent={FlatListItemSeparator}
@@ -1682,6 +1695,11 @@ const FinalExam = (props) => {
                                    <DraxList
                                       data={allQuestions[currentQuestionIndex]?.value.options_en}
                                       renderItemContent={TouchDrag}
+                                      itemStyles={{
+                                        draggingStyle: styles.dragging,
+                                        dragReleasedStyle: styles.dragReleased,
+                                        hoverDragReleasedStyle: styles.hoverDragReleased,
+                                      }}
                                       keyExtractor={(item, index) => item.toString()}
                                       numColumns={2}
                                       ItemSeparatorComponent={FlatListItemSeparator}
@@ -1970,6 +1988,9 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   dragReleased: {
+    opacity: 0,
+  },
+  hoverDragReleased: {
     opacity: 0,
   },
   hoverDragging: {

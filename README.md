@@ -120,6 +120,11 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 
 ## 📜 Changelog
 
+### v0.4.5 — Perbaikan drag & drop + urutan soal acak + pilot yesorno Quran
+- Perbaiki sisa **bayangan hijau pada drag & drop** (Quran): `hoverDragReleasedStyle` kini `opacity: 0` — clone kotak jawaban langsung hilang saat dilepas, tidak ada lagi lengkungan hijau yang nyangkut di posisi drop.
+- **Urutan soal diacak** setiap ujian dimuat (`Exam` & `FinalExam`) sehingga tipe soal tercampur acak, tidak beruntun.
+- Tambah 3 soal tipe **Yes/No** materi "Kata Ganti" (Level 1 · Sublevel 1) di kurikulum Quran (total jadi 10 soal) dengan import `SET NAMES utf8mb4` agar huruf Arab tidak rusak.
+
 ### v0.4.4 — Perbaikan border & drag-and-drop di semua ujian
 - Perbaiki tampilan border pada pilihan jawaban **Ujian Akhir Bab / Final Test** (file `FinalExam`): `borderRadius` = setengah tinggi elemen + `overflow: hidden` — garis border tidak lagi "nyembul" di pojok kanan.
 - Perbaiki bug **drag & drop** di `Exam` dan `FinalExam`: clone kotak jawaban setelah di-drop benar-benar hilang (`opacity: 0`) — tidak ada sisa kotak transparan yang nyangkut di layar.

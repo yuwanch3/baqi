@@ -1,5 +1,11 @@
 # Changelog BAQI
 
+## v0.4.5 — Perbaikan drag & drop + urutan soal acak + pilot yesorno
+
+- Perbaiki sisa **bayangan hijau pada drag & drop** (Quran) di `Exam` & `FinalExam`: selain `dragReleasedStyle`, kini `hoverDragReleasedStyle` juga dibuat `opacity: 0` sehingga clone kotak jawaban yang ikut jari langsung hilang saat dilepas (tidak ada lagi lengkungan/sisa kotak yang nyangkut di posisi drop).
+- **Urutan soal diacak** setiap kali ujian dimuat di `Exam` & `FinalExam` (Fisher–Yates shuffle), sehingga tipe soal (pilihan ganda, multi, yes/no, drag) tercampur acak dan tidak beruntun menurut urutan database.
+- Tambahkan 3 soal tipe **Yes/No** pada materi "Kata Ganti" (Level 1 · Sublevel 1) di kurikulum Quran (7 soal lama + 3 baru = 10 soal), plus penghapusan 10 baris pilot yes/no lama yang teks Arabnya rusak saat import. Import dilakukan dengan `SET NAMES utf8mb4` agar huruf Arab tersimpan benar.
+
 ## v0.4.4 — Perbaikan border & drag-and-drop di semua ujian
 
 - Perbaiki tampilan border pada pilihan jawaban **Ujian Akhir Bab / Final Test** (`FinalExam`): `borderRadius` disamakan dengan setengah tinggi elemen + `overflow: hidden` sehingga garis border melengkung sempurna di semua sudut (sebelumnya hanya `Exam` yang diperbaiki).

@@ -8,7 +8,7 @@ apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 import com.android.build.OutputFile
 ext.versionMajor = 0
 ext.versionMinor = 4
-ext.versionPatch = 4
+ext.versionPatch = 5
 ext.versionClassifier = null
 ext.isSnapshot = false
 ext.minimumSdkVersion = 21
