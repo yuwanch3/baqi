@@ -1661,7 +1661,7 @@ const FinalExam = (props) => {
                  : allQuestions[currentQuestionIndex]?.value.type === 'drag' ?
                        <>
                          { lang=='id' ?
-                             <DraxProvider>
+                             <DraxProvider key={`drax-id-${currentQuestionIndex}`}>
                                    <View style={{width:'100%'}}>
                                        <View style={{flexDirection:'row', justifyContent:'space-around', width:'100%', marginBottom:20}}>
                                              {allQuestions[currentQuestionIndex]?.value.correct_option.map((item, index) => Draxzone({ item, index }))}
@@ -1685,7 +1685,7 @@ const FinalExam = (props) => {
                              </DraxProvider>
                             /*Drag Drop*/
                          :lang=='en' ?
-                             <DraxProvider>
+                             <DraxProvider key={`drax-en-${currentQuestionIndex}`}>
                                   <View style={{width:'100%'}}>
                                       <View style={{flexDirection:'row', justifyContent:'space-around', width:'100%', marginBottom:20}}>
                                             {allQuestions[currentQuestionIndex]?.value.correct_option_en.map((item, index) => Draxzone({ item, index }))}

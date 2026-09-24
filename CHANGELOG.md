@@ -1,5 +1,10 @@
 # Changelog BAQI
 
+## v0.4.6 — Hilangkan artefak drag & drop tersisa + impor yes/no anti-corrupt
+
+- Hilangkan **artefak/ghost drag & drop yang masih tersisa** di `Exam` & `FinalExam`: seluruh `<DraxProvider>` kini diberi `key` unik per soal (`drax-id-${index}` / `drax-en-${index}`) sehingga instance Drax di-**remount total** setiap kali ganti soal — state clone/bayangan yang bocor ke soal berikutnya (termasuk ke tipe soal lain) hilang sepenuhnya.
+- Sertakan file impor SQL versi 3 (`sql_pilot_yesorno_mtr5_v3.sql`) untuk 3 soal Yes/No materi "Kata Ganti": teks Arab di-encode **HEX** (`CONVERT(0x… USING utf8mb4)`) sehingga file 100% ASCII — pengaturan charset koneksi import apa pun (latin1/cp1252) tidak bisa lagi mengubah huruf Arab menjadi `?`.
+
 ## v0.4.5 — Perbaikan drag & drop + urutan soal acak + pilot yesorno
 
 - Perbaiki sisa **bayangan hijau pada drag & drop** (Quran) di `Exam` & `FinalExam`: selain `dragReleasedStyle`, kini `hoverDragReleasedStyle` juga dibuat `opacity: 0` sehingga clone kotak jawaban yang ikut jari langsung hilang saat dilepas (tidak ada lagi lengkungan/sisa kotak yang nyangkut di posisi drop).
