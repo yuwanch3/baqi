@@ -682,7 +682,7 @@ const FinalExam = (props) => {
                         <TouchableOpacity
                         onPress={()=> validateAnswer(option)}
                         disabled={isOptionsDisabled}
-                        key={option}
+                        key={index}
                         style={{
                             borderWidth: toDp(3),
                             borderColor:
@@ -753,7 +753,7 @@ const FinalExam = (props) => {
                         <TouchableOpacity
                         onPress={()=> validateAnswer(option)}
                         disabled={isOptionsDisabled}
-                        key={option}
+                        key={index}
                         style={{
                             borderWidth: toDp(3),
                             borderColor:
@@ -824,7 +824,7 @@ const FinalExam = (props) => {
                         <TouchableOpacity
                         onPress={()=> validateAnswer(option)}
                         disabled={isOptionsDisabled}
-                        key={option}
+                        key={index}
                         style={{
                             borderWidth: 3,
                             borderColor:
@@ -936,7 +936,7 @@ const FinalExam = (props) => {
                         <TouchableOpacity
                         onPress={()=> validateAnswer(option)}
                         disabled={isOptionsDisabled}
-                        key={option}
+                        key={index}
                         style={{
                             borderWidth: toDp(3),
                             borderColor:
@@ -1011,7 +1011,7 @@ const FinalExam = (props) => {
                         <TouchableOpacity
                         onPress={()=> validateAnswer(option)}
                         disabled={isOptionsDisabled}
-                        key={option}
+                        key={index}
                         style={{
                             borderWidth: toDp(3),
                             borderColor:
@@ -1128,7 +1128,7 @@ const FinalExam = (props) => {
                   <TouchableOpacity
                     onPress={onPress}
                     disabled={isOptionsDisabled}
-                    key={option}
+                    key={index}
                     style={{
                         borderWidth: 3,
                         borderColor:
@@ -1203,7 +1203,7 @@ const FinalExam = (props) => {
 
                   />
                 )}
-                keyExtractor={item => item}
+                keyExtractor={(item, index) => index}
               />
         </Pressable>
       )
@@ -1225,7 +1225,7 @@ const FinalExam = (props) => {
 
                   />
                 )}
-                keyExtractor={item => item}
+                keyExtractor={(item, index) => index}
               />
         </Pressable>
       )

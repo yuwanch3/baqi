@@ -120,6 +120,11 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 
 ## 📜 Changelog
 
+### v0.4.7 — Perbaikan opsi dobel & hardening render soal di semua ujian
+- Perbaiki **opsi dobel** di 25 soal kurikulum Quran: entri jawaban ganda dibuang (jawaban benar tidak diubah) — hilang tampilan opsi yang tampak hijau/terkunci sejak awal, termasuk soal **drag** dengan keping dobel. Impor `output/sql_fix_opsi_dobel_v1.sql` (HEX 100% ASCII).
+- Betulkan `correct_option` `QST…612` (`تُنۢبِتُ الْاَرْضُ`) dari "Kami tidak akan pernah bertahan" → **"bumi tumbuh"**.
+- Hardening `Exam` & `FinalExam`: `key={option}` → `key={index}` + keyExtractor berbasis index — render opsi berteks kembar tidak lagi kacau (highlight & sentuh normal).
+
 ### v0.4.6 — Hilangkan artefak drag & drop tersisa + impor yes/no anti-corrupt
 - Hilangkan **artefak/ghost drag & drop tersisa** di `Exam` & `FinalExam`: `<DraxProvider>` diberi `key` unik per soal (`drax-id-${index}` / `drax-en-${index}`) sehingga instance Drax di-remount total tiap ganti soal — state clone/bayangan tidak lagi bocor ke soal berikutnya.
 - Sertakan SQL impor v3 (`sql_pilot_yesorno_mtr5_v3.sql`) untuk 3 soal Yes/No "Kata Ganti" dengan teks Arab di-encode **HEX** (`CONVERT(0x… USING utf8mb4)`) — file 100% ASCII, charset import apa pun tidak bisa mengubah Arab menjadi `?`.

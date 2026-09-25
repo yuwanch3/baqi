@@ -1,5 +1,11 @@
 # Changelog BAQI
 
+## v0.4.7 — Perbaikan opsi dobel & hardening render soal di semua ujian
+
+- Perbaiki **opsi jawaban yang teksnya dobel** di 25 soal kurikulum Quran (Level 1–5): entri ganda dibuang sehingga tersisa opsi unik (jawaban benar tidak diubah) — menghilangkan tampilan jawaban dobel yang salah satu opsi atasnya tampak hijau/terkunci sejak awal, termasuk soal **drag** dengan keping dobel. Impor via `output/sql_fix_opsi_dobel_v1.sql` (teks Arab di-encode **HEX** `CONVERT(0x… USING utf8mb4)`, file 100% ASCII).
+- Bonus: betulkan `correct_option` soal `QST…612` (`تُنۢبِتُ الْاَرْضُ`) dari "Kami tidak akan pernah bertahan" → **"bumi tumbuh"** (sesuai `correct_en` "the earth grows"; nilai persis ada di opsi).
+- **Hardening render soal** di `Exam` & `FinalExam`: `key={option}` diganti `key={index}` dan `keyExtractor` list multi-select memakai index — bila ke depan ada opsi berteks sama, state highlight & handler sentuh tidak lagi kacau (tidak ada opsi yang tampak sudah-terjawab/seleksi ganda).
+
 ## v0.4.6 — Hilangkan artefak drag & drop tersisa + impor yes/no anti-corrupt
 
 - Hilangkan **artefak/ghost drag & drop yang masih tersisa** di `Exam` & `FinalExam`: seluruh `<DraxProvider>` kini diberi `key` unik per soal (`drax-id-${index}` / `drax-en-${index}`) sehingga instance Drax di-**remount total** setiap kali ganti soal — state clone/bayangan yang bocor ke soal berikutnya (termasuk ke tipe soal lain) hilang sepenuhnya.
