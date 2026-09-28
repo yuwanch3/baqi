@@ -1,5 +1,12 @@
 # Changelog BAQI
 
+## v0.5.0 — Konten lengkap Level 6 Qur'an (Al-Baqarah 142–176)
+
+- **Isi kurikulum Level 6** (Memahami Qur'an) secara penuh: 5 sublevel baru (37–41), 40 materi, dan **280 soal** — tafsir & tata bahasa **Al-Baqarah ayat 142–176**, mengikuti pola understandquran.com Course 6.
+- Susunan ujian per materi konsisten dengan Level 1–5: materi **Qur'an** 6 soal (5 pilihan ganda + 1 yes/no), materi **Tata Bahasa** 8 soal (7 pilihan ganda + 1 yes/no, sebagian dengan tipe jawaban banyak/`multi`).
+- Impor konten via `quran-yesorno/l6/output/l6/*.sql` (`00_sublevels.sql` + `01–05_sublevelN.sql`): teks Arab di-encode **HEX** (`CONVERT(0x… USING utf8mb4)`), file 100% ASCII — aman terhadap charset koneksi import apa pun.
+- Level 6 kini utuh di server: **5 sublevel · 40 materi · 280 soal**; diverifikasi `Masalah: 0` melalui pengecekan API read-only.
+
 ## v0.4.7 — Perbaikan opsi dobel & hardening render soal di semua ujian
 
 - Perbaiki **opsi jawaban yang teksnya dobel** di 25 soal kurikulum Quran (Level 1–5): entri ganda dibuang sehingga tersisa opsi unik (jawaban benar tidak diubah) — menghilangkan tampilan jawaban dobel yang salah satu opsi atasnya tampak hijau/terkunci sejak awal, termasuk soal **drag** dengan keping dobel. Impor via `output/sql_fix_opsi_dobel_v1.sql` (teks Arab di-encode **HEX** `CONVERT(0x… USING utf8mb4)`, file 100% ASCII).

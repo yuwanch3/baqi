@@ -120,6 +120,10 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 
 ## 📜 Changelog
 
+### v0.5.0 — Konten lengkap Level 6 Qur'an (Al-Baqarah 142–176)
+- Isi **Level 6 Qur'an**: 5 sublevel baru (37–41), 40 materi, & **280 soal** (tafsir & tata bahasa Al-Baqarah 142–176, pola Course 6 understandquran) — setiap materi berujian (Qur'an 6 soal, Tata Bahasa 8 soal, termasuk yes/no & `multi`).
+- Impor `quran-yesorno/l6/output/l6/*.sql` (teks Arab HEX `CONVERT(0x… USING utf8mb4)`, 100% ASCII) — total Level 6 di server: **5 sublevel · 40 materi · 280 soal**.
+
 ### v0.4.7 — Perbaikan opsi dobel & hardening render soal di semua ujian
 - Perbaiki **opsi dobel** di 25 soal kurikulum Quran: entri jawaban ganda dibuang (jawaban benar tidak diubah) — hilang tampilan opsi yang tampak hijau/terkunci sejak awal, termasuk soal **drag** dengan keping dobel. Impor `output/sql_fix_opsi_dobel_v1.sql` (HEX 100% ASCII).
 - Betulkan `correct_option` `QST…612` (`تُنۢبِتُ الْاَرْضُ`) dari "Kami tidak akan pernah bertahan" → **"bumi tumbuh"**.
