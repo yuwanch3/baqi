@@ -120,6 +120,10 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 
 ## 📜 Changelog
 
+### v0.5.1 — Drag & drop opsi panjang rapi + logo halaman pilihan materi Petrofisika & CEOR
+- Drag & drop di `Exam` & `FinalExam`: keping jawaban berteks panjang otomatis **satu kolom** + `minHeight`/padding agar tidak terpotong/bertabrakan.
+- Logo BAQI di halaman pilihan materi **Petrofisika & CEOR** (pola sama persis halaman lain, latar tetap putih).
+
 ### v0.5.0 — Konten lengkap Level 6 Qur'an (Al-Baqarah 142–176)
 - Isi **Level 6 Qur'an**: 5 sublevel baru (37–41), 40 materi, & **280 soal** (tafsir & tata bahasa Al-Baqarah 142–176, pola Course 6 understandquran) — setiap materi berujian (Qur'an 6 soal, Tata Bahasa 8 soal, termasuk yes/no & `multi`).
 - Impor `quran-yesorno/l6/output/l6/*.sql` (teks Arab HEX `CONVERT(0x… USING utf8mb4)`, 100% ASCII) — total Level 6 di server: **5 sublevel · 40 materi · 280 soal**.

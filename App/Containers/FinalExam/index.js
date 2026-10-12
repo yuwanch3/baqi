@@ -1331,7 +1331,7 @@ const FinalExam = (props) => {
     const Draxzone= ({item, index}) =>{
 
       return(
-        <View style={{flexDirection:'row', justifyContent:'space-around', width:'100%', marginBottom:20}}>
+        <View key={index}style={{width:'100%', alignItems:'center', marginBottom:12}} >
             <DraxView
                 style={[styles.receiver,{minWidth:toDp(50)}]}
                 key={index}
@@ -1376,7 +1376,7 @@ const FinalExam = (props) => {
 
     const DraxzoneEn= ({item,index}) =>{
       return(
-        <View style={{flexDirection:'row', justifyContent:'space-around', width:'100%', marginBottom:20}}>
+        <View key={index}style={{width:'100%', alignItems:'center', marginBottom:12}} >
             <DraxView
                 style={styles.receiver}
                 key={index}
@@ -1663,7 +1663,7 @@ const FinalExam = (props) => {
                          { lang=='id' ?
                              <DraxProvider key={`drax-id-${currentQuestionIndex}`}>
                                    <View style={{width:'100%'}}>
-                                       <View style={{flexDirection:'row', justifyContent:'space-around', width:'100%', marginBottom:20}}>
+                                       <View style={{width:'100%', marginBottom: 20}} >
                                              {allQuestions[currentQuestionIndex]?.value.correct_option.map((item, index) => Draxzone({ item, index }))}
                                        </View>
                                    </View>
@@ -1677,7 +1677,7 @@ const FinalExam = (props) => {
                                          hoverDragReleasedStyle: styles.hoverDragReleased,
                                        }}
                                        keyExtractor={(item, index) => item.toString()}
-                                       numColumns={2}
+                                       numColumns={(allQuestions[currentQuestionIndex]?.value.options || []).some(o => String(o).length > 15) ? 1 : 2}
                                        ItemSeparatorComponent={FlatListItemSeparator}
                                        scrollEnabled={true}
                                      />
@@ -1687,7 +1687,7 @@ const FinalExam = (props) => {
                          :lang=='en' ?
                              <DraxProvider key={`drax-en-${currentQuestionIndex}`}>
                                   <View style={{width:'100%'}}>
-                                      <View style={{flexDirection:'row', justifyContent:'space-around', width:'100%', marginBottom:20}}>
+                                      <View style={{width:'100%', marginBottom:20}} >
                                             {allQuestions[currentQuestionIndex]?.value.correct_option_en.map((item, index) => Draxzone({ item, index }))}
                                       </View>
                                   </View>
@@ -1701,7 +1701,7 @@ const FinalExam = (props) => {
                                         hoverDragReleasedStyle: styles.hoverDragReleased,
                                       }}
                                       keyExtractor={(item, index) => item.toString()}
-                                      numColumns={2}
+                                      numColumns={(allQuestions[currentQuestionIndex]?.value.options_en || []).some(o => String(o).length > 15) ? 1 : 2}
                                       ItemSeparatorComponent={FlatListItemSeparator}
                                       scrollEnabled={true}
                                     />
@@ -1963,25 +1963,30 @@ const styles = StyleSheet.create({
    borderWidth:toDp(2),
    borderColor: '#01848F',
  },
- draggable: {
-      height: 50,
-      paddingLeft:18,
-      paddingRight:18,
-
+  draggable: {
+      minHeight: 50,
+      paddingVertical: 8,
+      paddingHorizontal: 18,
+      backgroundColor: 'green',
       borderRadius: 8,
       justifyContent:'center',
       alignItems:'center',
       color:'#FFF',
-      marginHorizontal:toDp(25)
+      marginHorizontal: toDp(8)
   },
   receiver: {
-      height: 50,
-      paddingLeft:20,
-      paddingRight:20,
+      width: '92%',
+      minHeight: 50,
+      paddingVertical: 8,
+      paddingHorizontal: 20,
       backgroundColor: '#ccc',
       borderRadius: 8,
       justifyContent:'center',
       alignItems:'center'
+  },
+  received: {
+      color: '#000',
+      textAlign: 'center'
   },
   dragging: {
     opacity: 0.2,

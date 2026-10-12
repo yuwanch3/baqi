@@ -38,6 +38,9 @@ const Petrofisika = (props) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.viewCenterAbsolute}>
+        <Image source={allLogo.logo} style={styles.logo} />
+      </View>
       <Header
         title={judul_petro}
         onPress={() => props.navigation.goBack()}
@@ -73,6 +76,17 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     marginTop: toDp(30)
+  },
+  viewCenterAbsolute: {
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+  },
+  logo: {
+    width: toDp(256),
+    height: toDp(270),
+    resizeMode: 'contain'
   },
   titlemn:{
     fontSize: toDp(20),

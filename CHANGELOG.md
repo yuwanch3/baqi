@@ -1,5 +1,10 @@
 # Changelog BAQI
 
+## v0.5.1 — Drag & drop opsi panjang rapi + logo halaman pilihan materi Petrofisika & CEOR
+
+- Perbaiki tata letak **drag & drop** di `Exam` & `FinalExam`: keping jawaban berteks panjang (mis. terjemahan ayat) kini otomatis disusun **satu kolom** (`numColumns` 1 bila ada opsi > 15 karakter), keping jawaban (`draggable`) dan kotak jawaban (`receiver`) memakai **`minHeight` + padding vertikal** sehingga teks panjang tidak terpotong/bertabrakan, dan area drag disusun vertikal (`width: 100%`, `alignItems: center`).
+- Tambahkan **logo BAQI** di halaman pilihan materi **Petrofisika & CEOR** (`App/Containers/Petrofisika`): pola posisi & ukuran sama persis dengan halaman lain (`viewCenterAbsolute`, logo `256×270` `resizeMode: contain`), latar tetap putih.
+
 ## v0.5.0 — Konten lengkap Level 6 Qur'an (Al-Baqarah 142–176)
 
 - **Isi kurikulum Level 6** (Memahami Qur'an) secara penuh: 5 sublevel baru (37–41), 40 materi, dan **280 soal** — tafsir & tata bahasa **Al-Baqarah ayat 142–176**, mengikuti pola understandquran.com Course 6.
