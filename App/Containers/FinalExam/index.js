@@ -1331,7 +1331,7 @@ const FinalExam = (props) => {
     const Draxzone= ({item, index}) =>{
 
       return(
-        <View key={index}style={{width:'100%', alignItems:'center', marginBottom:12}} >
+        <View key={index} style={{flex:1, marginHorizontal:toDp(4)}}>
             <DraxView
                 style={[styles.receiver,{minWidth:toDp(50)}]}
                 key={index}
@@ -1376,7 +1376,7 @@ const FinalExam = (props) => {
 
     const DraxzoneEn= ({item,index}) =>{
       return(
-        <View key={index}style={{width:'100%', alignItems:'center', marginBottom:12}} >
+        <View key={index} style={{flex:1, marginHorizontal:toDp(4)}}>
             <DraxView
                 style={styles.receiver}
                 key={index}
@@ -1663,7 +1663,7 @@ const FinalExam = (props) => {
                          { lang=='id' ?
                              <DraxProvider key={`drax-id-${currentQuestionIndex}`}>
                                    <View style={{width:'100%'}}>
-                                       <View style={{width:'100%', marginBottom: 20}} >
+                                       <View style={{flexDirection:'row', width:'100%', paddingHorizontal: toDp(8), marginBottom:20}}>
                                              {allQuestions[currentQuestionIndex]?.value.correct_option.map((item, index) => Draxzone({ item, index }))}
                                        </View>
                                    </View>
@@ -1687,7 +1687,7 @@ const FinalExam = (props) => {
                          :lang=='en' ?
                              <DraxProvider key={`drax-en-${currentQuestionIndex}`}>
                                   <View style={{width:'100%'}}>
-                                      <View style={{width:'100%', marginBottom:20}} >
+                                      <View style={{flexDirection:'row', width:'100%', paddingHorizontal: toDp(8), marginBottom:20}}>
                                             {allQuestions[currentQuestionIndex]?.value.correct_option_en.map((item, index) => Draxzone({ item, index }))}
                                       </View>
                                   </View>
@@ -1975,10 +1975,10 @@ const styles = StyleSheet.create({
       marginHorizontal: toDp(8)
   },
   receiver: {
-      width: '92%',
+      flexGrow: 1,
       minHeight: 50,
       paddingVertical: 8,
-      paddingHorizontal: 20,
+      paddingHorizontal: 6,
       backgroundColor: '#ccc',
       borderRadius: 8,
       justifyContent:'center',
@@ -1986,6 +1986,7 @@ const styles = StyleSheet.create({
   },
   received: {
       color: '#000',
+      fontSize: 12,
       textAlign: 'center'
   },
   dragging: {
