@@ -1,5 +1,12 @@
 # Changelog BAQI
 
+## v0.5.2 — Halaman Ujian terpusat: pilih materi (Qur'an / Petrofisika / CEOR)
+
+- Halaman **Ujian** (menu "Ayo Uji Kemampuanmu" di Beranda) kini menampilkan **pilihan materi**: **Memahami Qur'an**, **Petrofisika**, dan **Chemical EOR** (`App/Containers/ExamMenu`).
+- **Memahami Qur'an** → tetap sama seperti sebelumnya: daftar **Level 1–5**, lalu pilih **Grammer Test / Final Test** (halaman `HomeExam` tidak diubah, hanya disambung dari menu materi baru).
+- **Petrofisika** & **Chemical EOR** → daftar bab (**Petrofisika Bab 1–7** / **CEOR Bab 1–5**); setiap bab berupa kartu berisi **nama bab** (keterangan) + label **"Ujian Akhir Bab · TES AKHIR"**, ditekan langsung masuk ujian (`App/Containers/ExamPetro`).
+- Tombol **"Ujian Akhir Bab · TES AKHIR"** **dipindahkan** dari halaman bab (`PetroLevel`) ke halaman Ujian — halaman bab kini fokus untuk belajar. **Isi soal tidak diubah.**
+
 ## v0.5.1 — Drag & drop opsi panjang rapi + logo halaman pilihan materi Petrofisika & CEOR
 
 - Perbaiki tata letak **drag & drop** di `Exam` & `FinalExam`: keping jawaban berteks panjang (mis. terjemahan ayat) kini otomatis disusun **satu kolom** (`numColumns` 1 bila ada opsi > 15 karakter), keping jawaban (`draggable`) dan kotak jawaban (`receiver`) memakai **`minHeight` + padding vertikal** sehingga teks panjang tidak terpotong/bertabrakan, dan area drag disusun vertikal (`width: 100%`, `alignItems: center`).

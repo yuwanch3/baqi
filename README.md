@@ -13,6 +13,7 @@
   - **Petrofisika & Chemical EOR** — kurikulum teknik perminyakan lengkap: 12 bab, 36 sub-bab, 72 materi, dan **960 soal** (kuis materi, ujian pelajaran, dan final test per bab).
 - **🎬 Belajar Multi-Modal** — setiap materi memiliki menu **Tonton** (video), **Baca**, dan **Unduh** (PDF/dokumen).
 - **📝 Ujian Berjenjang**
+  - Menu **Ujian** terpusat: pilih materi **Memahami Qur'an / Petrofisika / Chemical EOR**, lalu pilih ujiannya.
   - Kuis per materi (5 soal)
   - Ujian Pelajaran per sub-bab (10 soal)
   - Final Test per bab (20 soal)
@@ -56,6 +57,9 @@ baqi/
 │  │  ├─ PetroLevel/           # Daftar bab per materi (7 bab Petro / 5 bab CEOR)
 │  │  ├─ SubLevel/             # Sub-bab dari sebuah bab
 │  │  ├─ Materi/               # Detail materi (Tonton, Baca, Unduh, Ujian)
+│  │  ├─ ExamMenu/             # Halaman Ujian — pilih materi (Qur'an / Petrofisika / CEOR)
+│  │  ├─ HomeExam/             # Daftar Level 1–5 (ujian Qur'an)
+│  │  ├─ ExamPetro/            # Daftar bab ujian Petrofisika & CEOR
 │  │  ├─ Exam/                 # Ujian kuis materi
 │  │  ├─ FinalExam/            # Ujian Pelajaran & Final Test bab
 │  │  ├─ Rangking/             # Peringkat belajar
@@ -119,6 +123,12 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 ---
 
 ## 📜 Changelog
+
+### v0.5.2 — Halaman Ujian terpusat: pilih materi (Qur'an / Petrofisika / CEOR)
+- Menu **Ujian** di Beranda kini menampilkan **pilihan materi**: **Memahami Qur'an**, **Petrofisika**, dan **Chemical EOR**.
+- **Memahami Qur'an**: sama seperti sebelumnya — daftar Level 1–5 lalu pilih Grammer Test / Final Test.
+- **Petrofisika / Chemical EOR**: daftar bab (Petrofisika Bab 1–7 / CEOR Bab 1–5); tiap bab berupa kartu berisi **nama bab** + label **"Ujian Akhir Bab · TES AKHIR"**, ditekan langsung masuk ujian.
+- Tombol "Ujian Akhir Bab · TES AKHIR" **dipindahkan** dari halaman bab (`PetroLevel`) ke halaman Ujian — halaman bab kini fokus belajar. **Isi soal tidak diubah.**
 
 ### v0.5.1 — Drag & drop opsi panjang rapi + logo halaman pilihan materi Petrofisika & CEOR
 - Drag & drop di `Exam` & `FinalExam`: keping jawaban berteks panjang otomatis **satu kolom** + `minHeight`/padding agar tidak terpotong/bertabrakan.
