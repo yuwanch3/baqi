@@ -34,8 +34,8 @@ const Home = (props) => {
       NavigatorService.navigate('UnderstandQuran')
     } else if(type === 'Petrofisika'){
       NavigatorService.navigate('Petrofisika')
-    } else if(type === 'HomeExam'){
-      NavigatorService.navigate('HomeExam')
+    } else if(type === 'ExamMenu'){
+      NavigatorService.navigate('ExamMenu')
     } else if(type === 'Rangking'){
       NavigatorService.navigate('Rangking', {uid:uid})
     } else if(type === 'Group'){
@@ -63,7 +63,7 @@ const Home = (props) => {
                 </View>
               </Pressable>
 
-              <Pressable style={[styles.menu, {backgroundColor: '#EE6C4D', alignItems:'center'}]} onPress={() => openLinks('HomeExam','','')}>
+              <Pressable style={[styles.menu, {backgroundColor: '#EE6C4D', alignItems:'center'}]} onPress={() => openLinks('ExamMenu','','')}>
                 <Image source={allLogo.menu2}  style={{width:toDp(55), height:toDp(55)}}/>
                 <View style={styles.mnrow}>
                   <Text style={styles.titlemn}>{t('common:menuTwo')}</Text>

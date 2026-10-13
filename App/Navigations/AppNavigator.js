@@ -18,6 +18,8 @@ import Read from '../Containers/Read'
 import Rangking from '../Containers/Rangking'
 import Exam from '../Containers/Exam'
 import HomeExam from '../Containers/HomeExam'
+import ExamMenu from '../Containers/ExamMenu'
+import ExamPetro from '../Containers/ExamPetro'
 import FinalExam from '../Containers/FinalExam'
 import ForgotPassword from '../Containers/ForgotPassword'
 import Download from '../Containers/Download'
@@ -53,6 +55,8 @@ const AppNavigator = createStackNavigator(
     Rangking: { screen: Rangking },
     Exam: { screen: Exam },
     HomeExam: { screen: HomeExam },
+    ExamMenu: { screen: ExamMenu },
+    ExamPetro: { screen: ExamPetro },
     FinalExam: { screen: FinalExam },
     Download: { screen: Download},
     Users: { screen: Users},

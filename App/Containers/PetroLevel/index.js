@@ -6,7 +6,6 @@ import {
   Image,
   Pressable,
   FlatList,
-  AsyncStorage,
   Alert
 } from "react-native";
 import { allLogo } from '@Assets';
@@ -24,29 +23,15 @@ const PetroLevel = (props) => {
   let err_500 = t('common:err_500');
   let batal = t('common:batal');
   let informasi = t('common:informasi');
-  let youareGuest = t('common:guestAlert');
-  let ujianBAB = t('common:ujianBab');
-  let final_test = t('common:final_test');
   const materi = props.navigation.state.params.materi; // 'petrofisika' | 'ceor'
   const judul = props.navigation.state.params.title || '';
 
   const [state, setState] = useState({
     loading: false,
-    arrayLevel: [],
-    uid: '',
-    login: ''
+    arrayLevel: []
   })
 
   useEffect(() => {
-    AsyncStorage.getItem('uid').then(uids =>{
-      setState(state => ({...state, uid: uids || ''}))
-    });
-
-    AsyncStorage.getItem('login').then(response =>{
-      setState(state => ({...state, login: response}))
-    }).catch(err =>{
-      console.log('err', err)
-    })
     getLevel()
   }, [])
 
@@ -98,16 +83,6 @@ const PetroLevel = (props) => {
     NavigatorService.navigate('SubLevel', {title: level, lid:lid})
   }
 
-  const openFinalTest = (lid, title) => {
-    if(state.login=="guest"){
-      showAlert(youareGuest)
-    }else if(!state.uid){
-      showAlert(youareGuest)
-    }else{
-      NavigatorService.navigate('FinalExam', {lid:lid, excerpt:'Final Test', uid:state.uid, title:title})
-    }
-  }
-
   const presableMenu = (item, index) => {
     return (
       <View style={{width:'100%', alignItems:'center'}}>
@@ -117,9 +92,6 @@ const PetroLevel = (props) => {
           <View style={styles.viewText}>
             <Text style={styles.title}>{item.value.name}</Text>
           </View>
-        </Pressable>
-        <Pressable style={styles.btnUjian} onPress={() => openFinalTest(item.value.id, item.value.name)}>
-          <Text style={styles.btnUjianText}>{ujianBAB} · {final_test}</Text>
         </Pressable>
       </View>
     )
@@ -208,23 +180,6 @@ const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
     marginTop: toDp(4)
-  },
-  btnUjian: {
-    width: '90%',
-    marginLeft: toDp(16),
-    height: toDp(34),
-    borderRadius: toDp(17),
-    backgroundColor: '#F2F3F3',
-    marginTop: toDp(6),
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: toDp(1),
-    borderColor: '#d5d8dc',
-  },
-  btnUjianText: {
-    fontSize: toDp(13),
-    fontWeight: '500',
-    color: '#1F618D',
   },
 });
 
