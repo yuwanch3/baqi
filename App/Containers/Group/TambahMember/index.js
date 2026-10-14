@@ -128,7 +128,7 @@ const TambahMember = (props) => {
         <Pressable style={[styles.presableMenu, {backgroundColor: 'white'}]} onPress={()=>OnPress()}>
             <View style={styles.rowflatlist}>
                 <View style={{justifyContent:'center'}}>
-                  <Image source={allLogo.picture} style={styles.logo} />
+                  <Image source={item.value.picture ? {uri: item.value.picture} : allLogo.icUsertemp} style={styles.logo} />
                 </View>
                 <View style={styles.viewText}>
                     <Text style={styles.title}>{item.value.name}</Text>
