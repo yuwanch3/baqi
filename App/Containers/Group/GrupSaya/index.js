@@ -52,25 +52,19 @@ const GrupSaya = (props) => {
   })
 
   useEffect(() => {
-    let isMounted = true;
     AsyncStorage.getItem('uid').then(uids =>{
-      if(!isMounted) return;
       let ids = uids;
       setState(state => ({...state,
         uid: ids
       }))
     });
 
-    loadGrup(isMounted);
+    loadGrup()
 
     const unsubscribe = props.navigation.addListener('focus', () => {
-        if(!isMounted) return;
         refresh()
     });
-    return () => {
-      isMounted = false;
-      unsubscribe.remove();
-    }
+    return unsubscribe
   },[])
 
   const showAlertone = (data) => {
@@ -87,22 +81,27 @@ const GrupSaya = (props) => {
     )
   }
 
-  const loadGrup = (isMounted = true) =>{
-    if(!isMounted) return;
+  const loadGrup = () =>{
     setState(state => ({...state, loading: true }))
     axios.get(svr.url+'grup/grupsaya/'+props.navigation.state.params.uid+'/'+svr.api)
     .then(result =>{
-        if(!isMounted) return;
+
         if(result.data.status==200){
+          //console.log('New  => '+ JSON.stringify(result) )
           let data = result.data.data.map(doc => {
               return {
                 total: result.data.total,
                 value: doc
               }
            })
-          setState(state => ({...state, loading: false, arrayData: data, total: data[0].total, datafix: data, thisdata: true }))
+          //console.log('New  ------=> '+ JSON.stringify(data))
+          setState(state => ({...state, loading: false, arrayData: data, total: data[0].total}))
+          setState(state => ({...state, loading: false }))
+          setState(state => ({...state, datafix: data, thisdata: true }))
+
 
         }else if(result.data.status==404){
+          //alert("Data tidak ditemukan!");
           setState(state => ({...state, loading: false, thisdata: false }))
 
         }else if(result.data.status==500){
@@ -110,15 +109,16 @@ const GrupSaya = (props) => {
           setState(state => ({...state, loading: false, thisdata: false }))
         }
     }).catch(err =>{
-      if(!isMounted) return;
       showAlertone(err_data)
       setState(state => ({...state, loading: false, thisdata: false }))
     })
   }
 
   const refresh = () =>{
-    setState(state => ({...state, loading: false, arrayData: [], total: 0, datafix: [], thisdata: false}))
-    loadGrup(true)
+    setState(state => ({...state, loading: false, arrayData: [], total: 0}))
+    setState(state => ({...state, datafix: [] }))
+
+    loadGrup()
   }
 
   const presableMenu = (item, index, OnPress) => {

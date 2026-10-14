@@ -69,26 +69,15 @@ const GrupDetail = (props,{navigation}) => {
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
-      let isMounted = true;
+
       AsyncStorage.getItem('uid').then(uids =>{
-        if(!isMounted) return;
         let ids = uids;
         setState(state => ({...state,
           id: ids
         }))
       });
-      getMember(isMounted);
+      getMember()
 
-      const unsubscribe = props.navigation.addListener('focus', () => {
-        if(!isMounted) return;
-        setState(state => ({...state, loading: false, arrayAnggota: [], total: 0, currentRank: ''}));
-        getMember(isMounted);
-      });
-
-      return () => {
-        isMounted = false;
-        unsubscribe.remove();
-      }
     },[])
 
 
@@ -120,12 +109,13 @@ const GrupDetail = (props,{navigation}) => {
       )
     }
 
-    const getMember = (isMounted = true) =>{
-      if(!isMounted) return;
+    const getMember = () =>{
+      //setState(state => ({...state, loading: true }))
       axios.get(svr.url+'grup/current/'+props.navigation.state.params.idgrup+'/'+svr.api)
       .then(result =>{
-          if(!isMounted) return;
+
           if(result.data.status==200){
+           console.log('New  => '+ JSON.stringify(result.data))
             let data = result.data.datas.map(doc => {
                 return {
                   owner: result.data.owner,
@@ -134,17 +124,21 @@ const GrupDetail = (props,{navigation}) => {
                 }
              })
              setRefreshing(false);
+            //console.log('New  =============> '+ JSON.stringify(data) )
+
             setState(state => ({...state, loading: false,
                                           arrayAnggota: data,
                                           total: result.data.total_member
             }))
-            getCurrentRank(isMounted);
+            getCurrentRank();
+            setState(state => ({...state, loading: false }))
+
           }else if(result.data.status==500){
             showAlertone(err_500);
             setState(state => ({...state, loading: false }))
           }
+          //setState(state => ({...state, loading: false }))
       }).catch(err =>{
-        if(!isMounted) return;
         showAlertone(err_data)
         setState(state => ({...state, loading: false }))
       })
@@ -199,24 +193,30 @@ const GrupDetail = (props,{navigation}) => {
     }
 
     //get current user rank
-    const getCurrentRank = (isMounted = true) =>{
-      if(!isMounted) return;
+    const getCurrentRank = () =>{
       let uid = props.navigation.state.params.uid;
+      setState(state => ({...state, loading: true }))
       axios.get(svr.url+'grup/rank/currentrank/'+uid+'/'+props.navigation.state.params.idgrup+'/'+svr.api)
       .then(result =>{
-          if(!isMounted) return;
+          console.log('---res--->'+JSON.stringify(result));
           if(result.data.status==200){
-            setState(state => ({...state, currentRank: result.data.value.rank, loading: false }))
+            //set state rank
+            const rankNow = (result.data.value && result.data.value.rank != null) ? result.data.value.rank : '-';
+            setState(state => ({...state, currentRank: rankNow }))
+            setState(state => ({...state, loading: false }))
+
           }else if(result.data.status==500){
-            setState(state => ({...state, currentRank: '-', loading: false }))
+            setState(state => ({...state, currentRank: '-' }))
+            setState(state => ({...state, loading: false }))
+
           }else if(result.data.status==404){
-            setState(state => ({...state, currentRank: '-', loading: false }))
-          }else{
-            setState(state => ({...state, currentRank: '-', loading: false }))
+            setState(state => ({...state, currentRank: '-' }))
+            setState(state => ({...state, loading: false }))
           }
+          //setState(state => ({...state, loading: false }))
       }).catch(err =>{
-          if(!isMounted) return;
-          setState(state => ({...state, currentRank: '-', loading: false }))
+          setState(state => ({...state, currentRank: '-' }))
+          setState(state => ({...state, loading: false }))
       })
     }
 
@@ -304,8 +304,10 @@ const GrupDetail = (props,{navigation}) => {
     }
 
     const refresh = () =>{
-      setState(state => ({...state, loading: false, arrayAnggota: [], total: 0, currentRank: ''}))
-      getMember(true)
+      setState(state => ({...state, loading: false, arrayData: [], total: 0}))
+      setState(state => ({...state, datafix: [] }))
+
+      getMember()
     }
 
     const toggleMenu = () => {
