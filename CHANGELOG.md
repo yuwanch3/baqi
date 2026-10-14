@@ -4,6 +4,8 @@
 
 - Perbaiki **layar hitam** saat membuka **detail grup yang diikuti** (`App/Containers/Group/GrupDetail`): nilai peringkat (`result.data.value.rank`) sebelumnya dievaluasi **di dalam** fungsi updater `setState`, padahal untuk anggota yang belum punya data peringkat server membalas `status 200` dengan `value` **`null`** — memicu `TypeError` di fase render yang menggulingkan seluruh tampilan (layar hitam + tombol back keluar app). Kini nilai dihitung **lebih dulu** dengan pengaman `null`; bila kosong ditampilkan `-` (kolom peringkat), sama seperti fallback status 404/500.
 - Ubah **warna kartu** di halaman pilih materi **Petrofisika / Chemical EOR** (`App/Containers/Petrofisika`): kartu **Petrofisika** kini biru (`#1F618D`), kartu **Chemical EOR** kini hijau/tosca (`#00AF90`).
+- Perbaiki **foto anggota** di halaman **Tambah Anggota** (`App/Containers/Group/TambahMember`): avatar kini memakai **foto profil anggota** (`item.value.picture`) bila tersedia, dan otomatis jatuh ke **avatar bawaan** (`icUsertemp`) bila anggota belum punya foto (sebelumnya selalu menampilkan gambar bawaan).
+- Paksa **tema terang** (`Theme.AppCompat.Light.NoActionBar`) di `android/app/src/main/res/values/styles.xml` (sebelumnya `DayNight`) agar tampilan tidak otomatis berubah gelap saat perangkat memakai mode gelap.
 
 ## v0.5.2 — Halaman Ujian terpusat: pilih materi (Qur'an / Petrofisika / CEOR)
 

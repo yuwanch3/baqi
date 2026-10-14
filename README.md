@@ -127,6 +127,8 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 ### v0.5.3 — Perbaikan layar hitam saat membuka detail grup + warna kartu menu Petrofisika/CEOR
 - Perbaiki **layar hitam** saat membuka **detail grup yang diikuti** (`GrupDetail`): nilai peringkat (`value.rank`) kini dihitung dengan pengaman `null` — anggota tanpa data peringkat tampil `-` dan tidak lagi memicu `TypeError` yang menghitamkan layar sekaligus mengeluarkan app saat tombol back ditekan.
 - Ubah **warna kartu** di halaman pilih materi **Petrofisika / Chemical EOR**: Petrofisika biru (`#1F618D`), Chemical EOR hijau/tosca (`#00AF90`).
+- Perbaiki **foto anggota** di halaman **Tambah Anggota** (`TambahMember`): pakai **foto profil anggota** bila ada, jika tidak jatuh ke **avatar bawaan** (`icUsertemp`).
+- Paksa **tema terang** (`Theme.AppCompat.Light.NoActionBar`) di `styles.xml` agar tampilan tidak berubah gelap saat perangkat mode gelap.
 
 ### v0.5.2 — Halaman Ujian terpusat: pilih materi (Qur'an / Petrofisika / CEOR)
 - Menu **Ujian** di Beranda kini menampilkan **pilihan materi**: **Memahami Qur'an**, **Petrofisika**, dan **Chemical EOR**.
