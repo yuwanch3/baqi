@@ -50,7 +50,7 @@ const Petrofisika = (props) => {
           menuPetroPetro,
           deskMenuPetroPetro,
           allLogo.icPetroDetail,
-          '#7BA95C',
+          '#1F618D',
           'petrofisika',
           menuPetroPetro
         )}
@@ -58,7 +58,7 @@ const Petrofisika = (props) => {
           menuPetroCEOR,
           deskMenuPetroCEOR,
           allLogo.icCEOR,
-          '#1F618D',
+          '#00AF90',
           'ceor',
           menuPetroCEOR
         )}

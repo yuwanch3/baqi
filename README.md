@@ -124,6 +124,10 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 
 ## 📜 Changelog
 
+### v0.5.3 — Perbaikan layar hitam saat membuka detail grup + warna kartu menu Petrofisika/CEOR
+- Perbaiki **layar hitam** saat membuka **detail grup yang diikuti** (`GrupDetail`): nilai peringkat (`value.rank`) kini dihitung dengan pengaman `null` — anggota tanpa data peringkat tampil `-` dan tidak lagi memicu `TypeError` yang menghitamkan layar sekaligus mengeluarkan app saat tombol back ditekan.
+- Ubah **warna kartu** di halaman pilih materi **Petrofisika / Chemical EOR**: Petrofisika biru (`#1F618D`), Chemical EOR hijau/tosca (`#00AF90`).
+
 ### v0.5.2 — Halaman Ujian terpusat: pilih materi (Qur'an / Petrofisika / CEOR)
 - Menu **Ujian** di Beranda kini menampilkan **pilihan materi**: **Memahami Qur'an**, **Petrofisika**, dan **Chemical EOR**.
 - **Memahami Qur'an**: sama seperti sebelumnya — daftar Level 1–5 lalu pilih Grammer Test / Final Test.
