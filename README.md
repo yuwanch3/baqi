@@ -124,6 +124,13 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 
 ## 📜 Changelog
 
+### v0.5.4 — Perbaikan login & register Google/Facebook (proyek Firebase + App Facebook baru)
+- **Login & register Google**: `webClientId` di `Login` dan `Register` dipindah ke proyek Firebase baru (`baqi-f0c55`), agar cocok dengan `google-services.json` yang dipakai aplikasi.
+- **Login & register Facebook**: `facebook_app_id` diganti ke **App Facebook baru** (`39671816512431633`), dan `android/app/google-services.json` diganti ke konfigurasi Firebase baru.
+- **Registrasi akun baru**: `uid` kini memakai `result.data.trid` dari server (sebelumnya `JSON.stringify(datas[0].id)`), sehingga akun yang baru mendaftar langsung bisa membaca konten.
+- **CI rilis**: keystore rilis di-decode dari GitHub Secret `UPLOAD_KEYSTORE_BASE64` — sebelumnya keystore dibuat baru di setiap build sehingga SHA-1 berubah dan login Google/Facebook gagal.
+- **Aset**: tambah 5 gambar banner "Buat Kamu" (`konten_info.jpg`, `konten_pencapaian.jpg`, `konten_pengajian.jpg`, `konten_quote.jpg`, `konten_tips.jpg`).
+
 ### v0.5.3 — Perbaikan layar hitam saat membuka detail grup + warna kartu menu Petrofisika/CEOR
 - Perbaiki **layar hitam** saat membuka **detail grup yang diikuti** (`GrupDetail`): nilai peringkat (`value.rank`) kini dihitung dengan pengaman `null` — anggota tanpa data peringkat tampil `-` dan tidak lagi memicu `TypeError` yang menghitamkan layar sekaligus mengeluarkan app saat tombol back ditekan.
 - Ubah **warna kartu** di halaman pilih materi **Petrofisika / Chemical EOR**: Petrofisika biru (`#1F618D`), Chemical EOR hijau/tosca (`#00AF90`).
