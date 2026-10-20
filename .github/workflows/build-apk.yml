@@ -45,15 +45,9 @@ jobs:
           distribution: temurin
           java-version: '11'
 
-      - name: generate release keystore
+      - name: decode release keystore
         working-directory: android/app
-        run: |
-          keytool -genkeypair -v \
-            -keystore my-upload-key.keystore \
-            -alias my-key-alias \
-            -keyalg RSA -keysize 2048 -validity 10000 \
-            -storepass bismillah -keypass bismillah \
-            -dname "CN=BAQI, OU=GMJ, O=BAQI, L=Jakarta, ST=DKI Jakarta, C=ID"
+        run: echo "${{ secrets.UPLOAD_KEYSTORE_BASE64 }}" | base64 -d > my-upload-key.keystore
 
       - name: build apk (release)
         working-directory: android

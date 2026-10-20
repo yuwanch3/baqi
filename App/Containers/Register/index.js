@@ -107,7 +107,7 @@ const Register = (props) => {
   useEffect (() => {
     AsyncStorage.setItem('login', '')
     GoogleSignin.configure({
-      webClientId:'983699891629-bgels9oqvkkurhfcmas7demg9s0h3bab.apps.googleusercontent.com',
+      webClientId:'600040271718-g8ljs787jmte9m1hnfcmv5jialdehb5s.apps.googleusercontent.com',
     });
   }, [])
 
@@ -452,7 +452,7 @@ const Register = (props) => {
           if(result.data.status==201){
             console.log('Register =========> : '+ JSON.stringify(datas))
             AsyncStorage.setItem('users', JSON.stringify(datas[0].value))
-            AsyncStorage.setItem('uid', JSON.stringify(datas[0].id))
+            AsyncStorage.setItem('uid', result.data.trid)
             if(login==='google'){
               //console.log('LOGIN G=>'+state.linkLogin)
                AsyncStorage.setItem('login', 'google')

@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "983699891629",
-    "project_id": "bahasa-qur-an-interaktif-baqi",
-    "storage_bucket": "bahasa-qur-an-interaktif-baqi.appspot.com"
+    "project_number": "600040271718",
+    "project_id": "baqi-f0c55",
+    "storage_bucket": "baqi-f0c55.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:983699891629:android:351672391aa467469e2d24",
+        "mobilesdk_app_id": "1:600040271718:android:f309f0b72edca9848522a7",
         "android_client_info": {
           "package_name": "com.gmjgloben.baqi"
         }
       },
       "oauth_client": [
         {
-          "client_id": "983699891629-bgels9oqvkkurhfcmas7demg9s0h3bab.apps.googleusercontent.com",
+          "client_id": "600040271718-mb6hf0hn5uch09d5stup9ot01fi11o2o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmjgloben.baqi",
+            "certificate_hash": "099f1e5abf7c69fc3b731c946491674d9b8df6ce"
+          }
+        },
+        {
+          "client_id": "600040271718-g8ljs787jmte9m1hnfcmv5jialdehb5s.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAU5xTW21t4gzNK-uifu3ovqOTa-mloylI"
+          "current_key": "AIzaSyCGLqAMbWUDDjEcsI-tez66k_QOxlK51RU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "983699891629-bgels9oqvkkurhfcmas7demg9s0h3bab.apps.googleusercontent.com",
+              "client_id": "600040271718-g8ljs787jmte9m1hnfcmv5jialdehb5s.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

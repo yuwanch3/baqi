@@ -1,5 +1,13 @@
 # Changelog BAQI
 
+## v0.5.4 — Perbaikan login & register Google/Facebook (proyek Firebase + App Facebook baru)
+
+- **Perbaiki login & register Google**: `webClientId` di `App/Containers/Login` dan `App/Containers/Register` diganti ke proyek Firebase baru (`baqi-f0c55`). Sebelumnya masih menunjuk proyek Google lama, sehingga konfigurasi login Google tidak cocok dengan `google-services.json` yang dipakai aplikasi.
+- **Perbaiki login & register Facebook**: `facebook_app_id` di `android/app/src/main/res/values/strings.xml` diganti ke **App Facebook baru** (`39671816512431633`), dan `android/app/google-services.json` diganti ke konfigurasi Firebase baru.
+- **Perbaiki `uid` hasil registrasi**: kini memakai `result.data.trid` (ID user dari server). Sebelumnya memakai `JSON.stringify(datas[0].id)` sehingga `uid` yang disimpan tidak sesuai — akibatnya akun yang baru mendaftar tidak bisa membaca konten.
+- **CI rilis**: keystore rilis kini di-decode dari GitHub Secret `UPLOAD_KEYSTORE_BASE64` (sebelumnya keystore dibuat baru di setiap build, sehingga SHA-1 aplikasi berubah-ubah dan login Google/Facebook gagal).
+- **Aset**: tambah 5 gambar banner "Buat Kamu" (`konten_info.jpg`, `konten_pencapaian.jpg`, `konten_pengajian.jpg`, `konten_quote.jpg`, `konten_tips.jpg`).
+
 ## v0.5.3 — Perbaikan layar hitam saat membuka detail grup + warna kartu menu Petrofisika/CEOR
 
 - Perbaiki **layar hitam** saat membuka **detail grup yang diikuti** (`App/Containers/Group/GrupDetail`): nilai peringkat (`result.data.value.rank`) sebelumnya dievaluasi **di dalam** fungsi updater `setState`, padahal untuk anggota yang belum punya data peringkat server membalas `status 200` dengan `value` **`null`** — memicu `TypeError` di fase render yang menggulingkan seluruh tampilan (layar hitam + tombol back keluar app). Kini nilai dihitung **lebih dulu** dengan pengaman `null`; bila kosong ditampilkan `-` (kolom peringkat), sama seperti fallback status 404/500.
