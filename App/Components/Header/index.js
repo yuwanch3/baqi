@@ -22,7 +22,9 @@ class Header extends Component {
               <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
                 <Image source={allLogo.icArrow} style={styles.icBack} />
               </TouchableOpacity>
-              <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(20) }]}>{this.props.title}</Text>
+              <View style={styles.titleContainer}>
+              <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(20) }, {flexWrap: 'wrap', flexShrink: 1}]}>{this.props.title}</Text>
+            </View>
             </View>
 
             {
@@ -79,7 +81,14 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: toDp(20),
     marginLeft: toDp(8),
-
+    flexWrap: 'wrap',
+    flexShrink: 1,
+  },
+  titleContainer: {
+    flex: 1,
+    flexWrap: 'wrap',
+    marginLeft: toDp(8),
+    maxWidth: toDp(280),
   },
 })
 
