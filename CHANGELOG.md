@@ -1,5 +1,16 @@
 # Changelog BAQI
 
+## v0.6.0 — Ujian 3 Sesi (Petrofisika & CEOR)
+
+- **Mekanisme ujian 3 sesi per bab** (khusus Petrofisika & CEOR):
+  1. **Sesi 1 — Soal Inisialisasi** (10 soal: option 7, multi 1, drag 1, yesorno 1) — ambang lulus **8/10**
+  2. **Sesi 2 — Final Test** (20 soal lama, tidak diubah) — ambang lulus **18/20**
+  3. **Sesi 3 — Final Test Advanced** (20 soal baru: option 12, multi 4, drag 2, yesorno 2) — ambang lulus **18/20**
+- **Alur lulus/gagal**: lulus → skor disimpan (`skors`, `excerpt` = sesi) → otomatis lanjut sesi berikutnya; gagal → modal **"Perbaiki soal yang salah, sebelum lanjut"** → ulang hanya soal yang salah sampai memenuhi ambang.
+- **360 soal baru** (12 bab × 30 soal: 10 Inisialisasi + 20 Advanced) ditambahkan ke tabel `final_exam` (ID `FQT...0600`–`...0959`). Soal lama 20/bab dipakai apa adanya sebagai Sesi 2.
+- **DB**: kolom `excerpt` varchar(15) → nama sesi pendek `Inisialisasi` / `Final Advanced`, label tampil penuh via app.
+- **Non-Petro/CEOR** (Level 1–5, Grammer Test, Ujian Pelajaran) **tidak berubah** — alur baru hanya aktif dengan parameter `flow: 'petro3'`.
+
 ## v0.5.5 — Perbaikan hapus akun, tombol Masuk di Register & spinner Lupa Kata Sandi
 
 - **Hapus akun**: setelah akun berhasil dihapus, data login di perangkat kini ikut dibersihkan (`AsyncStorage.clear()`) sebelum aplikasi kembali ke halaman **Login**. Sebelumnya data lama tetap tersimpan, sehingga saat aplikasi dibuka ulang layar **Splash** langsung masuk ke Beranda dengan akun yang sudah tidak ada (semua menu jadi error).
