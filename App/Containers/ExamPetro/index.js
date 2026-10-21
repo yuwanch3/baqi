@@ -100,7 +100,7 @@ const ExamPetro = (props) => {
     }else if(!state.uid){
       showAlert(youareGuest)
     }else{
-      NavigatorService.navigate('FinalExam', {lid:lid, excerpt:'Soal Inisialisasi', uid:state.uid, title:title, flow:'petro3'})
+      NavigatorService.navigate('FinalExam', {lid:lid, excerpt:'Inisialisasi', uid:state.uid, title:title, flow:'petro3'})
     }
   }
 

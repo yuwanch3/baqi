@@ -83,11 +83,13 @@ const FinalExam = (props) => {
     // ==== Alur 3 sesi (khusus Petrofisika & CEOR) ====
     // flow hanya aktif bila layar dibuka dari ExamPetro/ExamCeor dengan param flow='petro3'.
     // Ujian lain (Final Test biasa, Grammer Test, dll) tetap memakai alur lama.
+    // Catatan: kolom `excerpt` di DB varchar(15) -> pakai nama pendek di DB,
+    // label tampilan pakai FLOW_SESSIONS.label.
     const flowMode = props.navigation.state.params.flow === 'petro3';
     const FLOW_SESSIONS = [
-      { excerpt: 'Soal Inisialisasi', min: 8,  total: 10 },
-      { excerpt: 'Final Test',        min: 18, total: 20 },
-      { excerpt: 'Final Test Advanced', min: 18, total: 20 }
+      { excerpt: 'Inisialisasi',    label: lang == 'en' ? 'Initialization' : 'Soal Inisialisasi', min: 8,  total: 10 },
+      { excerpt: 'Final Test',      label: lang == 'en' ? 'Final Test'       : 'Final Test',        min: 18, total: 20 },
+      { excerpt: 'Final Advanced',  label: lang == 'en' ? 'Advanced Test'    : 'Final Test Advanced', min: 18, total: 20 }
     ];
     const flowIndex = flowMode
       ? FLOW_SESSIONS.findIndex(s => s.excerpt === props.navigation.state.params.excerpt)
@@ -327,7 +329,7 @@ const FinalExam = (props) => {
               destiny='finex'
           }else if(exc=='Ujian Pelajaran' || exc=='Ujian Grammer'){
               destiny='subexam'
-          }else if(exc=='Soal Inisialisasi' || exc=='Final Test Advanced'){
+          }else if(exc=='Inisialisasi' || exc=='Final Advanced'){
               destiny='finex'
           }
           console.log('idm: '+idm+' | exc : '+ exc+ '| destiny : '+destiny);
