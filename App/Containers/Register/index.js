@@ -611,7 +611,7 @@ const Register = (props) => {
 
               <View style={styles.viewRow}>
                 <Pressable
-                  onPress={() => ToasSuccess() }
+                  onPress={() => NavigatorService.navigate('Login') }
                   style={styles.presableForgot}
                 >
                   <Text style={styles.textForgot}>{masuk}</Text>

@@ -246,6 +246,7 @@ const VerificationAnimate = (prop) => {
           {
             text: oke,
             onPress: () => {
+              AsyncStorage.clear();
               setTimeout(function () {
                 NavigatorService.reset('Login')
               }, 1000);

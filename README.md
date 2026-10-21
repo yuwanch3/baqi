@@ -124,6 +124,11 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 
 ## 📜 Changelog
 
+### v0.5.5 — Perbaikan hapus akun, tombol Masuk di Register & spinner Lupa Kata Sandi
+- **Hapus akun**: setelah akun terhapus, data login di perangkat ikut dibersihkan (`AsyncStorage.clear()`) sebelum kembali ke halaman **Login**, sehingga membuka ulang aplikasi tidak lagi masuk ke Beranda dengan akun yang sudah tidak ada.
+- **Register**: tombol **"Masuk"** kini membuka halaman Login (sebelumnya hanya memunculkan notifikasi "berhasil" palsu).
+- **Lupa Kata Sandi**: loader tidak lagi menggantung tanpa pesan saat server membalas status lain — muncul pesan kesalahan umum (`err_data`) dan loader selalu berhenti.
+
 ### v0.5.4 — Perbaikan login & register Google/Facebook (proyek Firebase + App Facebook baru)
 - **Login & register Google**: `webClientId` di `Login` dan `Register` dipindah ke proyek Firebase baru (`baqi-f0c55`), agar cocok dengan `google-services.json` yang dipakai aplikasi.
 - **Login & register Facebook**: `facebook_app_id` diganti ke **App Facebook baru** (`39671816512431633`), dan `android/app/google-services.json` diganti ke konfigurasi Firebase baru.

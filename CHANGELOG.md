@@ -1,5 +1,11 @@
 # Changelog BAQI
 
+## v0.5.5 — Perbaikan hapus akun, tombol Masuk di Register & spinner Lupa Kata Sandi
+
+- **Hapus akun**: setelah akun berhasil dihapus, data login di perangkat kini ikut dibersihkan (`AsyncStorage.clear()`) sebelum aplikasi kembali ke halaman **Login**. Sebelumnya data lama tetap tersimpan, sehingga saat aplikasi dibuka ulang layar **Splash** langsung masuk ke Beranda dengan akun yang sudah tidak ada (semua menu jadi error).
+- **Tombol "Masuk" di halaman Register**: kini membuka halaman **Login**. Sebelumnya hanya memunculkan notifikasi "berhasil" palsu.
+- **Lupa Kata Sandi**: loader tidak lagi berhenti tanpa kabar saat server membalas status di luar 200/404/500 — kini muncul pesan kesalahan umum (`err_data`) dan loader selalu berhenti.
+
 ## v0.5.4 — Perbaikan login & register Google/Facebook (proyek Firebase + App Facebook baru)
 
 - **Perbaiki login & register Google**: `webClientId` di `App/Containers/Login` dan `App/Containers/Register` diganti ke proyek Firebase baru (`baqi-f0c55`). Sebelumnya masih menunjuk proyek Google lama, sehingga konfigurasi login Google tidak cocok dengan `google-services.json` yang dipakai aplikasi.

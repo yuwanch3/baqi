@@ -106,8 +106,11 @@ const Login = (props) => {
             showAlertone(err_user404)
             setState(state => ({...state, loading: false }))
 
-          }if(result.data.status==500){
+          }else if(result.data.status==500){
             showAlertone(err_500)
+            setState(state => ({...state, loading: false }))
+          }else{
+            showAlertone(err_data)
             setState(state => ({...state, loading: false }))
           }
 
@@ -179,6 +182,9 @@ const Login = (props) => {
           setState(state => ({...state, loading: false }))
         }else if(result.data.status==500){
           showAlertone(err_500V3)
+          setState(state => ({...state, loading: false }))
+        }else{
+          showAlertone(err_data)
           setState(state => ({...state, loading: false }))
         }
     }) .catch(err =>{
