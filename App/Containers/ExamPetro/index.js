@@ -100,7 +100,7 @@ const ExamPetro = (props) => {
     }else if(!state.uid){
       showAlert(youareGuest)
     }else{
-      NavigatorService.navigate('FinalExam', {lid:lid, excerpt:'Final Test', uid:state.uid, title:title})
+      NavigatorService.navigate('FinalExam', {lid:lid, excerpt:'Soal Inisialisasi', uid:state.uid, title:title, flow:'petro3'})
     }
   }
 
@@ -111,7 +111,7 @@ const ExamPetro = (props) => {
         <Image source={allLogo.icLevel} style={styles.icMateri} />
         <View style={styles.viewText}>
           <Text style={styles.title}>{item.value.name}</Text>
-          <Text style={styles.subtitle}>{ujianBAB} · {final_test}</Text>
+          <Text style={styles.subtitle}>{ujianBAB} · 3 Sesi</Text>
         </View>
       </Pressable>
     )

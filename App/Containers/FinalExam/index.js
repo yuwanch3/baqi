@@ -80,6 +80,73 @@ const FinalExam = (props) => {
     const [wrscore, setWscore] = useState(0);
     const [lastestnumber, setLasnum] = useState(0);
 
+    // ==== Alur 3 sesi (khusus Petrofisika & CEOR) ====
+    // flow hanya aktif bila layar dibuka dari ExamPetro/ExamCeor dengan param flow='petro3'.
+    // Ujian lain (Final Test biasa, Grammer Test, dll) tetap memakai alur lama.
+    const flowMode = props.navigation.state.params.flow === 'petro3';
+    const FLOW_SESSIONS = [
+      { excerpt: 'Soal Inisialisasi', min: 8,  total: 10 },
+      { excerpt: 'Final Test',        min: 18, total: 20 },
+      { excerpt: 'Final Test Advanced', min: 18, total: 20 }
+    ];
+    const flowIndex = flowMode
+      ? FLOW_SESSIONS.findIndex(s => s.excerpt === props.navigation.state.params.excerpt)
+      : -1;
+    const flowSession = flowIndex >= 0 ? FLOW_SESSIONS[flowIndex] : null;
+    const flowActive = flowMode && flowSession !== null;
+    const [flowPassedIds, setFlowPassedIds] = useState([]);
+
+    const recordFlowAnswer = (isCorrect) => {
+      if (!flowActive) return;
+      const qid = allQuestions[currentQuestionIndex] ? allQuestions[currentQuestionIndex].id : null;
+      if (!qid) return;
+      if (isCorrect) {
+        setFlowPassedIds(prev => (prev.includes(qid) ? prev : [...prev, qid]));
+      }
+    }
+
+    const flowNextSession = () => {
+      const next = FLOW_SESSIONS[flowIndex + 1];
+      if (next) {
+        props.navigation.replace('FinalExam', {
+          ...props.navigation.state.params,
+          excerpt: next.excerpt
+        });
+      } else {
+        Alert.alert(
+          lang == 'en' ? 'Finished' : 'Selesai',
+          lang == 'en'
+            ? 'All three exam sessions for this chapter have been completed.'
+            : 'Ketiga sesi ujian bab ini sudah selesai.',
+          [{ text: oke, onPress: () => props.navigation.goBack() }]
+        );
+      }
+    }
+
+    const flowRetry = () => {
+      const remaining = state.arraSoal.filter(q => !flowPassedIds.includes(q.id));
+      setShowScoreModal(false);
+      setDone(false);
+      setCurrentQuestionIndex(0);
+      setScore(0);
+      setWscore(0);
+      setWrongtemp(0);
+      setCorrecttemp(0);
+      setCurrentOptionSelected(null);
+      setCorrectOption(null);
+      setIsOptionsDisabled(false);
+      setShowNextButton(false);
+      setSelectedItems([]);
+      setSelectedDrags([]);
+      setDRG([]);
+      setState(state => ({ ...state, arraSoal: remaining }));
+      Animated.timing(progress, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: false
+      }).start();
+    }
+
     useEffect(() => {
       if(lang=='en'){
         setTo('en')
@@ -90,10 +157,18 @@ const FinalExam = (props) => {
           id: props.navigation.state.params.uid
         }))
         //setState(state => ({...state, arraSoal: data }))
-        getLastest();
+        if (flowActive) {
+          // Alur 3 sesi: tanpa lastest. Cek dulu apakah sesi ini sudah lulus,
+          // kalau sudah otomatis lanjut ke sesi berikutnya.
+          setMid(props.navigation.state.params.lid);
+          getScore();
+        } else {
+          getLastest();
+        }
     }, [])
 
     useEffect(() => {
+        if (flowActive) return undefined;
         return () =>{
           AsyncStorage.getItem('current').then(last =>{
             let curentIndex = last;
@@ -217,7 +292,12 @@ const FinalExam = (props) => {
         console.log(JSON.stringify(result));
           if(result.data.status==200){
             setState(state => ({...state, loading: false }))
-            toggleModal()
+            if (flowActive) {
+              // sesi ini sudah lulus -> langsung ke sesi berikutnya
+              flowNextSession()
+            } else {
+              toggleModal()
+            }
 
           }else if(result.data.status==404){
             if(done===false) {
@@ -247,6 +327,8 @@ const FinalExam = (props) => {
               destiny='finex'
           }else if(exc=='Ujian Pelajaran' || exc=='Ujian Grammer'){
               destiny='subexam'
+          }else if(exc=='Soal Inisialisasi' || exc=='Final Test Advanced'){
+              destiny='finex'
           }
           console.log('idm: '+idm+' | exc : '+ exc+ '| destiny : '+destiny);
 
@@ -307,7 +389,7 @@ const FinalExam = (props) => {
             setCorrectOption(null);
             setIsOptionsDisabled(false);
             setShowNextButton(false);
-            updateLastest(state.lastestId, wrscore, score);
+            if (!flowActive) updateLastest(state.lastestId, wrscore, score);
         }
         Animated.timing(progress, {
             toValue: currentQuestionIndex+1,
@@ -328,7 +410,7 @@ const FinalExam = (props) => {
             setCorrectOption(null);
             setIsOptionsDisabled(false);
             setShowNextButton(false);
-            updateLastest(state.lastestId, w, s);
+            if (!flowActive) updateLastest(state.lastestId, w, s);
         }
         Animated.timing(progress, {
             toValue: currentQuestionIndex+1,
@@ -531,6 +613,15 @@ const FinalExam = (props) => {
     }
 
     const Oke = () =>{
+      if (flowActive) {
+        setShowScoreModal(false);
+        if (flowPassedIds.length >= flowSession.min) {
+          pushScore(() => flowNextSession())
+        } else {
+          flowRetry()
+        }
+        return;
+      }
       setShowScoreModal(false);
       if(done==true){
         pushScore()
@@ -538,12 +629,16 @@ const FinalExam = (props) => {
       }
     }
 
-    const pushScore = () => {
+    const pushScore = (afterSave) => {
       let wrongAnswer  = wrscore;
       let correct_answ = score;
       if(wrongTemp!=0 || correctTemp!=0){
          wrongAnswer  = wrscore+wrongTemp;
          correct_answ = score+correctTemp;
+      }
+      if (flowActive) {
+        correct_answ = flowPassedIds.length;
+        wrongAnswer  = flowSession.total - flowPassedIds.length;
       }
       //let wrongAnswer = allQuestions.length-score;
       let excerpts    = props.navigation.state.params.excerpt;
@@ -560,12 +655,12 @@ const FinalExam = (props) => {
       .then(result =>{
 
           if(result.data.status==201){
-            props.navigation.goBack();
+            if (afterSave) { afterSave() } else { props.navigation.goBack() }
             setState(state => ({...state, loading: false }))
 
           }else if(result.data.status==500){
             showAlertone(err_data500Nr)
-            props.navigation.goBack();
+            if (afterSave) { afterSave() } else { props.navigation.goBack() }
             setState(state => ({...state, loading: false }))
           }else if(result.data.status==404){
             console.log(JSON.stringify(result.data));
@@ -602,6 +697,7 @@ const FinalExam = (props) => {
         if(selectedOption==correct_option){
             // Set Score
             setScore(score+1)
+            recordFlowAnswer(true)
         }else{
             setWscore(wrscore+1)
         }
@@ -1276,6 +1372,7 @@ const FinalExam = (props) => {
              if(hasilmulti==allQuestions[currentQuestionIndex]?.value.correct_option.length){
                  // Set Score
                  setScore(score+1)
+                 recordFlowAnswer(true)
                  s = (score+1)
                  w = (wrscore)
              }else{
@@ -1290,6 +1387,7 @@ const FinalExam = (props) => {
                 if(hasilmulti==allQuestions[currentQuestionIndex]?.value.correct_option_en.length){
                     // Set Score
                     setScore(score+1)
+                    recordFlowAnswer(true)
                     s = (score+1)
                     w = (wrscore)
                 }else{
@@ -1469,6 +1567,7 @@ const FinalExam = (props) => {
              if(hasildrag==allQuestions[currentQuestionIndex]?.value.correct_option.length){
                  // Set Score
                  setScore(score+1)
+                 recordFlowAnswer(true)
                  s = (score+1)
                  w = (wrscore)
              }else{
@@ -1482,6 +1581,7 @@ const FinalExam = (props) => {
                 if(hasildrag==allQuestions[currentQuestionIndex]?.value.correct_option_en.length){
                     // Set Score
                     setScore(score+1)
+                    recordFlowAnswer(true)
                     s = (score+1)
                     w = (wrscore)
                 }else{
@@ -1749,7 +1849,7 @@ const FinalExam = (props) => {
                            padding: 20,
                            alignItems: 'center'
                        }}>
-                           <Text style={{fontSize: 30, fontWeight: 'bold'}}>{ (score+correctTemp)> (allQuestions.length/2) ? selamat : cobalagi }</Text>
+                           <Text style={{fontSize: 30, fontWeight: 'bold'}}>{ flowActive ? (flowPassedIds.length >= flowSession.min ? selamat : (lang == 'en' ? 'Fix the wrong answers' : 'Perbaiki soal yang salah')) : ( (score+correctTemp)> (allQuestions.length/2) ? selamat : cobalagi ) }</Text>
 
                            <View style={{
                                flexDirection: 'row',
@@ -1759,15 +1859,20 @@ const FinalExam = (props) => {
                            }}>
                                <Text style={{
                                    fontSize: 30,
-                                   color: (score+correctTemp)> (allQuestions.length/2) ? COLORS.success : COLORS.error
-                               }}>{(score+correctTemp)}</Text>
+                                   color: flowActive ? (flowPassedIds.length >= flowSession.min ? COLORS.success : COLORS.error) : ((score+correctTemp)> (allQuestions.length/2) ? COLORS.success : COLORS.error)
+                               }}>{ flowActive ? flowPassedIds.length : (score+correctTemp) }</Text>
                                 <Text style={{
                                     fontSize: 20, color: COLORS.black
-                                }}>/ { allQuestions.length }</Text>
+                                }}>/ { flowActive ? flowSession.min : allQuestions.length }</Text>
                            </View>
-                           <ExamMessage title={inf_endText}/>
+                           <ExamMessage title={ flowActive
+                             ? (flowPassedIds.length >= flowSession.min
+                                 ? (lang == 'en' ? 'Session passed. Continue to the next session.' : 'Sesi lulus. Lanjut ke sesi berikutnya.')
+                                 : (lang == 'en' ? 'Fix the wrong answers before continuing.' : 'Perbaiki soal yang salah, sebelum lanjut.'))
+                             : inf_endText }/>
                            {/* Retry Quiz button */}
                            <View style={{flexDirection:'row', justifyContent:'space-around',width:'100%'}}>
+                               { flowActive ? null : (
                                <TouchableOpacity
                                onPress={restartQuiz}
                                style={{
@@ -1778,16 +1883,17 @@ const FinalExam = (props) => {
                                        textAlign: 'center', color: COLORS.white, fontSize: 20
                                    }}>{cobalagi}</Text>
                                </TouchableOpacity>
+                               ) }
 
                                <TouchableOpacity
                                onPress={()=> Oke()}
                                style={{
                                    backgroundColor: COLORS.accent,
-                                   padding: 20, width: '45%', borderRadius: 20
+                                   padding: 20, width: flowActive ? '80%' : '45%', borderRadius: 20
                                }}>
                                    <Text style={{
                                        textAlign: 'center', color: COLORS.white, fontSize: 20
-                                   }}>{oke}</Text>
+                                   }}>{ flowActive ? (flowPassedIds.length >= flowSession.min ? (lang == 'en' ? 'Continue' : 'Lanjut') : (lang == 'en' ? 'Fix' : 'Perbaiki')) : oke }</Text>
                                </TouchableOpacity>
                            </View>
                        </View>
