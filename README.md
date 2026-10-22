@@ -124,6 +124,16 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 
 ## 📜 Changelog
 
+### v0.6.1 — Perbaikan Ujian 3 Sesi (Petrofisika & CEOR)
+- **Sesi 3 "Final Test Advanced" kosong** — diperbaiki (karakter non-ASCII → ASCII, API tidak lagi membalas body kosong).
+- **Opsi jawaban `false`/kosong** — diperbaiki (panjang `serialize()` cocok lagi).
+- **Jawaban benar tidak selalu di opsi A** — opsi `option`/`multi` diacak di data (teks jawaban tetap).
+- **Soal `drag`** — jumlah pilihan = jumlah slot + 1 (ada pengecoh).
+- **Soal lama Final Test Bab 2** (`FQT...0389`) yang opsi/jawabannya rusak ikut diperbaiki.
+- **Judul header ujian panjang** turun ke baris baru (khusus layar ujian).
+- **Pengaman opsi rusak** agar layar ujian tidak macet/force close.
+- Non-Petro/CEOR **tidak berubah**.
+
 ### v0.6.0 — Ujian 3 Sesi (Petrofisika & CEOR)
 - **Mekanisme ujian 3 sesi per bab** (khusus Petrofisika & CEOR):
   1. **Sesi 1 — Soal Inisialisasi** (10 soal: option 7, multi 1, drag 1, yesorno 1) — ambang lulus **8/10**

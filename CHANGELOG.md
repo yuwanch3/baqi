@@ -1,5 +1,16 @@
 # Changelog BAQI
 
+## v0.6.1 — Perbaikan Ujian 3 Sesi (Petrofisika & CEOR)
+
+- **Sesi 3 "Final Test Advanced" kosong / tidak bisa dibuka** — diperbaiki. Penyebabnya karakter non-ASCII (×, ³, µ, φ, σ, θ, °) pada soal baru; kolom DB `latin1` membuat `json_encode` gagal sehingga API membalas **body kosong**. Semua teks soal Inisialisasi & Final Advanced kini ASCII (`×` → `x`, `³` → `3`, `µm` → `um`, `φ` → `phi`, dst.).
+- **Opsi jawaban `false` / kosong** — diperbaiki. Panjang `serialize()` tidak cocok saat karakter multi-byte disimpan di kolom `latin1`, sehingga `unserialize()` gagal. Setelah teks ASCII, opsi tampil normal.
+- **Jawaban benar tidak lagi selalu di opsi A** — opsi tipe `option`/`multi` diacak di data (distribusi A/B/C/D = 55/74/47/52 dari 228 soal option), teks jawaban benar tetap sama.
+- **Soal tipe `drag`** — jumlah pilihan jawaban kini **jumlah slot + 1** (ditambah 1 pengecoh) agar tidak semua pilihan menjadi jawaban.
+- **Soal lama Final Test Bab 2** (`FQT...0389`, tipe multi) yang `options`/`correct_option` = `false` ikut diperbaiki.
+- **Judul header ujian panjang** kini turun ke baris baru (khusus layar ujian; layar lain tidak berubah).
+- **Pengaman data opsi rusak/kosong** di layar ujian supaya tidak macet atau force close.
+- Non-Petro/CEOR **tidak berubah**.
+
 ## v0.6.0 — Ujian 3 Sesi (Petrofisika & CEOR)
 
 - **Mekanisme ujian 3 sesi per bab** (khusus Petrofisika & CEOR):

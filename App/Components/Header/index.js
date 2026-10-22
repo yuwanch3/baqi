@@ -10,22 +10,32 @@ let { width, height } = Dimensions.get('window')
 class Header extends Component {
 
   render() {
+    const multiline = this.props.multiline;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <LinearGradient
             colors={['#52B788', '#52B788']}
             //colors={['white', 'white']}
-            style={[styles.linearHeader, {justifyContent: 'space-between'}]}
+            style={multiline
+              ? [styles.linearHeaderMulti, {justifyContent: 'space-between'}]
+              : [styles.linearHeader, {justifyContent: 'space-between'}]}
           >
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
-                <Image source={allLogo.icArrow} style={styles.icBack} />
-              </TouchableOpacity>
-              <View style={styles.titleContainer}>
-              <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(20) }, {flexWrap: 'wrap', flexShrink: 1}]}>{this.props.title}</Text>
-            </View>
-            </View>
+            { multiline ?
+              <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+                <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
+                  <Image source={allLogo.icArrow} style={styles.icBack} />
+                </TouchableOpacity>
+                <Text style={styles.titleMulti}>{this.props.title}</Text>
+              </View>
+            :
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
+                  <Image source={allLogo.icArrow} style={styles.icBack} />
+                </TouchableOpacity>
+                <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(20) }]}>{this.props.title}</Text>
+              </View>
+            }
 
             {
               this.props.onFilter &&
@@ -66,6 +76,15 @@ const styles = StyleSheet.create({
     height: (height / 12) + (Platform.OS === 'android' ? toDp(0) : toDp(20)) ,
     paddingTop: Platform.OS === 'android' ? toDp(0) : toDp(20)
   },
+  // varian khusus judul panjang (dipakai layar ujian): tinggi header mengikuti isi
+  linearHeaderMulti: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: toDp(8),
+    paddingVertical: toDp(8),
+    minHeight: (height / 12) + (Platform.OS === 'android' ? toDp(0) : toDp(20)),
+    paddingTop: Platform.OS === 'android' ? toDp(8) : toDp(20)
+  },
   touchHeader: {
     padding: toDp(4),
   },
@@ -81,14 +100,15 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: toDp(20),
     marginLeft: toDp(8),
-    flexWrap: 'wrap',
-    flexShrink: 1,
+
   },
-  titleContainer: {
+  titleMulti: {
     flex: 1,
-    flexWrap: 'wrap',
+    color: 'white',
+    fontSize: toDp(13),
+    lineHeight: toDp(17),
     marginLeft: toDp(8),
-    maxWidth: toDp(280),
+    marginRight: toDp(8),
   },
 })
 

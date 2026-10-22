@@ -353,36 +353,40 @@ const FinalExam = (props) => {
                   [data[i], data[j]] = [data[j], data[i]];
                 }
 
-                // Acak opsi jawaban untuk tiap soal (type option/multi) supaya jawaban benar tidak selalu di posisi A
-                // Tapi pertahankan correct_option text untuk validasi
+                // Acak opsi jawaban sudah dilakukan di data (SQL), jadi tidak diacak lagi di sini.
+                // Pengaman kalau ada data opsi yang rusak/kosong supaya layar tidak error.
                 data.forEach(q => {
                   const v = q.value;
-                  if ((v.type === 'option' || v.type === 'multi') && Array.isArray(v.options) && v.options.length > 1) {
-                    const correctText = v.correct_option;
-                    const opts = [...v.options];
-                    // Fisher-Yates shuffle
-                    for (let i = opts.length - 1; i > 0; i--) {
-                      const j = Math.floor(Math.random() * (i + 1));
-                      [opts[i], opts[j]] = [opts[j], opts[i]];
+                  const optOk = Array.isArray(v.options) && v.options.length > 0;
+                  if (v.type === 'drag') {
+                    if (!optOk || !Array.isArray(v.correct_option) || v.correct_option.length === 0) {
+                      v.options = ['Opsi tidak tersedia'];
+                      v.options_en = ['Option not available'];
+                      v.correct_option = ['Opsi tidak tersedia'];
+                      v.correct_option_en = ['Option not available'];
                     }
-                    v.options = opts;
-                    // Also shuffle options_en if exists
-                    if (Array.isArray(v.options_en) && v.options_en.length === opts.length) {
-                      const correctTextEn = v.correct_option_en;
-                      const optsEn = [...v.options_en];
-                      for (let i = optsEn.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [optsEn[i], optsEn[j]] = [optsEn[j], optsEn[i]];
+                  } else if (v.type === 'multi') {
+                    if (!optOk) {
+                      v.options = ['Opsi tidak tersedia'];
+                      v.options_en = ['Option not available'];
+                    }
+                    if (!Array.isArray(v.correct_option) || v.correct_option.length === 0) {
+                      v.correct_option = [v.options[0]];
+                      v.correct_option_en = [v.options_en[0]];
+                    }
+                  } else if (v.type === 'option') {
+                    if (!optOk) {
+                      v.options = ['Opsi tidak tersedia'];
+                      v.options_en = ['Option not available'];
+                      v.correct_option = 'Opsi tidak tersedia';
+                      v.correct_option_en = 'Option not available';
+                    } else if (!v.options.includes(v.correct_option)) {
+                      // jangan ubah jawaban benar: tampilkan sebagai opsi tambahan
+                      v.options.push(v.correct_option);
+                      if (Array.isArray(v.options_en) && typeof v.correct_option_en === 'string') {
+                        v.options_en.push(v.correct_option_en);
                       }
-                      v.options_en = optsEn;
                     }
-                  }
-                  // Handle empty/invalid options (data issue: options = false)
-                  if (!Array.isArray(v.options) || v.options.length === 0) {
-                    v.options = ['Opsi tidak tersedia'];
-                    v.options_en = ['Option not available'];
-                    v.correct_option = 'Opsi tidak tersedia';
-                    v.correct_option_en = 'Option not available';
                   }
                 });
 
@@ -1737,6 +1741,7 @@ const FinalExam = (props) => {
        }}>
        <StatusBar barStyle="light-content" backgroundColor={COLORS.primary} />
        <Header
+        multiline
         title={props.navigation.state.params.title +' - ' +  props.navigation.state.params.excerpt}
         onPress={() => props.navigation.goBack()}/>
         <Loader loading={state.loading} />
