@@ -18,6 +18,17 @@ import axios from 'axios'
 import translate from 'translate-google-api';
 import { useTranslation } from 'react-i18next';
 
+// Bagi opsi drag menjadi baris maksimal 2 item.
+// Sisa ganjil otomatis berada di baris terakhir dan akan ditengahkan oleh style dragRow.
+const chunkDragOptions = (arr, perRow = 2) => {
+    const list = Array.isArray(arr) ? arr : [];
+    const rows = [];
+    for (let i = 0; i < list.length; i += perRow) {
+        rows.push(list.slice(i, i + perRow));
+    }
+    return rows;
+};
+
 const Exam = (props) => {
    //Dari Materi
    const { t }   = useTranslation();
@@ -1436,9 +1447,8 @@ const Exam = (props) => {
                   hoverDraggingStyle={styles.hoverDragging}
                   dragPayload={item}
                   longPressDelay={0}
-                  key={index}
               >
-                  <Text style={{color:'#FFF'}}>{item}</Text>
+                  <Text style={styles.dragOptionText}>{item}</Text>
               </DraxView>
 
       )
@@ -1677,21 +1687,22 @@ const Exam = (props) => {
                                             {allQuestions[currentQuestionIndex]?.value.correct_option.map((item, index) => Draxzone({ item, index }))}
                                       </View>
                                   </View>
-                                  <View style={{flexDirection:'row', justifyContent:'space-around', width:'100%', marginBottom:20}}>
-                                   <DraxList
-                                      data={allQuestions[currentQuestionIndex]?.value.options}
-                                      renderItemContent={TouchDrag}
-                                      itemStyles={{
-                                        draggingStyle: styles.dragging,
-                                        dragReleasedStyle: styles.dragReleased,
-                                        hoverDragReleasedStyle: styles.hoverDragReleased,
-                                      }}
-                                      keyExtractor={(item, index) => item.toString()}
-                                      numColumns={(allQuestions[currentQuestionIndex]?.value.options || []).some(o => String(o).length > 15) ? 1 : 2}
-                                      ItemSeparatorComponent={FlatListItemSeparator}
-                                      scrollEnabled={true}
-                                    />
-                                   </View>
+                                  <View style={{width:'100%', marginBottom:20}}>
+                                    <View style={styles.dragGrid}>
+                                      {chunkDragOptions(allQuestions[currentQuestionIndex]?.value.options).map((row, rowIndex) => (
+                                        <View key={`drag-row-${rowIndex}`} style={styles.dragRow}>
+                                          {row.map((item, colIndex) => {
+                                            const optionIndex = rowIndex * 2 + colIndex;
+                                            return (
+                                              <View key={`drag-opt-${optionIndex}`} style={styles.dragCell}>
+                                                {TouchDrag({item: item, index: optionIndex})}
+                                              </View>
+                                            );
+                                          })}
+                                        </View>
+                                      ))}
+                                    </View>
+                                  </View>
                             </DraxProvider>
                            /*Drag Drop*/
                         :lang=='en' ?
@@ -1701,21 +1712,22 @@ const Exam = (props) => {
                                             {allQuestions[currentQuestionIndex]?.value.correct_option_en.map((item, index) => Draxzone({ item, index }))}
                                       </View>
                                   </View>
-                                  <View style={{flexDirection:'row', justifyContent:'space-around', width:'100%', marginBottom:20}}>
-                                   <DraxList
-                                      data={allQuestions[currentQuestionIndex]?.value.options_en}
-                                      renderItemContent={TouchDrag}
-                                      itemStyles={{
-                                        draggingStyle: styles.dragging,
-                                        dragReleasedStyle: styles.dragReleased,
-                                        hoverDragReleasedStyle: styles.hoverDragReleased,
-                                      }}
-                                      keyExtractor={(item, index) => item.toString()}
-                                      numColumns={(allQuestions[currentQuestionIndex]?.value.options_en || []).some(o => String(o).length > 15) ? 1 : 2}
-                                      ItemSeparatorComponent={FlatListItemSeparator}
-                                      scrollEnabled={true}
-                                    />
-                                   </View>
+                                  <View style={{width:'100%', marginBottom:20}}>
+                                    <View style={styles.dragGrid}>
+                                      {chunkDragOptions(allQuestions[currentQuestionIndex]?.value.options_en).map((row, rowIndex) => (
+                                        <View key={`drag-row-en-${rowIndex}`} style={styles.dragRow}>
+                                          {row.map((item, colIndex) => {
+                                            const optionIndex = rowIndex * 2 + colIndex;
+                                            return (
+                                              <View key={`drag-opt-en-${optionIndex}`} style={styles.dragCell}>
+                                                {TouchDrag({item: item, index: optionIndex})}
+                                              </View>
+                                            );
+                                          })}
+                                        </View>
+                                      ))}
+                                    </View>
+                                  </View>
                             </DraxProvider>
                            /*Drag Drop*/
                         :<><Text>No data available</Text></>
@@ -1974,16 +1986,35 @@ const styles = StyleSheet.create({
    borderWidth:toDp(2),
    borderColor: '#01848F',
  },
+  dragGrid: {
+      width: '100%',
+      paddingHorizontal: toDp(4)
+  },
+  dragRow: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'stretch',
+      width: '100%'
+  },
+  dragCell: {
+      width: '50%',
+      padding: toDp(4)
+  },
   draggable: {
       minHeight: 50,
-      paddingVertical: 8,
-      paddingHorizontal: 18,
+      paddingVertical: 6,
+      paddingHorizontal: 8,
       backgroundColor: 'green',
       borderRadius: 8,
       justifyContent:'center',
       alignItems:'center',
-      color:'#FFF',
-      marginHorizontal: toDp(8)
+      alignSelf:'stretch'
+  },
+  dragOptionText: {
+      color: '#FFF',
+      fontSize: toDp(13),
+      lineHeight: toDp(18),
+      textAlign: 'center'
   },
   receiver: {
       flexGrow: 1,
