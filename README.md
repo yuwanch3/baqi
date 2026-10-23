@@ -1,6 +1,6 @@
-# 📖 BAQI — Bahasa Qur'an Interaktif
+# 📖 BAQI — Memahami Ilmu Secara Interaktif
 
-**BAQI** adalah aplikasi pembelajaran mobile berbasis **React Native** yang menyajikan kurikulum interaktif untuk belajar **Bahasa Qur'an** serta **Petrofisika & Chemical Enhanced Oil Recovery (CEOR)**. Setiap materi dilengkapi video (tonton), dokumen (baca & unduh), dan ujian berjenjang — dari kuis per materi, ujian per pelajaran, hingga ujian akhir bab — lengkap dengan peringkat dan grup belajar.
+**BAQI** adalah aplikasi pembelajaran mobile berbasis **React Native** yang menyajikan kurikulum interaktif untuk belajar **Ilmu** (Memahami Qur'an) serta **Petrofisika & Chemical Enhanced Oil Recovery (CEOR)**. Setiap materi dilengkapi video (tonton), dokumen (baca & unduh), dan ujian berjenjang — dari kuis per materi, ujian per pelajaran, hingga ujian akhir bab — lengkap dengan peringkat dan grup belajar.
 
 > Rilis Android terbaru (APK): <https://github.com/yuwanch3/baqi/releases>
 
@@ -9,11 +9,11 @@
 ## ✨ Fitur Unggulan
 
 - **📚 Dua Kurikulum dalam Satu Aplikasi**
-  - **Memahami Qur'an** — belajar Bahasa Qur'an dengan materi, latihan, dan ujian per pelajaran.
+  - **Memahami Ilmu** — belajar Memahami Qur'an dengan materi, latihan, dan ujian per pelajaran.
   - **Petrofisika & Chemical EOR** — kurikulum teknik perminyakan lengkap: 12 bab, 36 sub-bab, 72 materi, dan **960 soal** (kuis materi, ujian pelajaran, dan final test per bab).
 - **🎬 Belajar Multi-Modal** — setiap materi memiliki menu **Tonton** (video), **Baca**, dan **Unduh** (PDF/dokumen).
 - **📝 Ujian Berjenjang**
-  - Menu **Ujian** terpusat: pilih materi **Memahami Qur'an / Petrofisika / Chemical EOR**, lalu pilih ujiannya.
+  - Menu **Ujian** terpusat: pilih materi **Memahami Ilmu / Petrofisika / Chemical EOR**, lalu pilih ujiannya.
   - Kuis per materi (5 soal)
   - Ujian Pelajaran per sub-bab (10 soal)
   - Final Test per bab (20 soal)
@@ -123,6 +123,13 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 ---
 
 ## 📜 Changelog
+
+### v0.6.2 — Perbaikan Branding & Terjemahan
+- **Branding aplikasi** — ganti sebutan "Bahasa Qur'an" → "Ilmu" & "Bahasa Qur'an Interaktif" → "Memahami Ilmu Secara Interaktif" di seluruh UI (Splash Screen, Beranda, Menu).
+- **Splash Screen deskripsi** (`baqi_desk`) kini "Memahami Ilmu Secara Interaktif" (ID) / "Understanding Knowledge Interactively" (EN).
+- Judul aplikasi (`judulApp`) diubah ke "Mari Belajar Ilmu Dengan BaQi" (ID) / "Let's Learn Knowledge With BaQi" (EN).
+- Menu utama "Memahami Qur'an" → "Memahami Ilmu" (ID) / "Understand Knowledge" (EN).
+- Non-fungsional: tidak ada perubahan logika ujian, soal, atau data server.
 
 ### v0.6.1 — Perbaikan Ujian 3 Sesi (Petrofisika & CEOR)
 - **Sesi 3 "Final Test Advanced" kosong** — diperbaiki (karakter non-ASCII → ASCII, API tidak lagi membalas body kosong).

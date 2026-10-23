@@ -1,5 +1,13 @@
 # Changelog BAQI
 
+## v0.6.2 — Perbaikan Branding & Terjemahan
+
+- **Branding aplikasi** — ganti sebutan "Bahasa Qur'an" → "Ilmu" & "Bahasa Qur'an Interaktif" → "Memahami Ilmu Secara Interaktif" di seluruh UI (Splash Screen, Beranda, Menu) — file `App/Translate/id/common.js` & `App/Translate/en/common.js`.
+- **Splash Screen deskripsi** (`baqi_desk`) kini "Memahami Ilmu Secara Interaktif" (ID) / "Understanding Knowledge Interactively" (EN).
+- Judul aplikasi (`judulApp`) diubah ke "Mari Belajar Ilmu Dengan BaQi" (ID) / "Let's Learn Knowledge With BaQi" (EN).
+- Menu utama "Memahami Qur'an" → "Memahami Ilmu" (ID) / "Understand Knowledge" (EN).
+- Non-fungsional: tidak ada perubahan logika ujian, soal, atau data server.
+
 ## v0.6.1 — Perbaikan Ujian 3 Sesi (Petrofisika & CEOR)
 
 - **Sesi 3 "Final Test Advanced" kosong / tidak bisa dibuka** — diperbaiki. Penyebabnya karakter non-ASCII (×, ³, µ, φ, σ, θ, °) pada soal baru; kolom DB `latin1` membuat `json_encode` gagal sehingga API membalas **body kosong**. Semua teks soal Inisialisasi & Final Advanced kini ASCII (`×` → `x`, `³` → `3`, `µm` → `um`, `φ` → `phi`, dst.).
