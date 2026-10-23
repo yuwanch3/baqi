@@ -1555,15 +1555,10 @@ const Exam = (props) => {
     }
 
     const generateAbc = (index)=>{
-      if(index == 0) {
-        return 'A. '
-      }else if(index == 1) {
-        return 'B. '
-      }else if(index == 2) {
-        return 'C. '
-      }else if(index == 3) {
-        return 'D. '
+      if(index < 26) {
+        return String.fromCharCode(65 + index) + '. '
       }
+      return (index + 1) + '. '
     }
 
     const renderNextButton = () => {

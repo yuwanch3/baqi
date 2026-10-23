@@ -28,6 +28,11 @@ const chunkDragOptions = (arr, perRow = 2) => {
     return rows;
 };
 
+// Nilai lama yang masih berupa PHP-serialized array (mis. a:1:{i:0;s:18:"...";}).
+// Jangan pernah ditampilkan sebagai opsi jawaban.
+const isSerializedOption = (value) =>
+    typeof value === 'string' && /^a:\d+:\{/.test(value);
+
 const FinalExam = (props) => {
     const { t } = useTranslation();
     let lang      =  t('common:lang');
@@ -391,10 +396,13 @@ const FinalExam = (props) => {
                       v.options_en = ['Option not available'];
                       v.correct_option = 'Opsi tidak tersedia';
                       v.correct_option_en = 'Option not available';
-                    } else if (!v.options.includes(v.correct_option)) {
+                    } else if (!v.options.includes(v.correct_option) &&
+                               !isSerializedOption(v.correct_option)) {
                       // jangan ubah jawaban benar: tampilkan sebagai opsi tambahan
                       v.options.push(v.correct_option);
-                      if (Array.isArray(v.options_en) && typeof v.correct_option_en === 'string') {
+                      if (Array.isArray(v.options_en) &&
+                          typeof v.correct_option_en === 'string' &&
+                          !isSerializedOption(v.correct_option_en)) {
                         v.options_en.push(v.correct_option_en);
                       }
                     }
@@ -1687,15 +1695,10 @@ const FinalExam = (props) => {
     }
 
     const generateAbc = (index)=>{
-      if(index == 0) {
-        return 'A. '
-      }else if(index == 1) {
-        return 'B. '
-      }else if(index == 2) {
-        return 'C. '
-      }else if(index == 3) {
-        return 'D. '
+      if(index < 26) {
+        return String.fromCharCode(65 + index) + '. '
       }
+      return (index + 1) + '. '
     }
 
     const renderNextButton = () => {
