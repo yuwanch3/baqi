@@ -277,7 +277,7 @@ const Ranking = (props) => {
                           <View style={[styles.badge, { backgroundColor: medal || '#E8EDF0' }]}>
                               <Text style={[styles.badgeText, { color: medal ? '#2B2B2B' : '#024024' }]}>{pos}</Text>
                           </View>
-                          <Image source={{uri: item.value.picture=='' ? allLogo.icUsertemp :  item.value.picture}} style={styles.fotoAnggota} />
+                          <Image source={item.value.picture ? {uri: item.value.picture} : allLogo.icUsertemp} style={styles.fotoAnggota} />
                       </View>
 
                       <View style={[styles.viewText,{flex:1}]}>
