@@ -1,34 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 import {
+  ActivityIndicator,
+  AsyncStorage,
+  FlatList,
+  Image,
+  Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   View,
-  Image,
-  StatusBar,
-  ImageBackground,
-  Pressable,
-  Dimensions,
-  TouchableOpacity,
-  AsyncStorage,
-  ActivityIndicator,
-  ToastAndroid,FlatList,Alert
-} from "react-native";
+} from 'react-native';
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import Header from '@Header'
-import Carousel, { Pagination } from 'react-native-snap-carousel';
-import LinearGradient from 'react-native-linear-gradient'
-//import { firebase } from '../../Configs/firebase'
-import NavigatorService from '@NavigatorService'
-import Loader from '@Loader'
+import Header from '@Header';
 import { svr } from '../../Configs/apikey';
 import axios from 'axios';
-import Modals from "react-native-modal";
 import { useTranslation } from 'react-i18next';
 
-const { width, height } = Dimensions.get('window')
+// Satu sumber data untuk tab materi. Tab dirender dinamis dari data ini.
+const RANKING_SUBJECTS = {
+  quran: { labelKey: 'kategoriQuran', color: '#378561' },
+  petro: { labelKey: 'kategoriPetro', color: '#1F618D' },
+  ceor: { labelKey: 'kategoriCeor', color: '#EE6C4D' },
+};
 
-// Warna pembeda 3 besar: emas, silver, perunggu
+const RANKING_TABS = [
+  { key: 'all', labelKey: 'rankSemua', color: '#275D46' },
+  ...Object.keys(RANKING_SUBJECTS).map(key => ({
+    key,
+    ...RANKING_SUBJECTS[key],
+  })),
+];
+
 const MEDALI = {
   1: '#D4A017',
   2: '#AEB8C2',
@@ -41,589 +44,465 @@ const TINT = {
   3: '#FAF1EA',
 };
 
+const EMPTY_TAB = {
+  list: [],
+  my: null,
+  loading: false,
+  error: false,
+  loaded: false,
+};
+
 const Ranking = (props) => {
   const { t } = useTranslation();
-  let informasi = t('common:informasi');
-  let batal = t('common:batal');
-  let oke = t('common:oke');
-  let err_data = t('common:err_data');
-  let err_trima = t('common:err_trima');
-  let dataNull = t('common:dataNull');
-  let err_404 = t('common:err_404');
-  let err_500 = t('common:err_500');
-  let skor  = t('common:skor');
-  let peringkat = t('common:peringkat');
-  let totalskor = t('common:totalskor');
-  let kembali  = t('common:kembali');
-  let err_404V3 = t('common:err_404V3');
-  let err_noskor = t('common:err_noskor');
-  let youareGuest = t('common:guestAlert');
-  const [darray, setDarray] = useState('');
-  const [total, setTotal] = useState(0);
-  const [rank, setRank] = useState(0);
-  const [datas, setData] = useState([]);
-  //const [dataSort, setSort] = useState([]);
-  const [uids, setUids] = useState('');
-  const [dd, setdd] = useState(0);
-  const [ids, setIds]=useState([]);
-  const [allus, setAllusers] = useState([]);
-  const [carouseldata, setCarousel] = useState(false);
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [is404, set404] = useState(false);
-  
-  const [state, setState] = useState({
-    uid:'',
-    name: '',
-    photo:'',
-    picture: '',
-    activeIndex: 0,
-    arrayFriends: [],
-    arrayUsers: [],
-    loading: false,
-    totalScore:0,
-    allScore:[],
-    dataSort:[],
-    dataCount:[],
-    rank:0,
-    login:''
-  })
-  const toggleModal = () => {
-     setModalVisible(!isModalVisible);
+  const mounted = useRef(true);
+  const [activeTab, setActiveTab] = useState('all');
+  const [profileReady, setProfileReady] = useState(false);
+  const [profile, setProfile] = useState({ uid: '', name: '', photo: '' });
+  const [cache, setCache] = useState({});
+
+  const current = cache[activeTab] || EMPTY_TAB;
+  const scoreLabel = activeTab === 'all'
+    ? t('common:totalskor')
+    : t('common:skor');
+
+  const loadTab = async (tabKey, force = false) => {
+    if (!force && cache[tabKey] && cache[tabKey].loaded) return;
+
+    setCache(previous => ({
+      ...previous,
+      [tabKey]: {
+        ...(previous[tabKey] || EMPTY_TAB),
+        loading: true,
+        error: false,
+      },
+    }));
+
+    const category = tabKey === 'all' ? '' : '&kategori=' + tabKey;
+    const listUrl = svr.url + 'skor/?api=' + svr.api + category;
+    const myUrl = svr.url + 'skor/?api=' + svr.api + '&id=' + profile.uid + category;
+
+    try {
+      const responses = await Promise.all([
+        axios.get(listUrl),
+        profile.uid
+          ? axios.get(myUrl)
+          : Promise.resolve({ data: { status: 404, value: null } }),
+      ]);
+
+      const listResponse = responses[0].data;
+      const myResponse = responses[1].data;
+
+      if (listResponse.status !== 200 && listResponse.status !== 404) {
+        throw new Error('Ranking list request failed');
+      }
+      if (myResponse.status !== 200 && myResponse.status !== 404) {
+        throw new Error('User ranking request failed');
+      }
+
+      const list = listResponse.status === 200 && Array.isArray(listResponse.value)
+        ? listResponse.value
+        : [];
+      const my = myResponse.status === 200 && myResponse.value
+        ? myResponse.value
+        : null;
+
+      if (!mounted.current) return;
+      setCache(previous => ({
+        ...previous,
+        [tabKey]: {
+          list,
+          my,
+          loading: false,
+          error: false,
+          loaded: true,
+        },
+      }));
+    } catch (error) {
+      if (!mounted.current) return;
+      setCache(previous => ({
+        ...previous,
+        [tabKey]: {
+          ...(previous[tabKey] || EMPTY_TAB),
+          loading: false,
+          error: true,
+          loaded: false,
+        },
+      }));
+    }
   };
-  const BackScreen=()=>{
-    toggleModal();
-  }
-  const BackGo=()=>{
-    props.navigation.goBack();
-  }
-  const toggle404 = () => {
-     set404(!is404);
-  };
+
   useEffect(() => {
-      AsyncStorage.getItem('users').then(response =>{
-        //console.log('response', response);
-        let data    = JSON.parse(response);
-        const datas = JSON.stringify(data[0]);
-        let users   = JSON.parse(datas);
-        setState(state => ({...state,
-          uid: users?.id,
-          name: users?.name,
-          photo: users?.picture
-        }))
-        //setState(state => ({...state, uid: props.navigation.state.params.uid }));
-      }).catch(err =>{
-        console.log('err', err)
-      })
+    const params = props.navigation.state.params || {};
+    AsyncStorage.getItem('users')
+      .then(response => {
+        let user = {};
+        try {
+          const users = JSON.parse(response);
+          user = users && users[0] ? users[0] : {};
+        } catch (error) {
+          user = {};
+        }
 
-      AsyncStorage.getItem('login').then(response =>{
-        //console.log('login :', response);
-        setState(state => ({...state, login: response}))
-      }).catch(err =>{
-        console.log('err', err)
+        if (!mounted.current) return;
+        setProfile({
+          uid: params.uid || user.id || '',
+          name: user.name || '',
+          photo: user.picture || '',
+        });
+        setProfileReady(true);
       })
+      .catch(() => {
+        if (!mounted.current) return;
+        setProfile({ uid: params.uid || '', name: '', photo: '' });
+        setProfileReady(true);
+      });
 
-    getScore();
-    return ()=>{
-      getAllScore();
+    return () => {
+      mounted.current = false;
     };
-  }, [state.uid])
+  }, []);
 
+  useEffect(() => {
+    if (!profileReady) return;
+    loadTab(activeTab);
+  }, [activeTab, profileReady]);
 
-  const showAlert = (data) => {
-    Alert.alert(
-      ""+informasi,
-      ""+data,
-      [
-        {
-          text: oke,
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        }
-      ]
-    )
-  }
-  {/*Mengambil curent score  1*/}
+  const displayName = (name) => {
+    if (!name) return '-';
+    return name.split(' ').slice(0, 2).join(' ');
+  };
 
-  const getScore = async (event) =>{
-    const id = props.navigation.state.params.uid;
-    console.log(id);
-    try{
-      const res = await axios.get(svr.url+'skor/'+id+'/'+svr.api)
-      if(res.data.status==200){
-        if(res.data.value =='' || res.data.value==null){
-          toggleModal();
-        }else{
-          setState(state => ({...state,
-            rank       :res.data.value.rank,
-            totalScore :res.data.value.total,
-            name       :res.data.value.name,
-            uid        :res.data.value.uid
-          }))
-        }
-      }else if(res.status==500){
-        showAlert(err_500)
-      }
-    }catch (e){
-      showAlert(err_data)
-    }
-  }
+  const renderRow = ({ item, index }) => {
+    const position = index + 1;
+    const medal = MEDALI[position];
 
-  const getAllScore = async (event) =>{
-    try{
-      const response = await axios.get(svr.url+'skor/'+svr.api)
-      if(response.status==200){
-        let allUsers = response.data.value.map(doc => {
-          return {
-            id: doc.uid,
-            value: doc
-          }
-        })
-        setAllusers(allUsers)
-        setCarousel(true)
-        console.log('This All :'+ JSON.stringify(allUsers))
-
-      }else if(res.status==500){
-        showAlert(err_500)
-      }
-    }catch (e){
-      toggle404()
-      // alert('Opps, data belum tersedia')
-    }
-  }
-
-  const renderItemExpore = (item, index) => {
-    //console.log('item', item);
     return (
-      <View style={styles.viewRenderExplore}>
-        <View style={styles.viewImage}>
-          <LinearGradient colors={['#3A3A3A33', 'transparent']} style={styles.gradientTop} />
-          <Image source={{uri: item.item.value.picture}} style={styles.imageProfile} />
-          <LinearGradient colors={['transparent', '#3A3A3ACC']} style={styles.gradientBottom} />
+      <View style={[
+        styles.row,
+        medal ? {
+          borderLeftWidth: toDp(4),
+          borderLeftColor: medal,
+          backgroundColor: TINT[position],
+        } : null,
+      ]}>
+        <View style={[styles.badge, { backgroundColor: medal || '#E8EDF0' }]}>
+          <Text style={styles.badgeText}>{position}</Text>
         </View>
-
-        <View style={styles.viewImageContent}>
-          <TouchableOpacity style={styles.touchSilangExplore} onPress={() => alert('In Progress')}>
-            <Image source={allLogo.icResidentSilang} style={styles.icResidentSilang} />
-          </TouchableOpacity>
-          <View style={styles.viewDetail}>
-            <Text style={styles.textNameExplore}>{item.item.value.name}</Text>
-            <Text style={styles.textWork}>{totalskor} : {item.item.value.skor}</Text>
-            <Text style={styles.textDistance}>{item.item.value.email}</Text>
-          </View>
-        </View>
-
-      </View>
-    )
-  }
-
-  const carousels=()=>{
-    if(allus.length>0){
-      return(
-        <View>
-        <Carousel
-          layout={"default"}
-          data={allus}
-          sliderWidth={width}
-          itemWidth={toDp(350)}
-          renderItem={(item, index) => renderItemExpore(item, index)}
-          onSnapToItem = { index => setState(state => ({...state, activeIndex: index})) }
+        <Image
+          source={item.picture ? { uri: item.picture } : allLogo.icUsertemp}
+          style={styles.avatar}
+          resizeMode="cover"
         />
+        <View style={styles.rowText}>
+          <Text style={styles.rowName} numberOfLines={1}>{item.name}</Text>
+          <Text style={styles.rowScore}>{scoreLabel} : {item.skor}</Text>
         </View>
-      )
-    }else{
-      <View><Text style={{marginTop:200}}>Filled loading data...</Text></View>
-    }
-  }
+      </View>
+    );
+  };
 
-  const rankList = () =>{
-    if(allus.length>0){
-    return(
-    <View style={{marginBottom:50, flex:1}}>
-      <FlatList
-          data={allus}
-          renderItem={({ item, index }) => {
-              return (
-                  listAnggota(item, index)
-              )
-          }}
-          keyExtractor={item => item.id}
-          ListFooterComponent={() => <View style={{ height: toDp(0), marginBottom:toDp(190)}} />}
-      />
-    </View>
-    )
-    }else{
-      <View><Text style={{marginTop:200}}>{dataNull}...</Text></View>
-    }
-  }
-
-  const displayName = (name) =>{
-      	let count = '';
-        let nama  = '';
-        count = name.split(' ');
-        nama  = count.slice(0, 2).join(' ');
-        return nama
-  }
-
-  const listAnggota = (item, index) => {
-      const pos = index + 1;
-      const medal = MEDALI[pos];
+  const renderContent = () => {
+    if (current.loading || !profileReady) {
       return (
-          <View style={{alignItems: 'center' }}>
-              <View style={[
-                styles.viewListAnggota,
-                medal ? { borderLeftWidth: toDp(4), borderLeftColor: medal, backgroundColor: TINT[pos] } : null
-              ]}>
-                      <View style={styles.leftWrap}>
-                          <View style={[styles.badge, { backgroundColor: medal || '#E8EDF0' }]}>
-                              <Text style={[styles.badgeText, { color: medal ? '#2B2B2B' : '#024024' }]}>{pos}</Text>
-                          </View>
-                          <Image source={item.value.picture ? {uri: item.value.picture} : allLogo.icUsertemp} style={styles.fotoAnggota} />
-                      </View>
+        <View style={styles.stateWrap}>
+          <ActivityIndicator size="small" color="#378561" />
+        </View>
+      );
+    }
 
-                      <View style={[styles.viewText,{flex:1}]}>
-                          <Text style={styles.title} numberOfLines={1}>{item.value.name}</Text>
-                          <Text style={styles.deskrip}>{totalskor} : {item.value.skor}</Text>
-                      </View>
-              </View>
-          </View>
-      )
-  }
+    if (current.error) {
+      return (
+        <View style={styles.stateWrap}>
+          <Text style={styles.stateText}>{t('common:err_data')}</Text>
+          <Pressable
+            style={styles.retryButton}
+            onPress={() => loadTab(activeTab, true)}
+          >
+            <Text style={styles.retryText}>{t('common:cobalagi')}</Text>
+          </Pressable>
+        </View>
+      );
+    }
+
+    if (current.list.length === 0) {
+      return (
+        <View style={styles.stateWrap}>
+          <Text style={styles.emptyDash}>-</Text>
+          <Text style={styles.stateText}>{t('common:rankBelumAda')}</Text>
+        </View>
+      );
+    }
+
+    return (
+      <FlatList
+        data={current.list}
+        style={styles.list}
+        contentContainerStyle={styles.listContent}
+        renderItem={renderRow}
+        keyExtractor={(item, index) => item.uid || String(index)}
+        showsVerticalScrollIndicator={false}
+      />
+    );
+  };
 
   return (
     <View style={styles.container}>
       <Header
-        title={t('common:rankUmum')}
+        title={t('common:menuTree')}
         onPress={() => props.navigation.goBack()}
       />
-      <Loader loading={state.loading} />
 
-      <View style={styles.viewHeader}>
-        <View style={styles.viewHd}>
-          <View style={styles.viewPhotoName}>
-            <Image
-              source={state.photo
-            ? {uri: state.photo}                      // Use object with 'uri'
-            : require('../../Assets/img/profile.png')}
-              style={styles.imgProfile} />
-            <View style={{justifyContent:'flex-start', marginLeft:toDp(-12)}}>
-              <Text style={styles.textName}>{displayName(state.name)}</Text>
+      <View style={styles.tabArea}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.tabContent}
+        >
+          {RANKING_TABS.map(tab => {
+            const active = activeTab === tab.key;
+            return (
+              <Pressable
+                key={tab.key}
+                style={[
+                  styles.tab,
+                  active ? { backgroundColor: tab.color, borderColor: tab.color } : null,
+                ]}
+                onPress={() => setActiveTab(tab.key)}
+              >
+                <Text style={[styles.tabText, active ? styles.tabTextActive : null]}>
+                  {t('common:' + tab.labelKey)}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+      </View>
+
+      <View style={styles.profileCard}>
+        <View style={styles.profileIdentity}>
+          <Image
+            source={profile.photo ? { uri: profile.photo } : require('../../Assets/img/profile.png')}
+            style={styles.profileAvatar}
+            resizeMode="cover"
+          />
+          <Text style={styles.profileName} numberOfLines={1}>
+            {displayName(profile.name)}
+          </Text>
+        </View>
+
+        <View style={styles.profileStats}>
+          <View style={styles.stat}>
+            <Text style={styles.statLabel} numberOfLines={1}>{scoreLabel}</Text>
+            <View style={styles.statValue}>
+              <Text style={styles.statValueText}>{current.my ? current.my.total : '-'}</Text>
             </View>
           </View>
-
-          <View style={styles.viewScore}>
-            <Text style={styles.textName}>{skor}</Text>
-            <View style={styles.viewValueScore}>
-              <Text style={styles.textNameVal}>{state.totalScore}</Text>
-            </View>
-          </View>
-              <View style={{width: toDp(16)}} />
-          <View style={styles.viewScore}>
-            <Text style={styles.textName}>{peringkat}</Text>
-            <View style={styles.viewValueScore}>
-              <Text style={styles.textNameVal}>{state.rank}</Text>
+          <View style={styles.stat}>
+            <Text style={styles.statLabel}>{t('common:peringkat')}</Text>
+            <View style={styles.statValue}>
+              <Text style={styles.statValueText}>{current.my ? current.my.rank : '-'}</Text>
             </View>
           </View>
         </View>
       </View>
-      {/*<View style={{marginTop:200}}><ActivityIndicator size="small" color="#0000ff" /></View>*/}
 
-      {carouseldata===true ?
-        <View>
-           {rankList()}
-        </View>
-        :
-
-        <View style={styles.vnotfound} >
-            <Image source={allLogo.ic404} style={{width:toDp(200), height:toDp(200)}} />
-            <View style={{marginTop:40}}>
-              <Text style={{fontSize:14, fontWeight:'bold'}}>
-                {err_404V3}.
-              </Text>
-
-              <View style={{justifyContent:'center',alignItems:'center'}}>
-                <TouchableOpacity style={styles.btnBack} onPress={()=>BackGo()}>
-                      <Text style={styles.txtBack}>{kembali}</Text>
-                </TouchableOpacity>
-              </View>
-          </View>
-        </View>
-
-     }
-
-      {/*modal*/}
-      <Modals style={styles.modal} isVisible={isModalVisible}>
-        <View style={styles.ViewModal}>
-
-            <View style={{padding:toDp(20)}}>
-              <Text style={{fontSize:toDp(20), fontWeight:'bold'}}>{informasi}</Text>
-              <View style={{marginTop: toDp(16)}}>
-                <Text style={{fontSize:toDp(16)}}>{state.login=='guest' ? youareGuest : err_noskor }.</Text>
-              </View>
-            </View>
-            <View style={styles.modalFooter}>
-              <TouchableOpacity style={styles.pressMbtn} onPress={()=> BackScreen() }>
-                  <Text style={{fontWeight:'bold'}}>{oke}</Text>
-              </TouchableOpacity>
-            </View>
-        </View>
-      </Modals>
-      {/*end modal*/}
+      {renderContent()}
     </View>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
   },
-  viewHeader: {
+  tabArea: {
+    width: '100%',
+    marginTop: toDp(12),
+  },
+  tabContent: {
+    paddingHorizontal: '5%',
+    paddingVertical: toDp(4),
+  },
+  tab: {
+    minWidth: toDp(84),
+    minHeight: toDp(46),
+    marginRight: toDp(8),
+    paddingHorizontal: toDp(16),
+    borderRadius: toDp(10),
+    borderWidth: 1,
+    borderColor: '#DDE5E1',
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tabText: {
+    fontSize: toDp(12),
+    fontWeight: 'bold',
+    color: '#4A5A54',
+  },
+  tabTextActive: {
+    color: '#FFFFFF',
+  },
+  profileCard: {
     width: '90%',
-    height: toDp(140),
-    marginTop: toDp(20),
+    minHeight: toDp(132),
+    marginTop: toDp(12),
+    paddingHorizontal: toDp(14),
+    paddingVertical: toDp(14),
     backgroundColor: '#52B788',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    borderRadius: toDp(10),
     flexDirection: 'row',
-    borderRadius: toDp(8),
-    justifyContent: 'center',
-    //alignItems: 'center'
-  },
-  viewHd:{
-    marginTop: toDp(20),
-    flexDirection: 'row',
-  },
-  viewPhotoName: {
     alignItems: 'center',
-    alignContent:'center',
-    justifyContent: 'center',
-  },
-  imgProfile: {
-    width: toDp(70),
-    height: toDp(70),
-    borderRadius: toDp(40),
-    marginRight: toDp(15),
-    backgroundColor:'#FFF'
-  },
-  textName: {
-    marginTop: toDp(4),
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: toDp(14)
-  },
-  textNameVal:{
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: toDp(16)
-  },
-  viewValueScore: {
-    width: toDp(82),
-    height: toDp(42),
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#367D5C',
-    borderRadius: toDp(25),
-    shadowColor: "#FFF",
-    shadowOffset: {
-    	width: 0,
-    	height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
     elevation: 5,
-    marginTop: toDp(8)
   },
-  viewScore: {
-    marginTop: toDp(10),
-    alignItems: 'center'
-  },
-  viewRenderExplore: {
-    width: '100%',
-    height: '100%',
+  profileIdentity: {
+    width: toDp(90),
     alignItems: 'center',
-    borderRadius: toDp(16),
-    marginTop: toDp(16)
+    marginRight: toDp(8),
   },
-  viewImage: {
+  profileAvatar: {
+    width: toDp(64),
+    height: toDp(64),
+    borderRadius: toDp(32),
+    backgroundColor: '#FFFFFF',
+    overflow: 'hidden',
+  },
+  profileName: {
     width: '100%',
-    height: '65%',
-    position: 'absolute',
-  },
-  viewImageContent: {
-
-    width: '100%',
-    height: '100%',
-    zIndex: 2
-  },
-  imageProfile: {
-    width: toDp(350),
-    height: '100%',
-    borderRadius: toDp(16),
-    position: 'absolute',
-    resizeMode: 'contain'
-  },
-  gradientTop: {
-    width: '100%',
-    height: toDp(141),
-    borderTopLeftRadius: toDp(16),
-    borderTopRightRadius: toDp(16),
-    zIndex: 1,
-  },
-  gradientBottom: {
-    width: '100%',
-    height: toDp(141),
-    borderBottomLeftRadius: toDp(16),
-    borderBottomRightRadius: toDp(16),
-    position: 'absolute',
-    bottom: 0
-  },
-  icResidentSilang: {
-    width: toDp(28),
-    height: toDp(28),
-  },
-  touchSilangExplore: {
-
-    padding: toDp(4),
-    position: 'absolute',
-    right: toDp(16),
-    top: toDp(16),
-    zIndex:5
-  },
-  viewDetail: {
-    marginTop: toDp(18),
-    marginBottom:toDp(-18),
-    position:'absolute',
-    width:'100%',
-    bottom:250,
-    padding: toDp(20),
-    zIndex: 2
-  },
-  textNameExplore: {
-    fontSize: toDp(24),
+    marginTop: toDp(6),
     color: '#FFFFFF',
+    fontWeight: 'bold',
+    fontSize: toDp(13),
+    textAlign: 'center',
   },
-  textWork: {
-    marginTop: toDp(4),
-    fontSize: toDp(14),
-    color: '#FFFFFF',
-  },
-  textDistance: {
-    marginTop: toDp(4),
-    fontSize: toDp(14),
-    color: '#FFFFFF',
-  },
-  modal:{
-    marginVertical:'64%',
-    maxHeight: toDp(200),
-  },
-  ViewModal:{
+  profileStats: {
     flex: 1,
-    width:'100%',
-    backgroundColor:'#FFF',
-    height:toDp(200),
-    borderRadius:toDp(10),
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
-  modalClose:{
-    height:toDp(20),
-    width:toDp(20),
-    position:'absolute',
-    right:toDp(20), marginTop:toDp(20),
-    zIndex:2,
+  stat: {
+    flex: 1,
+    alignItems: 'center',
+    marginHorizontal: toDp(4),
   },
-  modalFooter:{
-    flexDirection:'row',
-    backgroundColor:'#f3f3f3',
-    maxHeight:toDp(60),
-    bottom:0,
-    position:'absolute',
-    width:'100%',
-    right:toDp(0),
-    borderBottomEndRadius:toDp(10),
-    borderBottomStartRadius:toDp(10)
+  statLabel: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    fontSize: toDp(12),
   },
-  pressMbtn:{
-    height:toDp(60), alignItems:'center',
-    justifyContent:'center', flex:1
+  statValue: {
+    width: '100%',
+    maxWidth: toDp(82),
+    height: toDp(42),
+    marginTop: toDp(8),
+    borderRadius: toDp(22),
+    backgroundColor: '#367D5C',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  vnotfound:{
-    marginVertical: '20%',
-    justifyContent:'center',
-    alignContent:'center',
-    alignItems:'center'
+  statValueText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    fontSize: toDp(16),
   },
-  btnBack:{
-    color:'#fff',
-    backgroundColor:'red',
-    justifyContent:'center',
-    alignItems:'center',
-    padding:toDp(12),
-    borderRadius:toDp(10),
-    marginTop: toDp(30),
-    width: toDp(200)
+  list: {
+    flex: 1,
+    width: '100%',
+    marginTop: toDp(12),
   },
-  txtBack:{
-    alignItems:'center',
-    color:'#fff',
-    fontSize:toDp(16),
-    fontWeight:'bold'
+  listContent: {
+    alignItems: 'center',
+    paddingBottom: toDp(30),
   },
-  viewListAnggota: {
-      width: '90%',
-      paddingHorizontal:15,
-      height: toDp(70),
-      backgroundColor: 'white',
-      margin: toDp(6),
-      borderRadius: toDp(15),
-      justifyContent: 'space-between',
-      flexDirection: 'row',
-      alignItems: 'center',
-      shadowColor: "#A3A3A3",
-      shadowOffset: {
-        width: 0,
-        height: 0,
-      },
-      elevation: 17,
-
-  },
-  leftWrap: {
-      flexDirection: 'row',
-      alignItems: 'center',
+  row: {
+    width: '90%',
+    minHeight: toDp(66),
+    marginBottom: toDp(10),
+    paddingHorizontal: toDp(12),
+    paddingVertical: toDp(8),
+    borderRadius: toDp(12),
+    backgroundColor: '#FFFFFF',
+    flexDirection: 'row',
+    alignItems: 'center',
+    shadowColor: '#A3A3A3',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 4,
   },
   badge: {
-      width: toDp(28),
-      height: toDp(28),
-      borderRadius: toDp(14),
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginRight: toDp(8),
+    width: toDp(28),
+    height: toDp(28),
+    marginRight: toDp(10),
+    borderRadius: toDp(14),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   badgeText: {
-      fontWeight: 'bold',
-      fontSize: toDp(12),
+    color: '#2B2B2B',
+    fontWeight: 'bold',
+    fontSize: toDp(12),
   },
-  fotoAnggota: {
-      height: 45,
-      width: 45,
-      borderRadius: 60,
-      backgroundColor:'#ccc'
+  avatar: {
+    width: toDp(42),
+    height: toDp(42),
+    marginRight: toDp(14),
+    borderRadius: toDp(21),
+    backgroundColor: '#CCCCCC',
+    overflow: 'hidden',
   },
-  viewText: {
-      justifyContent: 'center',
+  rowText: {
+    flex: 1,
   },
-  title: {
-      fontWeight: 'bold',
-      fontSize: toDp(15),
-      color: '#024024'
+  rowName: {
+    color: '#024024',
+    fontWeight: 'bold',
+    fontSize: toDp(14),
   },
-  deskrip: {
-      fontSize: toDp(12),
-      color: '#024024'
+  rowScore: {
+    marginTop: toDp(2),
+    color: '#024024',
+    fontSize: toDp(12),
+  },
+  stateWrap: {
+    flex: 1,
+    width: '100%',
+    paddingHorizontal: toDp(30),
+    paddingBottom: toDp(40),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  stateText: {
+    color: '#4A5A54',
+    fontSize: toDp(13),
+    textAlign: 'center',
+  },
+  emptyDash: {
+    marginBottom: toDp(8),
+    color: '#4A5A54',
+    fontSize: toDp(32),
+    fontWeight: 'bold',
+  },
+  retryButton: {
+    minWidth: toDp(120),
+    minHeight: toDp(46),
+    marginTop: toDp(16),
+    paddingHorizontal: toDp(18),
+    borderRadius: toDp(10),
+    backgroundColor: '#378561',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  retryText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    fontSize: toDp(13),
   },
 });
 
