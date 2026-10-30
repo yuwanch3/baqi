@@ -124,6 +124,10 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 
 ## 📜 Changelog
 
+### v0.6.4 — Hotfix Ranking Umum
+- Memperbaiki force-close pada **Ranking Umum** saat daftar memuat pengguna tanpa foto profil.
+- Avatar kosong memakai aset profil bawaan dengan format yang benar; backend, database, dan Ranking Materi tidak berubah.
+
 ### v0.6.3 — Ranking Umum & Ranking Materi
 - **Ranking Umum** — menu ranking lama tetap ada dengan judul "Ranking Umum" dan nomor peringkat pada daftar.
 - **Ranking Materi (baru)** — kartu di Beranda dengan 3 tab: **Qur'an**, **Petrofisika**, **CEOR**; menampilkan skor & peringkat pengguna per kategori dan daftar Top 10.

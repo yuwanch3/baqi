@@ -1,5 +1,11 @@
 # Changelog BAQI
 
+## v0.6.4 — Hotfix Ranking Umum
+
+- Memperbaiki force-close pada **Ranking Umum** ketika daftar memuat pengguna tanpa foto profil.
+- Avatar kosong sekarang memakai aset profil bawaan dengan format `Image source` React Native yang benar.
+- Tidak ada perubahan pada backend, database, Ranking Materi, atau fitur lainnya.
+
 ## v0.6.3 — Ranking Umum & Ranking Materi
 
 - **Ranking Umum** — menu ranking yang lama tetap ada, kini berjudul "Ranking Umum" dan menampilkan nomor peringkat pada daftar.
