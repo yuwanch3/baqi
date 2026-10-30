@@ -18,7 +18,7 @@
   - Ujian Pelajaran per sub-bab (10 soal)
   - Final Test per bab (20 soal)
   - Mendukung soal pilihan ganda (`option`) dan jawaban banyak (`multi`), dengan posisi kunci jawaban diacak merata agar tidak bisa ditebak.
-- **🏆 Peringkat (Ranking)** — pantau progres belajar dan posisi kamu.
+- **🏆 Peringkat (Ranking)** — pantau progres belajar dan posisi kamu lewat **Ranking Umum** (semua materi) dan **Ranking Materi** (tab Qur'an, Petrofisika, CEOR).
 - **👥 Grup Belajar** — buat grup, undang anggota, dan belajar bersama.
 - **🌐 Multi-Bahasa** — antarmuka Bahasa Indonesia & English (React i18next).
 - **👤 Akun & Autentikasi** — login/register, Google & Facebook sign-in, dan profil pengguna.
@@ -123,6 +123,14 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 ---
 
 ## 📜 Changelog
+
+### v0.6.3 — Ranking Umum & Ranking Materi
+- **Ranking Umum** — menu ranking lama tetap ada dengan judul "Ranking Umum" dan nomor peringkat pada daftar.
+- **Ranking Materi (baru)** — kartu di Beranda dengan 3 tab: **Qur'an**, **Petrofisika**, **CEOR**; menampilkan skor & peringkat pengguna per kategori dan daftar Top 10.
+- **Pembeda 3 besar** — peringkat 1/2/3 memakai warna emas, silver, dan perunggu.
+- **Empty state** — kategori tanpa peserta menampilkan pesan "Belum ada peserta di kategori ini".
+- **Backend** — endpoint skor menerima parameter `kategori` (`quran` / `petro` / `ceor`), tanpa perubahan struktur database.
+- Ranking menghitung seluruh aktivitas (kuis materi + ujian pelajaran/grammer + final test) sesuai kategorinya.
 
 ### v0.6.2 — Perbaikan Branding & Terjemahan
 - **Branding aplikasi** — ganti sebutan "Bahasa Qur'an" → "Ilmu" & "Bahasa Qur'an Interaktif" → "Memahami Ilmu Secara Interaktif" di seluruh UI (Splash Screen, Beranda, Menu).

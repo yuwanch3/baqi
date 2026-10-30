@@ -16,6 +16,7 @@ import Watch from '../Containers/Watch'
 import Test from '../Containers/Test'
 import Read from '../Containers/Read'
 import Rangking from '../Containers/Rangking'
+import RangkingMateri from '../Containers/RangkingMateri'
 import Exam from '../Containers/Exam'
 import HomeExam from '../Containers/HomeExam'
 import ExamMenu from '../Containers/ExamMenu'
@@ -53,6 +54,7 @@ const AppNavigator = createStackNavigator(
     Test: { screen: Test },
     Read: { screen: Read },
     Rangking: { screen: Rangking },
+    RangkingMateri: { screen: RangkingMateri },
     Exam: { screen: Exam },
     HomeExam: { screen: HomeExam },
     ExamMenu: { screen: ExamMenu },

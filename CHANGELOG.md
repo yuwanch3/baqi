@@ -1,5 +1,14 @@
 # Changelog BAQI
 
+## v0.6.3 — Ranking Umum & Ranking Materi
+
+- **Ranking Umum** — menu ranking yang lama tetap ada, kini berjudul "Ranking Umum" dan menampilkan nomor peringkat pada daftar.
+- **Ranking Materi (baru)** — kartu baru di Beranda dengan 3 tab kategori: **Qur'an**, **Petrofisika**, dan **CEOR**. Masing-masing menampilkan skor & peringkat pengguna di kategori tersebut, lalu daftar Top 10 peserta.
+- **Pembeda 3 besar** — peringkat 1, 2, dan 3 memakai warna emas, silver, dan perunggu.
+- **Empty state** — kategori tanpa peserta menampilkan pesan "Belum ada peserta di kategori ini".
+- **Backend** — endpoint skor menerima parameter `kategori` (`quran` / `petro` / `ceor`) tanpa perubahan struktur database.
+- Ranking tetap menghitung seluruh aktivitas (kuis materi + ujian pelajaran/grammer + final test) sesuai kategorinya.
+
 ## v0.6.2 — Perbaikan Branding & Terjemahan
 
 - **Branding aplikasi** — ganti sebutan "Bahasa Qur'an" → "Ilmu" & "Bahasa Qur'an Interaktif" → "Memahami Ilmu Secara Interaktif" di seluruh UI (Splash Screen, Beranda, Menu) — file `App/Translate/id/common.js` & `App/Translate/en/common.js`.
