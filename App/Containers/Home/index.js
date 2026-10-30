@@ -67,9 +67,20 @@ const Homepage = (props) => {
                         <Text style={styles.title}>{t('common:judulApp')}</Text>
                       </View>
                 </ImageBackground>
-                <View style={{position:'absolute', left:toDp(30), bottom:toDp(30), width:110}}>
-                  <Pressable onPress={()=>NavigatorService.navigate('SettingLanguage')} style={{backgroundColor:'red',padding:4, borderRadius:6, justifyContent:'center', alignItems:'center'}}>
-                     <Text style={{fontSize:toDp(13),color:'#FFF',fontWeight:'bold'}}>{ t('common:gantiBahasa')}</Text>
+                <View style={styles.languageButtonWrap}>
+                  <Pressable
+                    onPress={()=>NavigatorService.navigate('SettingLanguage')}
+                    style={styles.languageButton}
+                    hitSlop={8}
+                  >
+                     <Text
+                       style={styles.languageButtonText}
+                       numberOfLines={1}
+                       adjustsFontSizeToFit
+                       minimumFontScale={0.75}
+                     >
+                       {t('common:gantiBahasa')}
+                     </Text>
                   </Pressable>
                 </View>
               </View>
@@ -137,6 +148,27 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     marginBottom: toDp(0)
+  },
+  languageButtonWrap: {
+    position: 'absolute',
+    left: toDp(30),
+    bottom: toDp(30),
+    width: toDp(110),
+  },
+  languageButton: {
+    width: '100%',
+    height: toDp(28),
+    paddingHorizontal: toDp(6),
+    borderRadius: toDp(6),
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  languageButtonText: {
+    color: '#FFFFFF',
+    fontSize: toDp(13),
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   content: {
     flex: 1,

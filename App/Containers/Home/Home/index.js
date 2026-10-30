@@ -72,7 +72,7 @@ const Home = (props) => {
               </Pressable>
 
               <Pressable style={[styles.menu, {backgroundColor: '#00AF90', alignItems:'center'}]} onPress={() => openLinks('Rangking', state.uid,'')}>
-                <Image source={allLogo.icLevel}  style={{width:toDp(50), height:toDp(55)}}/>
+                <Image source={allLogo.menu3}  style={{width:toDp(46), height:toDp(60)}}/>
                 <View style={styles.mnrow}>
                   <Text style={styles.titlemn}>{t('common:menuTree')}</Text>
                   <Text style={styles.titledt}>{t('common:deskMenu3')}</Text>

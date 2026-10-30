@@ -129,6 +129,7 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 - Ranking keseluruhan dan per materi digabung ke satu halaman dengan tab **Semua / Qur'an / Petrofisika / CEOR**.
 - Data per tab di-cache dalam memori, lengkap dengan loading, empty, error, dan tombol **Coba Lagi**.
 - Label skor dan center crop foto profil diperbaiki; backend/database tidak berubah.
+- Ukuran tombol **Ganti Bahasa / Change Language** di header Beranda kini konsisten pada kedua bahasa.
 
 ### v0.6.4 — Hotfix Ranking Umum
 - Memperbaiki force-close pada **Ranking Umum** saat daftar memuat pengguna tanpa foto profil.
