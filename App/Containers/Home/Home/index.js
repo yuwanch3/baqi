@@ -38,8 +38,6 @@ const Home = (props) => {
       NavigatorService.navigate('ExamMenu')
     } else if(type === 'Rangking'){
       NavigatorService.navigate('Rangking', {uid:uid})
-    } else if(type === 'RangkingMateri'){
-      NavigatorService.navigate('RangkingMateri', {uid:uid})
     } else if(type === 'Group'){
       NavigatorService.navigate('Group', {uid:uid})
     }
@@ -74,18 +72,10 @@ const Home = (props) => {
               </Pressable>
 
               <Pressable style={[styles.menu, {backgroundColor: '#00AF90', alignItems:'center'}]} onPress={() => openLinks('Rangking', state.uid,'')}>
-                <Image source={allLogo.menu3}  style={{width:toDp(46), height:toDp(60)}}/>
+                <Image source={allLogo.icLevel}  style={{width:toDp(50), height:toDp(55)}}/>
                 <View style={styles.mnrow}>
                   <Text style={styles.titlemn}>{t('common:menuTree')}</Text>
                   <Text style={styles.titledt}>{t('common:deskMenu3')}</Text>
-                </View>
-              </Pressable>
-
-              <Pressable style={[styles.menu, {backgroundColor: '#B8860B', alignItems:'center'}]} onPress={() => openLinks('RangkingMateri', state.uid,'')}>
-                <Image source={allLogo.icLevel}  style={{width:toDp(50), height:toDp(55)}}/>
-                <View style={styles.mnrow}>
-                  <Text style={styles.titlemn}>{t('common:menuRankMateri')}</Text>
-                  <Text style={styles.titledt}>{t('common:deskMenuRankMateri')}</Text>
                 </View>
               </Pressable>
 

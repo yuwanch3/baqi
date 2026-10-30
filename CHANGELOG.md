@@ -1,5 +1,15 @@
 # Changelog BAQI
 
+## v0.6.5 — Ranking Gabungan
+
+- **Home** kini hanya memiliki satu menu **Ranking**.
+- Ranking keseluruhan dan ranking materi digabung dalam satu halaman dengan tab **Semua**, **Qur'an**, **Petrofisika**, dan **CEOR**.
+- Data setiap tab disimpan sementara di memori agar tidak dimuat ulang saat pengguna bolak-balik tab.
+- Menambahkan loading state, empty state, error state, serta tombol **Coba Lagi**.
+- Label **Total Skor** hanya dipakai pada tab Semua; tab materi memakai label **Skor**.
+- Foto profil memakai center crop berbentuk lingkaran secara konsisten.
+- Halaman dan route Ranking Materi lama dihapus. Backend dan database tidak berubah.
+
 ## v0.6.4 — Hotfix Ranking Umum
 
 - Memperbaiki force-close pada **Ranking Umum** ketika daftar memuat pengguna tanpa foto profil.
