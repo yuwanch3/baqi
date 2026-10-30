@@ -9,6 +9,7 @@
 - Label **Total Skor** hanya dipakai pada tab Semua; tab materi memakai label **Skor**.
 - Foto profil memakai center crop berbentuk lingkaran secara konsisten.
 - Halaman dan route Ranking Materi lama dihapus. Backend dan database tidak berubah.
+- Ukuran tombol **Ganti Bahasa / Change Language** di header Beranda diseragamkan agar teks English tidak membuat tombol membesar.
 
 ## v0.6.4 — Hotfix Ranking Umum
 
