@@ -27,6 +27,20 @@ import Modals from "react-native-modal";
 import { useTranslation } from 'react-i18next';
 
 const { width, height } = Dimensions.get('window')
+
+// Warna pembeda 3 besar: emas, silver, perunggu
+const MEDALI = {
+  1: '#D4A017',
+  2: '#AEB8C2',
+  3: '#B87333',
+};
+
+const TINT = {
+  1: '#FFF8E5',
+  2: '#F2F5F7',
+  3: '#FAF1EA',
+};
+
 const Ranking = (props) => {
   const { t } = useTranslation();
   let informasi = t('common:informasi');
@@ -251,15 +265,23 @@ const Ranking = (props) => {
   }
 
   const listAnggota = (item, index) => {
+      const pos = index + 1;
+      const medal = MEDALI[pos];
       return (
           <View style={{alignItems: 'center' }}>
-              <View style={styles.viewListAnggota}>
-                      <View style={{justifyContent: 'center', alignItems: 'center', width:'20%'}}>
-                          <Image source={{uri: item.value.picture=='' ? allLogo.icUsertmp :  item.value.picture}} style={styles.fotoAnggota} />
+              <View style={[
+                styles.viewListAnggota,
+                medal ? { borderLeftWidth: toDp(4), borderLeftColor: medal, backgroundColor: TINT[pos] } : null
+              ]}>
+                      <View style={styles.leftWrap}>
+                          <View style={[styles.badge, { backgroundColor: medal || '#E8EDF0' }]}>
+                              <Text style={[styles.badgeText, { color: medal ? '#2B2B2B' : '#024024' }]}>{pos}</Text>
+                          </View>
+                          <Image source={{uri: item.value.picture=='' ? allLogo.icUsertemp :  item.value.picture}} style={styles.fotoAnggota} />
                       </View>
 
-                      <View style={[styles.viewText,{width:'75%'}]}>
-                          <Text style={styles.title}>{item.value.name}</Text>
+                      <View style={[styles.viewText,{flex:1}]}>
+                          <Text style={styles.title} numberOfLines={1}>{item.value.name}</Text>
                           <Text style={styles.deskrip}>{totalskor} : {item.value.skor}</Text>
                       </View>
               </View>
@@ -270,7 +292,7 @@ const Ranking = (props) => {
   return (
     <View style={styles.container}>
       <Header
-        title={'Ranking'}
+        title={t('common:rankUmum')}
         onPress={() => props.navigation.goBack()}
       />
       <Loader loading={state.loading} />
@@ -560,6 +582,7 @@ const styles = StyleSheet.create({
       borderRadius: toDp(15),
       justifyContent: 'space-between',
       flexDirection: 'row',
+      alignItems: 'center',
       shadowColor: "#A3A3A3",
       shadowOffset: {
         width: 0,
@@ -567,6 +590,22 @@ const styles = StyleSheet.create({
       },
       elevation: 17,
 
+  },
+  leftWrap: {
+      flexDirection: 'row',
+      alignItems: 'center',
+  },
+  badge: {
+      width: toDp(28),
+      height: toDp(28),
+      borderRadius: toDp(14),
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: toDp(8),
+  },
+  badgeText: {
+      fontWeight: 'bold',
+      fontSize: toDp(12),
   },
   fotoAnggota: {
       height: 45,
@@ -576,10 +615,6 @@ const styles = StyleSheet.create({
   },
   viewText: {
       justifyContent: 'center',
-      right: toDp(20),
-      left:toDp(-8),
-      // marginTop: toDp(6),
-      // marginLeft: toDp(10),
   },
   title: {
       fontWeight: 'bold',
