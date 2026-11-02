@@ -32,6 +32,8 @@ import GrupDetail from '../Containers/Group/GrupDetail'
 import GrupSaya from '../Containers/Group/GrupSaya'
 import Searchgrup from '../Containers/Group/Search'
 import TambahMember from '../Containers/Group/TambahMember'
+import EditGrup from '../Containers/Group/EditGrup'
+import KelolaAnggota from '../Containers/Group/KelolaAnggota'
 import SettingLanguage from '../Containers/Language'
 import Maintenance from '../Containers/underMaintenance'
 import Verification from '../Containers/Verification'
@@ -69,6 +71,8 @@ const AppNavigator = createStackNavigator(
     GrupSaya: { screen: GrupSaya},
     Searchgrup: { screen: Searchgrup},
     TambahMember:{screen:TambahMember},
+    EditGrup:{screen:EditGrup},
+    KelolaAnggota:{screen:KelolaAnggota},
     SettingLanguage:{screen:SettingLanguage},
     Maintenance:{screen:Maintenance},
     Verification:{screen:Verification},

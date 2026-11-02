@@ -32,22 +32,23 @@ const GrupDetail = (props,{navigation}) => {
     let err_404   = t('common:err_404');
     let err_500   = t('common:err_500');
     let batal = t('common:batal');
-    let txt_konfimadmout = t('common:txt_konfimadmout');
-    let oke   = t('common:oke');
     let gdetail   = t('common:gdetail');
     let peringkat    =  t('common:peringkat');
     let anggota   =  t('common:anggota');
     let err_500V2    =  t('common:err_500V2');
     let mg_judul=  t('common:mg_judul');
     let mg_menusatu =  t('common:mg_menusatu');
+    let mg_gantiNama = t('common:mg_gantiNama');
+    let mg_gantiPassword = t('common:mg_gantiPassword');
+    let mg_kelolaAnggota = t('common:mg_kelolaAnggota');
     let informasi =  t('common:informasi');
     let kembali   =  t('common:kembali');
     let err_404V3    =  t('common:err_404V3');
     let konfirmasi   =  t('common:konfirmasi');
-    let txt_konfimgout=  t('common:txt_konfimgout');
     let yakin       =  t('common:yakin');
-    let err_403Grup =  t('common:err_403Grup');
-    let g_mbrkeluar =  t('common:g_mbrkeluar');
+    let g_konfirmasiKeluar = t('common:g_konfirmasiKeluar');
+    let g_konfirmasiKeluarAdmin = t('common:g_konfirmasiKeluarAdmin');
+    let g_konfirmasiHapusGrup = t('common:g_konfirmasiHapusGrup');
 
 
     //swipe refresh
@@ -63,6 +64,7 @@ const GrupDetail = (props,{navigation}) => {
         arrayAnggota: [],
         total:0,
         currentRank:'',
+        owner:'',
         visible:false
     })
     const [isModalVisible, setModalVisible] = useState(false);
@@ -78,22 +80,13 @@ const GrupDetail = (props,{navigation}) => {
       });
       getMember()
 
+      const focusListener = props.navigation.addListener('didFocus', () => {
+        getMember()
+      });
+
+      return () => focusListener.remove();
     },[])
 
-
-    const showAlert = (data) => {
-      Alert.alert(
-        ""+informasi,
-        ""+data,
-        [
-          {
-            text: oke,
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
-          }
-        ]
-      )
-    }
 
     const showAlertone = (data) => {
       Alert.alert(
@@ -116,7 +109,8 @@ const GrupDetail = (props,{navigation}) => {
 
           if(result.data.status==200){
            console.log('New  => '+ JSON.stringify(result.data))
-            let data = result.data.datas.map(doc => {
+            const members = Array.isArray(result.data.datas) ? result.data.datas : [];
+            let data = members.map(doc => {
                 return {
                   owner: result.data.owner,
                   total: result.data.total_member,
@@ -128,7 +122,10 @@ const GrupDetail = (props,{navigation}) => {
 
             setState(state => ({...state, loading: false,
                                           arrayAnggota: data,
-                                          total: result.data.total_member
+                                          total: result.data.total_member,
+                                          owner: result.data.owner,
+                                          judulGrup: result.data.title || props.navigation.state.params.judulgrup,
+                                          descGrup: result.data.description || props.navigation.state.params.deskripsi
             }))
             getCurrentRank();
             setState(state => ({...state, loading: false }))
@@ -144,51 +141,32 @@ const GrupDetail = (props,{navigation}) => {
       })
     }
 
-    const outMember = (uid) =>{
-      console.log('----->---------> '+uid);
-      //setState(state => ({...state, loading: true }))
-      axios.delete(svr.url+'grup/delete/'+uid+'/'+props.navigation.state.params.idgrup+'/'+svr.api)
-      .then(result =>{
-          //console.log('----->---------> '+JSON.stringify(result));
-          if(result.data.status==200){
-            showAlert(g_mbrkeluar);
-            //setState(state => ({...state, loading: false }))
-            refresh();
-
-          }else if(result.data.status==500){
-            showAlertone(err_500);
-            //setState(state => ({...state, loading: false }))
-          }//setState(state => ({...state, loading: false }))
-          //setState(state => ({...state, loading: false }))
-      }).catch(err =>{
-          showAlertone(err_500V2)
-          //setState(state => ({...state, loading: false }))
-      })
-    }
-
-    //If admin out from grup
-    const delFromGroup = (uid) =>{
+    const leaveGroup = (uid) =>{
       setState(state => ({...state, loading: true }))
-      axios.delete(svr.url+'grup/adminout/'+uid+'/'+props.navigation.state.params.idgrup+'/'+svr.api)
+      axios.post(svr.url+'grup/leave/'+props.navigation.state.params.idgrup+'/'+svr.api, {
+        uid: uid
+      })
       .then(result =>{
-          console.log('----->---------> '+JSON.stringify(result.data));
+          setState(state => ({...state, loading: false }))
           if(result.data.status==200){
-            //showAlert("Berhasil keluar");
-            setState(state => ({...state, loading: false }))
-            //props.navigation.goBack()
             NavigatorService.navigate('GrupSaya', {uid:state.id})
-          }else if(result.data.status==403){
-            showAlertone(err_403Grup);
-            setState(state => ({...state, loading: false }))
-          }else if(result.data.status==500){
-            showAlertone(err_500);
-            setState(state => ({...state, loading: false }))
+          }else if(result.data.status==409){
+            chooseNewAdmin()
+          }else{
+            showAlertone(err_data)
           }
-
-          //setState(state => ({...state, loading: false }))
       }).catch(err =>{
           showAlertone(err_500V2)
           setState(state => ({...state, loading: false }))
+      })
+    }
+
+    const chooseNewAdmin = () =>{
+      NavigatorService.navigate('KelolaAnggota', {
+        mode: 'transfer',
+        idgrup: props.navigation.state.params.idgrup,
+        owner: state.owner,
+        uid: state.id
       })
     }
 
@@ -220,10 +198,14 @@ const GrupDetail = (props,{navigation}) => {
       })
     }
 
-    const remove = (uid) => {
+    const confirmLeave = (uid, owner) => {
+        const isOwner = uid === owner;
+        const message = isOwner
+          ? (Number(state.total) > 1 ? g_konfirmasiKeluarAdmin : g_konfirmasiHapusGrup)
+          : g_konfirmasiKeluar;
         Alert.alert(
             ""+konfirmasi,
-            ""+txt_konfimgout,
+            ""+message,
             [
                 {
                     text: batal,
@@ -232,38 +214,16 @@ const GrupDetail = (props,{navigation}) => {
                 },
                 {
                     text: yakin,
-                    onPress: () => {outMember(uid)},
-
+                    onPress: () => {
+                      if(isOwner && Number(state.total) > 1){
+                        chooseNewAdmin()
+                      }else{
+                        leaveGroup(uid)
+                      }
+                    },
                 }
             ]
         )
-    }
-
-    const remove_group = (uid) => {
-        Alert.alert(
-            ""+konfirmasi,
-            ""+txt_konfimadmout,
-            [
-                {
-                    text: batal,
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel"
-                },
-                {
-                    text: yakin,
-                    onPress: () => {delFromGroup(uid)},
-
-                }
-            ]
-        )
-    }
-
-    const chekAllert = (uid, owner) =>{
-      if(uid===owner){
-        remove_group(uid)
-      }else{
-        remove(uid)
-      }
     }
 
     const listAnggota = (uid, name, create, picture, owner) => {
@@ -271,9 +231,9 @@ const GrupDetail = (props,{navigation}) => {
             <View style={{alignItems: 'center' }}>
                 <View style={styles.viewListAnggota}>
                         <View style={{justifyContent: 'center', alignItems: 'center', width:'20%',}}>
-                            <Image source={{uri: picture=='' ? allLogo.icUsertmp : picture}} style={styles.fotoAnggota} />
+                            <Image source={picture ? {uri: picture} : allLogo.icUsertemp} style={styles.fotoAnggota} resizeMode="cover" />
                         </View>
-                        <View style={[styles.viewText,{width: state.id===owner ? '55%' : '76%'}]}>
+                        <View style={[styles.viewText,{width: uid===state.id ? '55%' : '76%'}]}>
                             <View style={styles.memberNameRow}>
                                 <Text style={styles.memberName} numberOfLines={1}>{name}</Text>
                                 {uid === owner ?
@@ -284,9 +244,9 @@ const GrupDetail = (props,{navigation}) => {
                             </View>
                             <Text style={styles.deskrip}>{create}</Text>
                         </View>
-                {state.id === owner ?
+                {uid === state.id ?
 
-                    <Pressable style={styles.btnRemove} onPress={() => chekAllert(uid,owner)}>
+                    <Pressable style={styles.btnRemove} onPress={() => confirmLeave(uid,owner)}>
                         <Image source={allLogo.signOut} style={styles.icRemove} />
                     </Pressable>
                   : null
@@ -315,6 +275,26 @@ const GrupDetail = (props,{navigation}) => {
       NavigatorService.navigate('TambahMember',{idgrup: props.navigation.state.params.idgrup});
     }
 
+    const editGroup=(mode)=>{
+      toggleMenu();
+      NavigatorService.navigate('EditGrup', {
+        mode: mode,
+        idgrup: props.navigation.state.params.idgrup,
+        owner: state.owner,
+        currentName: state.judulGrup
+      });
+    }
+
+    const manageMembers=()=>{
+      toggleMenu();
+      NavigatorService.navigate('KelolaAnggota', {
+        mode: 'remove',
+        idgrup: props.navigation.state.params.idgrup,
+        owner: state.owner,
+        uid: state.id
+      });
+    }
+
     const CustomNav = (title) => {
       return(
       <View style={styles.header}>
@@ -329,12 +309,14 @@ const GrupDetail = (props,{navigation}) => {
             </TouchableOpacity>
             <Text style={[styles.title, {fontSize: title.length >= 28 ? toDp(14) : toDp(20) }]}>{title}</Text>
           </View>
+          {state.id === state.owner ?
           <TouchableWithoutFeedback
               style={[styles.touchHeader, {marginRight: toDp(8)}]}
               onPress={()=>toggleMenu()}>
               <Icon name="menu" size={30} color="#FFF" style={[styles.icBack,{top:toDp(-4), right:toDp(10)}]}/>
 
           </TouchableWithoutFeedback >
+          : null}
         </LinearGradient>
       </View>
     )
@@ -343,11 +325,23 @@ const GrupDetail = (props,{navigation}) => {
     const menus = ()=>{
        return(
         <View
-         style={{backgroundColor:'white', width:'45%', position:'absolute',zIndex:999, flexDirection:'column', right:'5%',top:'6%', borderRadius:toDp(5)}}>
-              <MenuItem disabled>{mg_judul}p</MenuItem>
+          style={{backgroundColor:'white', width:'55%', position:'absolute',zIndex:999, flexDirection:'column', right:'5%',top:'6%', borderRadius:toDp(5)}}>
+              <MenuItem disabled>{mg_judul}</MenuItem>
               <MenuDivider />
               <MenuItem onPress={()=> carimember()}>
                 {mg_menusatu}
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem onPress={()=> editGroup('name')}>
+                {mg_gantiNama}
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem onPress={()=> editGroup('password')}>
+                {mg_gantiPassword}
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem onPress={()=> manageMembers()}>
+                {mg_kelolaAnggota}
               </MenuItem>
         </View>
        )
@@ -357,7 +351,7 @@ const GrupDetail = (props,{navigation}) => {
         <View style={styles.container}>
             <Loader loading={state.loading} />
             {CustomNav(gdetail)}
-            {isModalVisible==1 &&
+            {isModalVisible==1 && state.id === state.owner &&
               menus()
             }
 
@@ -365,8 +359,8 @@ const GrupDetail = (props,{navigation}) => {
                 <View style={{justifyContent:'center'}}>
                   <Image source={allLogo.icBaqi} style={styles.logo} />
                 </View>
-                <Text style={styles.jdlGrup}>{props.navigation.state.params.judulgrup}</Text>
-                <Text style={styles.descGrup}>{props.navigation.state.params.deskripsi}</Text>
+                <Text style={styles.jdlGrup}>{state.judulGrup || props.navigation.state.params.judulgrup}</Text>
+                <Text style={styles.descGrup}>{state.descGrup || props.navigation.state.params.deskripsi}</Text>
 
             </View>
 
@@ -398,7 +392,7 @@ const GrupDetail = (props,{navigation}) => {
                                 listAnggota(item.member.gm_uid, item.member.name, item.member.created, item.member.picture, item.owner)
                             )
                         }}
-                        keyExtractor={item => item.id}
+                        keyExtractor={item => item.member.gm_uid}
                         ListFooterComponent={() => <View style={{ height: toDp(50), marginBottom:toDp(190) }} />}
                     />
                 </View>
