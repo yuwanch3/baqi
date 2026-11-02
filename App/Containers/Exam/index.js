@@ -1816,22 +1816,6 @@ const Exam = (props) => {
                    </View>
                </Modal>
 
-               {/* Background Image */}
-               <Image
-                source={require('../../Assets/img/ic_user.png')}
-                style={{
-                    width: SIZES.width,
-                    height: 130,
-                    zIndex: -1,
-                    position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    opacity: 0.5
-                }}
-                resizeMode={'contain'}
-                />
-
            </View>
           </ScrollView>
           :
