@@ -1,5 +1,12 @@
 # Changelog BAQI
 
+## v0.6.6 — Perbaikan Anggota Grup
+
+- Jumlah anggota grup kini hanya menghitung akun pengguna yang masih aktif.
+- Label **Admin** ditampilkan sebagai badge di samping nama pembuat grup dan terlihat oleh semua anggota.
+- Area target soal drag pada Ujian dan Final Exam diperjelas dengan garis kuning dan latar kuning transparan.
+- Tidak ada perubahan pada fitur selain tampilan dan perhitungan anggota grup.
+
 ## v0.6.5 — Ranking Gabungan
 
 - **Home** kini hanya memiliki satu menu **Ranking**.

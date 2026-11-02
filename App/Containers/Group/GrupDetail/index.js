@@ -273,26 +273,22 @@ const GrupDetail = (props,{navigation}) => {
                         <View style={{justifyContent: 'center', alignItems: 'center', width:'20%',}}>
                             <Image source={{uri: picture=='' ? allLogo.icUsertmp : picture}} style={styles.fotoAnggota} />
                         </View>
-                        {state.id === owner ?
-                        <View style={[styles.viewText,{width: state.id===owner ? '55%' : '73%',}]}>
-                            <Text style={styles.titles}>{name}</Text>
+                        <View style={[styles.viewText,{width: state.id===owner ? '55%' : '76%'}]}>
+                            <View style={styles.memberNameRow}>
+                                <Text style={styles.memberName} numberOfLines={1}>{name}</Text>
+                                {uid === owner ?
+                                    <View style={styles.adminBadge}>
+                                        <Text style={styles.adminBadgeText}>Admin</Text>
+                                    </View>
+                                : null}
+                            </View>
                             <Text style={styles.deskrip}>{create}</Text>
                         </View>
-                        :
-                        <View style={[styles.viewText,{width: uid===owner ? '57%' : '76%'}]}>
-                            <Text style={styles.titles}>{name}</Text>
-                            <Text style={styles.deskrip}>{create}</Text>
-                        </View>
-                        }
                 {state.id === owner ?
 
                     <Pressable style={styles.btnRemove} onPress={() => chekAllert(uid,owner)}>
                         <Image source={allLogo.signOut} style={styles.icRemove} />
                     </Pressable>
-                  : uid === owner ?
-                      <View style={styles.txtowner}>
-                          <Text style={{fontSize:toDp(12), color:'#ccc'}}>Admin</Text>
-                      </View>
                   : null
 
                 }
@@ -493,10 +489,27 @@ const styles = StyleSheet.create({
         elevation: 17,
 
     },
-    titles: {
+    memberNameRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    memberName: {
+        flexShrink: 1,
         fontWeight: 'bold',
         fontSize: toDp(15),
         color: '#024024'
+    },
+    adminBadge: {
+        marginLeft: toDp(6),
+        paddingHorizontal: toDp(6),
+        paddingVertical: toDp(2),
+        borderRadius: toDp(6),
+        backgroundColor: '#E8F5EE',
+    },
+    adminBadgeText: {
+        color: '#378561',
+        fontSize: toDp(10),
+        fontWeight: 'bold',
     },
     deskrip: {
         fontSize: toDp(12),
@@ -519,12 +532,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width:'15%'
-    },
-    txtowner: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        width:'15%',
-
     },
     icRemove: {
         width: toDp(22),

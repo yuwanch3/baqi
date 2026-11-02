@@ -124,6 +124,12 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 
 ## 📜 Changelog
 
+### v0.6.6 — Perbaikan Anggota Grup
+- Jumlah anggota grup hanya menghitung akun pengguna yang masih aktif.
+- Badge **Admin** tampil di samping nama pembuat grup dan terlihat oleh semua anggota.
+- Area target soal drag pada Ujian dan Final Exam dibuat lebih jelas dengan penanda kuning.
+- Fitur lain tidak berubah.
+
 ### v0.6.5 — Ranking Gabungan
 - Home hanya memiliki satu menu **Ranking**.
 - Ranking keseluruhan dan per materi digabung ke satu halaman dengan tab **Semua / Qur'an / Petrofisika / CEOR**.
