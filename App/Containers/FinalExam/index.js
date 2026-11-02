@@ -1718,6 +1718,7 @@ const FinalExam = (props) => {
     }
 
     const [progress, setProgress] = useState(new Animated.Value(0));
+    const [viewH, setViewH] = useState(0); // tinggi area scroll, utk menempelkan tombol ke dasar layar
 
     const progressAnim = progress.interpolate({
         inputRange: [0, allQuestions.length],
@@ -1759,8 +1760,8 @@ const FinalExam = (props) => {
         onPress={() => props.navigation.goBack()}/>
         <Loader loading={state.loading} />
         {state.arraSoal.length > 0 ?
-          <ScrollView style={{backgroundColor:'#fff'}}>
-            <View style={styles.container}>
+          <ScrollView style={{backgroundColor:'#fff'}} contentContainerStyle={{flexGrow:1}} onLayout={(e)=> setViewH(e.nativeEvent.layout.height)}>
+            <View style={[styles.container, {minHeight: viewH}]}>
 
                {/* ProgressBar */}
                { renderProgressBar() }
@@ -1869,6 +1870,9 @@ const FinalExam = (props) => {
                  :
                  <Text>Sorry This Qustion not have type</Text>
                }
+
+               {/* Spacer: dorong tombol ke dasar layar jika konten pendek */}
+               <View style={{flexGrow:1}} />
 
                {/* Next Button */}
 
@@ -2014,8 +2018,8 @@ const FinalExam = (props) => {
 
 const styles = StyleSheet.create({
   container:{
-    flex: 1,
-    paddingVertical: toDp(40),
+    paddingTop: toDp(40),
+    paddingBottom: toDp(16),
     paddingHorizontal: toDp(16),
     backgroundColor: '#fff',
     position:'relative',
@@ -2114,17 +2118,17 @@ const styles = StyleSheet.create({
    backgroundColor: 'rgba(255,0,0,0.5)',
  },
  overlayrdn: {
-  flex: 1,
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  zIndex: 2,
-  borderRadius: toDp(30),
-  borderWidth: toDp(5),
-  borderColor: '#FFC107',
-  backgroundColor: 'rgba(255,193,7,0.18)',
+   flex:1,
+   position: 'absolute',
+   top: 0,
+   left: 0,
+   right: 0,
+   bottom: 0,
+   zIndex:2,
+   borderRadius: toDp(30),
+   borderWidth:toDp(3),
+   borderColor: '#FFC107',
+   backgroundColor: 'rgba(255,193,7,0.18)'
  },
   dragGrid: {
       width: '100%',
