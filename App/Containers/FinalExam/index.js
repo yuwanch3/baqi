@@ -2121,8 +2121,9 @@ const styles = StyleSheet.create({
    width: widthMt,
    height: '100%',
    borderRadius: toDp(60),
-   borderWidth:toDp(2),
-   borderColor: '#01848F',
+   borderWidth:toDp(5),
+   borderColor: '#FFC107',
+   backgroundColor: 'rgba(255,193,7,0.18)'
  },
   dragGrid: {
       width: '100%',
