@@ -119,7 +119,7 @@ const KelolaAnggota = (props) => {
           resizeMode="cover"
         />
         <View style={styles.memberInfo}>
-          <Text style={[styles.memberName, isSelected && styles.selectedName]} numberOfLines={1}>
+          <Text style={[styles.memberName, !isTransfer && isSelected && styles.selectedName]} numberOfLines={1}>
             {item.name}
           </Text>
           <Text style={styles.memberSince}>{item.created}</Text>
@@ -129,7 +129,7 @@ const KelolaAnggota = (props) => {
             ? (isSelected ? 'radio-button-checked' : 'radio-button-unchecked')
             : (isSelected ? 'check-circle' : 'radio-button-unchecked')}
           size={toDp(28)}
-          color={isSelected ? '#C62828' : '#A3A3A3'}
+          color={isSelected ? (isTransfer ? '#2D6A4F' : '#C62828') : '#A3A3A3'}
         />
       </TouchableOpacity>
     );
@@ -160,7 +160,12 @@ const KelolaAnggota = (props) => {
         />
         <TouchableOpacity
           disabled={selected.length === 0}
-          style={[styles.actionButton, selected.length === 0 && styles.actionDisabled]}
+          style={[
+            styles.actionButton,
+            isTransfer && styles.transferButton,
+            selected.length === 0 && styles.actionDisabled,
+            isTransfer && selected.length === 0 && styles.transferDisabled,
+          ]}
           onPress={executeAction}
         >
           <Text style={styles.actionText}>
@@ -239,6 +244,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   actionDisabled: {backgroundColor: '#D7A1A1'},
+  transferButton: {backgroundColor: '#2D6A4F'},
+  transferDisabled: {backgroundColor: '#9FCCBA'},
   actionText: {color: 'white', fontWeight: 'bold'},
 });
 
