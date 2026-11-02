@@ -1,5 +1,19 @@
 # Changelog BAQI
 
+## v0.7.0 — Pengelolaan Grup
+
+- Anggota biasa kini memiliki tombol keluar pada baris akunnya sendiri.
+- Admin yang ingin keluar dari grup beranggota wajib memilih satu anggota aktif sebagai admin pengganti; jika admin merupakan satu-satunya anggota, grup akan dihapus setelah konfirmasi.
+- Menu grup khusus admin kini menyediakan **Tambah Anggota**, **Ganti Nama Grup**, **Ganti Password Grup**, dan **Hapus Anggota**.
+- Halaman **Hapus Anggota** mendukung pemilihan beberapa anggota dengan penanda merah dan satu konfirmasi sebelum penghapusan.
+- Tampilan pemilihan admin pengganti dibedakan dari penghapusan anggota: nama tidak dicoret dan indikator pilihan memakai warna hijau.
+- Menu hamburger diperbaiki agar seluruh opsi, termasuk **Hapus Anggota**, tidak tertutup elemen halaman grup.
+- Ranking grup hanya menghitung pengguna aktif yang masih menjadi anggota grup. Riwayat skor tidak dihapus, tetapi mantan anggota tidak lagi memengaruhi posisi anggota aktif.
+- Poin ranking grup berasal dari skor ujian yang diperoleh ketika pengguna sedang menjadi anggota grup.
+- Label menu Beranda diperbarui menjadi **Memahami Al-Quran** dan **Memahami Ilmu Perminyakan**, termasuk padanan English.
+- Penanda target drag pada Ujian dan Final Exam disesuaikan.
+- Backend grup menambahkan validasi admin untuk perubahan nama/password, penambahan dan penghapusan anggota, serta transfer admin. Tidak ada perubahan struktur database.
+
 ## v0.6.6 — Perbaikan Anggota Grup
 
 - Jumlah anggota grup kini hanya menghitung akun pengguna yang masih aktif.
