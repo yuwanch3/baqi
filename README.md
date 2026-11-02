@@ -1,6 +1,6 @@
 # 📖 BAQI — Memahami Ilmu Secara Interaktif
 
-**BAQI** adalah aplikasi pembelajaran mobile berbasis **React Native** yang menyajikan kurikulum interaktif untuk belajar **Ilmu** (Memahami Qur'an) serta **Petrofisika & Chemical Enhanced Oil Recovery (CEOR)**. Setiap materi dilengkapi video (tonton), dokumen (baca & unduh), dan ujian berjenjang — dari kuis per materi, ujian per pelajaran, hingga ujian akhir bab — lengkap dengan peringkat dan grup belajar.
+**BAQI** adalah aplikasi pembelajaran mobile berbasis **React Native** yang menyajikan kurikulum interaktif **Memahami Al-Quran** serta **Ilmu Perminyakan** (Petrofisika & Chemical Enhanced Oil Recovery/CEOR). Setiap materi dilengkapi video (tonton), dokumen (baca & unduh), dan ujian berjenjang — dari kuis per materi, ujian per pelajaran, hingga ujian akhir bab — lengkap dengan peringkat dan grup belajar.
 
 > Rilis Android terbaru (APK): <https://github.com/yuwanch3/baqi/releases>
 
@@ -9,17 +9,17 @@
 ## ✨ Fitur Unggulan
 
 - **📚 Dua Kurikulum dalam Satu Aplikasi**
-  - **Memahami Ilmu** — belajar Memahami Qur'an dengan materi, latihan, dan ujian per pelajaran.
-  - **Petrofisika & Chemical EOR** — kurikulum teknik perminyakan lengkap: 12 bab, 36 sub-bab, 72 materi, dan **960 soal** (kuis materi, ujian pelajaran, dan final test per bab).
+  - **Memahami Al-Quran** — belajar Al-Quran dengan materi, latihan, dan ujian per pelajaran.
+  - **Memahami Ilmu Perminyakan** — kurikulum Petrofisika & Chemical EOR lengkap: 12 bab, 36 sub-bab, 72 materi, dan **960 soal** (kuis materi, ujian pelajaran, dan final test per bab).
 - **🎬 Belajar Multi-Modal** — setiap materi memiliki menu **Tonton** (video), **Baca**, dan **Unduh** (PDF/dokumen).
 - **📝 Ujian Berjenjang**
-  - Menu **Ujian** terpusat: pilih materi **Memahami Ilmu / Petrofisika / Chemical EOR**, lalu pilih ujiannya.
+  - Menu **Ujian** terpusat: pilih materi **Memahami Al-Quran / Petrofisika / Chemical EOR**, lalu pilih ujiannya.
   - Kuis per materi (5 soal)
   - Ujian Pelajaran per sub-bab (10 soal)
   - Final Test per bab (20 soal)
   - Mendukung soal pilihan ganda (`option`) dan jawaban banyak (`multi`), dengan posisi kunci jawaban diacak merata agar tidak bisa ditebak.
 - **🏆 Ranking** — satu halaman ranking dengan tab **Semua**, **Qur'an**, **Petrofisika**, dan **CEOR**.
-- **👥 Grup Belajar** — buat grup, undang anggota, dan belajar bersama.
+- **👥 Grup Belajar** — buat dan ikuti grup, tambah atau keluarkan anggota, ubah nama/password grup, transfer admin saat admin keluar, serta lihat ranking anggota aktif.
 - **🌐 Multi-Bahasa** — antarmuka Bahasa Indonesia & English (React i18next).
 - **👤 Akun & Autentikasi** — login/register, Google & Facebook sign-in, dan profil pengguna.
 
@@ -123,6 +123,16 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 ---
 
 ## 📜 Changelog
+
+### v0.7.0 — Pengelolaan Grup
+- Anggota biasa dapat keluar dari grup melalui tombol pada baris akunnya sendiri.
+- Admin dapat menambah anggota, mengganti nama/password grup, memilih beberapa anggota untuk dihapus, dan memilih admin pengganti sebelum keluar.
+- Pemilihan admin pengganti memakai indikator hijau tanpa mencoret nama; pilihan hapus anggota tetap memakai penanda merah.
+- Menu hamburger diperbaiki agar seluruh opsi admin terlihat dan dapat dipilih.
+- Ranking grup hanya menghitung user aktif yang masih menjadi anggota; poin berasal dari skor ujian yang diperoleh saat berada di grup.
+- Label Beranda diperbarui menjadi **Memahami Al-Quran** dan **Memahami Ilmu Perminyakan** beserta terjemahan English.
+- Penanda target drag Ujian dan Final Exam disesuaikan.
+- Backend menambahkan validasi admin dan transfer kepemilikan tanpa migrasi database.
 
 ### v0.6.6 — Perbaikan Anggota Grup
 - Jumlah anggota grup hanya menghitung akun pengguna yang masih aktif.
