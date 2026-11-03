@@ -129,10 +129,12 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 - Admin dapat menambah anggota, mengganti nama/password grup, memilih beberapa anggota untuk dihapus, dan memilih admin pengganti sebelum keluar.
 - Pemilihan admin pengganti memakai indikator hijau tanpa mencoret nama; pilihan hapus anggota tetap memakai penanda merah.
 - Menu hamburger diperbaiki agar seluruh opsi admin terlihat dan dapat dipilih.
+- Panel menu admin menyesuaikan lebar isi dan tetap rapi di dalam sudut panel.
 - Ranking grup hanya menghitung user aktif yang masih menjadi anggota; poin berasal dari skor ujian yang diperoleh saat berada di grup.
 - Label Beranda diperbarui menjadi **Memahami Al-Quran** dan **Memahami Ilmu Perminyakan** beserta terjemahan English.
 - Tombol lanjut Ujian dan Final Exam tetap dekat dasar layar untuk konten pendek, sedangkan konten panjang tetap dapat di-scroll.
 - Target drag memakai border kuning 3dp dan latar kuning transparan; gambar dekorasi bawah halaman ujian dihapus.
+- Versi `package.json`, `package-lock.json`, dan APK Android kini sama-sama **0.7.0**.
 - Backend menambahkan validasi admin dan transfer kepemilikan tanpa migrasi database.
 
 ### v0.6.6 — Perbaikan Anggota Grup
