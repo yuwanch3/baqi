@@ -325,7 +325,7 @@ const GrupDetail = (props,{navigation}) => {
     const menus = ()=>{
        return(
         <View
-          style={{backgroundColor:'white', width:'55%', position:'absolute', zIndex:999, elevation:30, flexDirection:'column', right:'5%', top:toDp(50), borderRadius:toDp(5)}}>
+          style={{backgroundColor:'white', position:'absolute', zIndex:999, elevation:30, flexDirection:'column', right:'5%', top:toDp(50), borderRadius:toDp(5), overflow:'hidden'}}>
               <MenuItem disabled>{mg_judul}</MenuItem>
               <MenuDivider />
               <MenuItem onPress={()=> carimember()}>
