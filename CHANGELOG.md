@@ -11,7 +11,9 @@
 - Ranking grup hanya menghitung pengguna aktif yang masih menjadi anggota grup. Riwayat skor tidak dihapus, tetapi mantan anggota tidak lagi memengaruhi posisi anggota aktif.
 - Poin ranking grup berasal dari skor ujian yang diperoleh ketika pengguna sedang menjadi anggota grup.
 - Label menu Beranda diperbarui menjadi **Memahami Al-Quran** dan **Memahami Ilmu Perminyakan**, termasuk padanan English.
-- Penanda target drag pada Ujian dan Final Exam disesuaikan.
+- Tombol lanjut pada Ujian dan Final Exam kini tetap berada dekat dasar layar ketika konten pendek, tanpa menghilangkan scroll untuk konten panjang.
+- Penanda target drag pada Ujian dan Final Exam memakai border kuning 3dp dengan latar kuning transparan.
+- Gambar dekorasi di bagian bawah halaman Ujian dan Final Exam dihapus agar area soal lebih bersih.
 - Backend grup menambahkan validasi admin untuk perubahan nama/password, penambahan dan penghapusan anggota, serta transfer admin. Tidak ada perubahan struktur database.
 
 ## v0.6.6 — Perbaikan Anggota Grup

@@ -131,7 +131,8 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 - Menu hamburger diperbaiki agar seluruh opsi admin terlihat dan dapat dipilih.
 - Ranking grup hanya menghitung user aktif yang masih menjadi anggota; poin berasal dari skor ujian yang diperoleh saat berada di grup.
 - Label Beranda diperbarui menjadi **Memahami Al-Quran** dan **Memahami Ilmu Perminyakan** beserta terjemahan English.
-- Penanda target drag Ujian dan Final Exam disesuaikan.
+- Tombol lanjut Ujian dan Final Exam tetap dekat dasar layar untuk konten pendek, sedangkan konten panjang tetap dapat di-scroll.
+- Target drag memakai border kuning 3dp dan latar kuning transparan; gambar dekorasi bawah halaman ujian dihapus.
 - Backend menambahkan validasi admin dan transfer kepemilikan tanpa migrasi database.
 
 ### v0.6.6 — Perbaikan Anggota Grup
