@@ -5,6 +5,7 @@ import {
   View,
   Image,
   Pressable,
+  ScrollView,
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -21,6 +22,8 @@ const ExamMenu = (props) => {
   let deskPetro = t('common:deskMenuPetroPetro');
   let menuCeo = t('common:menuPetroCEOR');
   let deskCeo = t('common:deskMenuPetroCEOR');
+  let menuMNK = t('common:menuPetroMNK');
+  let deskMNK = t('common:deskMenuPetroMNK');
 
   const presableMenu = (label, deskripsi, icon, warna, onPress) => {
     return (
@@ -43,7 +46,11 @@ const ExamMenu = (props) => {
         title={judul}
         onPress={() => props.navigation.goBack()}
       />
-      <View style={styles.content}>
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
+      >
         {presableMenu(
           menuQuran,
           deskQuran,
@@ -65,7 +72,14 @@ const ExamMenu = (props) => {
           '#00AF90',
           () => NavigatorService.navigate('ExamPetro', { title: menuCeo, materi: 'ceor' })
         )}
-      </View>
+        {presableMenu(
+          menuMNK,
+          deskMNK,
+          allLogo.icMigasNonKonvensional,
+          '#9A6700',
+          () => NavigatorService.navigate('ExamPetro', { title: menuMNK, materi: 'mnk' })
+        )}
+      </ScrollView>
     </View>
   )
 };
@@ -77,8 +91,11 @@ const styles = StyleSheet.create({
   },
   content: {
     width: '100%',
+  },
+  contentContainer: {
     alignItems: 'center',
-    marginTop: toDp(30)
+    paddingTop: toDp(30),
+    paddingBottom: toDp(24),
   },
   viewCenterAbsolute: {
     height: '100%',

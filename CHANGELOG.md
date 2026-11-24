@@ -6,6 +6,8 @@
 - Kartu bab Ilmu Perminyakan memakai area teks fleksibel agar judul panjang tetap rapi.
 - Header otomatis memakai tata letak multiline untuk judul panjang dan tidak lagi melewati sisi kanan layar.
 - Tombol **Tonton** disembunyikan pada materi yang tidak memiliki URL video, termasuk materi Migas Non-Konvensional.
+- Lebar kartu pada Beranda dikembalikan ke ukuran ringkas dan tetap terpusat.
+- Menu Ujian dan Ranking menambahkan kategori Migas Non-Konvensional untuk paket soal MNK.
 
 ## v0.8.0 — Migas Non-Konvensional
 

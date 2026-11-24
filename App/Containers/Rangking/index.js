@@ -22,6 +22,7 @@ const RANKING_SUBJECTS = {
   quran: { labelKey: 'kategoriQuran', color: '#378561' },
   petro: { labelKey: 'kategoriPetro', color: '#1F618D' },
   ceor: { labelKey: 'kategoriCeor', color: '#EE6C4D' },
+  mnk: { labelKey: 'kategoriMNK', color: '#9A6700' },
 };
 
 const RANKING_TABS = [

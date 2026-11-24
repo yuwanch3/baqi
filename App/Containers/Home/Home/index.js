@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   menu:{
-    width: '90%',
+    width: toDp(296),
     height: toDp(88),
     borderRadius: toDp(15),
     padding: toDp(12),

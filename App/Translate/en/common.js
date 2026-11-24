@@ -61,6 +61,7 @@ export default {
   kategoriQuran: "Qur'an",
   kategoriPetro: "Petrophysics",
   kategoriCeor: "CEOR",
+  kategoriMNK: "UOG",
   rankBelumAda: "No ranking yet",
 
   sandiBaru : "New Password",

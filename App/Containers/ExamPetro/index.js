@@ -27,7 +27,7 @@ const ExamPetro = (props) => {
   let youareGuest = t('common:guestAlert');
   let ujianBAB = t('common:ujianBab');
   let final_test = t('common:final_test');
-  const materi = props.navigation.state.params.materi; // 'petrofisika' | 'ceor'
+  const materi = props.navigation.state.params.materi; // 'petrofisika' | 'ceor' | 'mnk'
   const judul = props.navigation.state.params.title || '';
 
   const [state, setState] = useState({
@@ -75,6 +75,7 @@ const ExamPetro = (props) => {
               if (!String(doc.id).startsWith('PFC')) return false;
               const nama = String(doc.name || '');
               if (materi === 'ceor') return nama.startsWith('CEOR');
+              if (materi === 'mnk') return nama.startsWith('Migas Non-Konvensional');
               return nama.startsWith('Petrofisika');
             })
             .map(doc => {

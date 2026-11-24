@@ -61,6 +61,7 @@ export default {
   kategoriQuran: "Qur'an",
   kategoriPetro: "Petrofisika",
   kategoriCeor: "CEOR",
+  kategoriMNK: "MNK",
   rankBelumAda: "Belum ada ranking",
 
   sandiBaru: "Sandi Baru",
