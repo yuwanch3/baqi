@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
   },
   presableMenu: {
     width: '90%',
-    marginLeft: toDp(16),
+    alignSelf: 'center',
     height: toDp(75),
     borderRadius: toDp(15),
     shadowColor: "#A3A3A3",

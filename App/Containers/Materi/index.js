@@ -204,9 +204,11 @@ const Materi = (props) => {
           </Text>
         }
           <View style={styles.row}>
-            <Pressable style={{padding: toDp(4)}} onPress={() => openLinks('watch', item.value.watch, item.value, state.uid, item.id,item.value.doc_en)}>
-              <Text style={styles.textMenu}>{tonton}</Text>
-            </Pressable>
+            {Boolean(item.value.watch) && (
+              <Pressable style={{padding: toDp(4)}} onPress={() => openLinks('watch', item.value.watch, item.value, state.uid, item.id,item.value.doc_en)}>
+                <Text style={styles.textMenu}>{tonton}</Text>
+              </Pressable>
+            )}
             <Pressable style={{padding: toDp(4)}} onPress={() => openLinks('read', item.value.doc, item.value,'',item.value.doc_en,'')}>
               <Text style={styles.textMenu}>{baca}</Text>
             </Pressable>
@@ -312,8 +314,10 @@ const styles = StyleSheet.create({
   },
   presableMenu: {
     width: '90%',
-    marginLeft: toDp(16),
-    height: toDp(70),
+    alignSelf: 'center',
+    minHeight: toDp(80),
+    paddingVertical: toDp(10),
+    paddingHorizontal: toDp(12),
     borderRadius: toDp(20),
     shadowColor: "#000",
     shadowOffset: {
@@ -332,17 +336,17 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: toDp(15),
-    height: toDp(30),
+    lineHeight: toDp(19),
     fontWeight: '500',
     color: 'white',
     width: '100%',
     textAlign: 'center',
-    marginTop: toDp(4)
+    marginBottom: toDp(5),
   },
   row: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: toDp(45),
+    justifyContent: 'space-evenly',
+    paddingHorizontal: toDp(28),
 
   },
   textMenu: {

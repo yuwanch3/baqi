@@ -10,7 +10,8 @@ let { width, height } = Dimensions.get('window')
 class Header extends Component {
 
   render() {
-    const multiline = this.props.multiline;
+    const title = String(this.props.title || '');
+    const multiline = this.props.multiline || title.length >= 28;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -22,18 +23,18 @@ class Header extends Component {
               : [styles.linearHeader, {justifyContent: 'space-between'}]}
           >
             { multiline ?
-              <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+              <View style={styles.headerContent}>
                 <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
                   <Image source={allLogo.icArrow} style={styles.icBack} />
                 </TouchableOpacity>
-                <Text style={styles.titleMulti}>{this.props.title}</Text>
+                <Text style={styles.titleMulti}>{title}</Text>
               </View>
             :
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={styles.headerContent}>
                 <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
                   <Image source={allLogo.icArrow} style={styles.icBack} />
                 </TouchableOpacity>
-                <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(20) }]}>{this.props.title}</Text>
+                <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">{title}</Text>
               </View>
             }
 
@@ -87,6 +88,7 @@ const styles = StyleSheet.create({
   },
   touchHeader: {
     padding: toDp(4),
+    flexShrink: 0,
   },
   icBack: {
     marginHorizontal: toDp(8),
@@ -97,10 +99,12 @@ const styles = StyleSheet.create({
 
   },
   title: {
+    flex: 1,
+    flexShrink: 1,
     color: 'white',
     fontSize: toDp(20),
     marginLeft: toDp(8),
-
+    marginRight: toDp(8),
   },
   titleMulti: {
     flex: 1,
@@ -109,6 +113,12 @@ const styles = StyleSheet.create({
     lineHeight: toDp(17),
     marginLeft: toDp(8),
     marginRight: toDp(8),
+  },
+  headerContent: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    minWidth: 0,
   },
 })
 

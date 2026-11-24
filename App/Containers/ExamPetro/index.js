@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   },
   presableMenu: {
     width: '90%',
-    marginLeft: toDp(16),
+    alignSelf: 'center',
     minHeight: toDp(66),
     paddingVertical: toDp(10),
     borderRadius: toDp(25),
@@ -189,8 +189,9 @@ const styles = StyleSheet.create({
     marginTop: toDp(16)
   },
   viewText: {
-    width: '70%',
+    flex: 1,
     marginLeft: toDp(18),
+    marginRight: toDp(18),
     justifyContent: 'center',
   },
   title: {

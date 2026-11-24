@@ -119,17 +119,19 @@ const styles = StyleSheet.create({
     fontSize: toDp(20),
     fontWeight: 'bold',
     color: '#FFF',
-    width: toDp(199)
+    width: '100%'
   },
   titledt:{
     fontSize: toDp(14),
     color: '#FFF',
   },
   mnrow:{
+    flex: 1,
+    marginLeft: toDp(14),
     justifyContent: 'center',
   },
   menu:{
-    width: toDp(296),
+    width: '90%',
     height: toDp(88),
     borderRadius: toDp(15),
     padding: toDp(12),

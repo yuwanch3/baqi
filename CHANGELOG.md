@@ -1,5 +1,12 @@
 # Changelog BAQI
 
+## v0.8.1 — Konsistensi Tata Letak
+
+- Jarak kartu menu terhadap sisi kiri dan kanan layar diseragamkan pada layar utama, materi, ujian, ranking, dan grup.
+- Kartu bab Ilmu Perminyakan memakai area teks fleksibel agar judul panjang tetap rapi.
+- Header otomatis memakai tata letak multiline untuk judul panjang dan tidak lagi melewati sisi kanan layar.
+- Tombol **Tonton** disembunyikan pada materi yang tidak memiliki URL video, termasuk materi Migas Non-Konvensional.
+
 ## v0.8.0 — Migas Non-Konvensional
 
 - Menu Ilmu Perminyakan menambahkan kategori **Migas Non-Konvensional** dengan ikon khusus.

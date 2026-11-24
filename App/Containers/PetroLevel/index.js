@@ -153,9 +153,10 @@ const styles = StyleSheet.create({
   },
   presableMenu: {
     width: '90%',
-    marginLeft: toDp(16),
-    minHeight: toDp(66),
-    paddingVertical: toDp(10),
+    alignSelf: 'center',
+    minHeight: toDp(76),
+    paddingVertical: toDp(12),
+    paddingRight: toDp(18),
     borderRadius: toDp(25),
     shadowColor: "#000",
     shadowOffset: {
@@ -170,17 +171,17 @@ const styles = StyleSheet.create({
     marginTop: toDp(16)
   },
   viewText: {
-    width: '60%',
+    flex: 1,
     marginLeft: toDp(18),
     justifyContent: 'center',
   },
   title: {
-    fontSize: toDp(20),
+    fontSize: toDp(16),
+    lineHeight: toDp(21),
     fontWeight: '500',
     color: 'white',
     width: '100%',
-    textAlign: 'center',
-    marginTop: toDp(4)
+    textAlign: 'left',
   },
 });
 

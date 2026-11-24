@@ -18,11 +18,15 @@ class HeaderTransparent extends Component {
             //colors={['white', 'white']}
             style={[styles.linearHeader, {justifyContent: 'space-between'}]}
           >
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={styles.headerContent}>
               <TouchableOpacity style={styles.touchHeader} onPress={this.props.onPress}>
                 <Image source={allLogo.icArrow} style={styles.icBack} />
               </TouchableOpacity>
-              <Text style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(20) }]}>{this.props.title}</Text>
+              <Text
+                style={[styles.title, {fontSize: this.props.title.length >= 28 ? toDp(14) : toDp(20)}]}
+                numberOfLines={2}
+                ellipsizeMode="tail"
+              >{this.props.title}</Text>
             </View>
 
             {
@@ -58,6 +62,7 @@ const styles = StyleSheet.create({
   },
   touchHeader: {
     padding: toDp(4),
+    flexShrink: 0,
   },
   icBack: {
     marginHorizontal: toDp(8),
@@ -67,10 +72,18 @@ const styles = StyleSheet.create({
     tintColor: 'white'
   },
   title: {
+    flex: 1,
+    flexShrink: 1,
     color: 'white',
     fontSize: toDp(20),
     marginLeft: toDp(8),
-
+    marginRight: toDp(8),
+  },
+  headerContent: {
+    flex: 1,
+    minWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 })
 
