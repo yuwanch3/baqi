@@ -1,5 +1,13 @@
 # Changelog BAQI
 
+## v0.8.0 — Migas Non-Konvensional
+
+- Menu Ilmu Perminyakan menambahkan kategori **Migas Non-Konvensional** dengan ikon khusus.
+- Materi terdiri atas 8 bab, 24 sublevel, dan 48 menu baca dari dua buku sumber.
+- Judul materi tersedia dalam bahasa Indonesia dan English; PDF sumber tetap menggunakan bahasa Indonesia.
+- Tombol ujian materi dan ujian pelajaran disembunyikan selama paket soal belum tersedia.
+- Petrofisika dan Chemical EOR tetap memakai alur serta data sebelumnya.
+
 ## v0.7.0 — Pengelolaan Grup
 
 - Anggota biasa kini memiliki tombol keluar pada baris akunnya sendiri.

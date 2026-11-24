@@ -23,7 +23,7 @@ const PetroLevel = (props) => {
   let err_500 = t('common:err_500');
   let batal = t('common:batal');
   let informasi = t('common:informasi');
-  const materi = props.navigation.state.params.materi; // 'petrofisika' | 'ceor'
+  const materi = props.navigation.state.params.materi; // 'petrofisika' | 'ceor' | 'mnk'
   const judul = props.navigation.state.params.title || '';
 
   const [state, setState] = useState({
@@ -60,6 +60,7 @@ const PetroLevel = (props) => {
               if (!String(doc.id).startsWith('PFC')) return false;
               const nama = String(doc.name || '');
               if (materi === 'ceor') return nama.startsWith('CEOR');
+              if (materi === 'mnk') return nama.startsWith('Migas Non-Konvensional');
               return nama.startsWith('Petrofisika');
             })
             .map(doc => {

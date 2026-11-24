@@ -35,7 +35,8 @@ const allLogo = {
   icApple: require('./img/apple.png'),
   icPetro: require('./img/icon-petrofisika-chemical-eor.png'),
   icPetroDetail: require('./img/icon-petrofisika.png'),
-  icCEOR: require('./img/icon-chemical-eor.png')
+  icCEOR: require('./img/icon-chemical-eor.png'),
+  icMigasNonKonvensional: require('./img/icon-migas-non-konvensional.png')
 }
 
 export { allLogo }

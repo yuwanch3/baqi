@@ -23,8 +23,10 @@ import { useTranslation } from 'react-i18next';
 
 const Materi = (props) => {
   const { t } = useTranslation();
-  // Level Petrofisika & CEOR (prefix PFC) tidak punya ujian tata bahasa
+  // Level ilmu perminyakan (prefix PFC) tidak punya ujian tata bahasa
   const isPetro = String(props.navigation.state.params.lid || '').startsWith('PFC');
+  // Kurikulum baru dapat dipublikasikan untuk dibaca sebelum soal siap.
+  const examEnabled = props.navigation.state.params.value.state_exam === 'yes';
   let lang =  t('common:lang');
   let err_data = t('common:err_data');
   let err_trima = t('common:err_trima');
@@ -211,9 +213,11 @@ const Materi = (props) => {
             <Pressable style={{padding: toDp(4)}} onPress={() => openLinks('unduh', item.value.doc, item.value,'',item.value.doc_en,'')}>
               <Text style={styles.textMenu}>{unduh}</Text>
             </Pressable>
-            <Pressable style={{padding: toDp(4)}} onPress={() => openLinks('test', item.value.test, item.id, state.uid,'Materi', item.value.information)}>
-              <Text style={styles.textMenu}>{ujian}</Text>
-            </Pressable>
+            {item.value.state_exam === 'yes' && (
+              <Pressable style={{padding: toDp(4)}} onPress={() => openLinks('test', item.value.test, item.id, state.uid,'Materi', item.value.information)}>
+                <Text style={styles.textMenu}>{ujian}</Text>
+              </Pressable>
+            )}
           </View>
         </View>
       </Pressable>
@@ -253,7 +257,7 @@ const Materi = (props) => {
           />
         </View>
       </View>
-      <View style={styles.footer}>
+      {examEnabled && (<View style={styles.footer}>
         <Pressable style={styles.presableMenuFooter} onPress={() => openLinkPGexam(props.navigation.state.params.value.id, 'Ujian Pelajaran', props.navigation.state.params.level)}>
           {lang=='id' ?
             <Text style={styles.textFooter}>{ujian} {props.navigation.state.params.value.name.split(' ')[1]} {pelajaran}</Text>
@@ -273,7 +277,7 @@ const Materi = (props) => {
             </Pressable>
           </React.Fragment>
         )}
-      </View>
+      </View>)}
 
     </View>
   )

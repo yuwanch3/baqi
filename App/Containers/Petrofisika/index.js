@@ -19,6 +19,8 @@ const Petrofisika = (props) => {
   let deskMenuPetroPetro = t('common:deskMenuPetroPetro');
   let menuPetroCEOR = t('common:menuPetroCEOR');
   let deskMenuPetroCEOR = t('common:deskMenuPetroCEOR');
+  let menuPetroMNK = t('common:menuPetroMNK');
+  let deskMenuPetroMNK = t('common:deskMenuPetroMNK');
 
   const goTo = (materi, title) => {
     NavigatorService.navigate('PetroLevel', { title: title, materi: materi })
@@ -61,6 +63,14 @@ const Petrofisika = (props) => {
           '#00AF90',
           'ceor',
           menuPetroCEOR
+        )}
+        {presableMenu(
+          menuPetroMNK,
+          deskMenuPetroMNK,
+          allLogo.icMigasNonKonvensional,
+          '#9A6700',
+          'mnk',
+          menuPetroMNK
         )}
       </View>
     </View>
