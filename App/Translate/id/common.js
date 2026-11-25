@@ -159,6 +159,8 @@ export default {
   verifikasi: "Verifikasi",
   kirim:"Kirim",
   tonton: "Tonton",
+  videoUnavailable: "Video belum tersedia untuk materi ini.",
+  sesi: "Sesi",
   baca : "Baca",
   unduh: "Unduh",
   unduh_sekarang: "Unduh Sekarang",

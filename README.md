@@ -1,6 +1,6 @@
 # 📖 BAQI — Memahami Ilmu Secara Interaktif
 
-**BAQI** adalah aplikasi pembelajaran mobile berbasis **React Native** yang menyajikan kurikulum interaktif **Memahami Al-Quran** serta **Ilmu Perminyakan** (Petrofisika & Chemical Enhanced Oil Recovery/CEOR). Setiap materi dilengkapi video (tonton), dokumen (baca & unduh), dan ujian berjenjang — dari kuis per materi, ujian per pelajaran, hingga ujian akhir bab — lengkap dengan peringkat dan grup belajar.
+**BAQI** adalah aplikasi pembelajaran mobile berbasis **React Native** yang menyajikan kurikulum interaktif **Memahami Al-Quran** serta **Ilmu Perminyakan** (Petrofisika, Chemical Enhanced Oil Recovery/CEOR, dan Migas Non-Konvensional/MNK). Materi menyediakan dokumen, menu video dengan penanda ketersediaan, dan ujian berjenjang—dari kuis per materi, ujian per pelajaran, hingga ujian akhir bab—lengkap dengan peringkat dan grup belajar.
 
 > Rilis Android terbaru (APK): <https://github.com/yuwanch3/baqi/releases>
 
@@ -10,15 +10,16 @@
 
 - **📚 Dua Kurikulum dalam Satu Aplikasi**
   - **Memahami Al-Quran** — belajar Al-Quran dengan materi, latihan, dan ujian per pelajaran.
-  - **Memahami Ilmu Perminyakan** — kurikulum Petrofisika & Chemical EOR lengkap: 12 bab, 36 sub-bab, 72 materi, dan **960 soal** (kuis materi, ujian pelajaran, dan final test per bab).
-- **🎬 Belajar Multi-Modal** — setiap materi memiliki menu **Tonton** (video), **Baca**, dan **Unduh** (PDF/dokumen).
+  - **Memahami Ilmu Perminyakan** — Petrofisika & Chemical EOR: 12 bab, 36 sub-bab, 72 materi, dan **960 soal**.
+  - **Migas Non-Konvensional** — 8 bab, 24 sublevel, 48 materi dari dua buku sumber, dan **880 soal bilingual**.
+- **🎬 Belajar Multi-Modal** — setiap materi memiliki menu **Tonton**, **Baca**, dan **Unduh**; materi tanpa video menampilkan status bahwa video belum tersedia.
 - **📝 Ujian Berjenjang**
-  - Menu **Ujian** terpusat: pilih materi **Memahami Al-Quran / Petrofisika / Chemical EOR**, lalu pilih ujiannya.
+  - Menu **Ujian** terpusat: pilih **Memahami Al-Quran / Petrofisika / Chemical EOR / Migas Non-Konvensional**, lalu pilih ujiannya.
   - Kuis per materi (5 soal)
   - Ujian Pelajaran per sub-bab (10 soal)
-  - Final Test per bab (20 soal)
-  - Mendukung soal pilihan ganda (`option`) dan jawaban banyak (`multi`), dengan posisi kunci jawaban diacak merata agar tidak bisa ditebak.
-- **🏆 Ranking** — satu halaman ranking dengan tab **Semua**, **Qur'an**, **Petrofisika**, dan **CEOR**.
+  - Ujian akhir bab tiga sesi: Inisialisasi (10), Final Test (20), dan Final Advanced (20)
+  - Mendukung `option`, `multi`, `drag`, dan `yesorno`, dengan posisi kunci jawaban diacak merata agar tidak bisa ditebak.
+- **🏆 Ranking** — satu halaman ranking dengan tab **Semua**, **Qur'an**, **Petrofisika**, **CEOR**, dan **MNK**.
 - **👥 Grup Belajar** — buat dan ikuti grup, tambah atau keluarkan anggota, ubah nama/password grup, transfer admin saat admin keluar, serta lihat ranking anggota aktif.
 - **🌐 Multi-Bahasa** — antarmuka Bahasa Indonesia & English (React i18next).
 - **👤 Akun & Autentikasi** — login/register, Google & Facebook sign-in, dan profil pengguna.
@@ -53,13 +54,13 @@ baqi/
 │  ├─ Containers/              # Layar (screen) aplikasi
 │  │  ├─ Home/                 # Menu utama (Beranda) & progres
 │  │  ├─ UnderstandQuran/      # Kurikulum Memahami Qur'an
-│  │  ├─ Petrofisika/          # Pemilih materi Petrofisika & CEOR
-│  │  ├─ PetroLevel/           # Daftar bab per materi (7 bab Petro / 5 bab CEOR)
+│  │  ├─ Petrofisika/          # Pemilih materi Petrofisika, CEOR & MNK
+│  │  ├─ PetroLevel/           # Daftar bab ilmu perminyakan
 │  │  ├─ SubLevel/             # Sub-bab dari sebuah bab
 │  │  ├─ Materi/               # Detail materi (Tonton, Baca, Unduh, Ujian)
-│  │  ├─ ExamMenu/             # Halaman Ujian — pilih materi (Qur'an / Petrofisika / CEOR)
+│  │  ├─ ExamMenu/             # Halaman Ujian — pilih Qur'an / Petrofisika / CEOR / MNK
 │  │  ├─ HomeExam/             # Daftar Level 1–5 (ujian Qur'an)
-│  │  ├─ ExamPetro/            # Daftar bab ujian Petrofisika & CEOR
+│  │  ├─ ExamPetro/            # Daftar bab ujian ilmu perminyakan
 │  │  ├─ Exam/                 # Ujian kuis materi
 │  │  ├─ FinalExam/            # Ujian Pelajaran & Final Test bab
 │  │  ├─ Rangking/             # Peringkat belajar
@@ -123,6 +124,14 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 ---
 
 ## 📜 Changelog
+
+### v0.8.1 — Ujian MNK & Penyempurnaan Antarmuka
+- Menambahkan 880 soal bilingual MNK: materi, Ujian Pelajaran, Inisialisasi, Final Test, dan Final Advanced.
+- Posisi jawaban pilihan tunggal diacak merata pada A/B/C/D; opsi `multi` dan `drag` juga diacak tanpa mengubah kunci.
+- Menu Ujian dan Ranking mendukung MNK.
+- Judul bab, sublevel, materi, dan header ujian ilmu perminyakan tampil dalam English saat mode English aktif.
+- Tombol **Tonton** tetap terlihat pada materi tanpa video dan menampilkan keterangan bahwa video belum tersedia.
+- Memperbaiki lebar kartu Beranda serta konsistensi kartu dan header panjang.
 
 ### v0.7.0 — Pengelolaan Grup
 - Anggota biasa dapat keluar dari grup melalui tombol pada baris akunnya sendiri.

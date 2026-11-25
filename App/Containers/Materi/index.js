@@ -20,6 +20,7 @@ import Header from '@Header'
 //import { firebase } from '../../Configs/firebase'
 import NavigatorService from '@NavigatorService'
 import { useTranslation } from 'react-i18next';
+import { getPetroMaterialTitle, getPetroSublevelTitle } from '../../Helper/PetroTitles';
 
 const Materi = (props) => {
   const { t } = useTranslation();
@@ -45,6 +46,7 @@ const Materi = (props) => {
   let err_unduh = t('common:err_unduh');
   let kembali   =  t('common:kembali');
   let youareGuest   =  t('common:guestAlert');
+  let videoUnavailable = t('common:videoUnavailable');
 
   const [state, setState] = useState({
     loading: false,
@@ -187,28 +189,20 @@ const Materi = (props) => {
     }
   }
   const presableMenu = (item, index) => {
+    const hasVideo = Boolean(String(item.value.watch || '').trim());
+    const materialTitle = getPetroMaterialTitle(item.value, lang);
     return (
       <Pressable style={[styles.presableMenu, {backgroundColor: generateBackgroundColor(index)}]} >
         <View style={styles.viewText}>
-        {lang=='id' ?
-          <Text style={styles.title}>
-                  {item.value.information}
-          </Text>
-          :
-          <Text style={styles.title}>
-              {item.value.information_en!='' ?
-                  item.value.information_en
-                :
-                  item.value.information
-              }
-          </Text>
-        }
+          <Text style={styles.title}>{materialTitle}</Text>
           <View style={styles.row}>
-            {Boolean(item.value.watch) && (
-              <Pressable style={{padding: toDp(4)}} onPress={() => openLinks('watch', item.value.watch, item.value, state.uid, item.id,item.value.doc_en)}>
-                <Text style={styles.textMenu}>{tonton}</Text>
-              </Pressable>
-            )}
+            <Pressable
+              style={{padding: toDp(4), opacity: hasVideo ? 1 : 0.5}}
+              onPress={() => hasVideo
+                ? openLinks('watch', item.value.watch, item.value, state.uid, item.id,item.value.doc_en)
+                : showAlert(videoUnavailable)}>
+              <Text style={styles.textMenu}>{tonton}</Text>
+            </Pressable>
             <Pressable style={{padding: toDp(4)}} onPress={() => openLinks('read', item.value.doc, item.value,'',item.value.doc_en,'')}>
               <Text style={styles.textMenu}>{baca}</Text>
             </Pressable>
@@ -216,7 +210,7 @@ const Materi = (props) => {
               <Text style={styles.textMenu}>{unduh}</Text>
             </Pressable>
             {item.value.state_exam === 'yes' && (
-              <Pressable style={{padding: toDp(4)}} onPress={() => openLinks('test', item.value.test, item.id, state.uid,'Materi', item.value.information)}>
+              <Pressable style={{padding: toDp(4)}} onPress={() => openLinks('test', item.value.test, item.id, state.uid,'Materi', materialTitle)}>
                 <Text style={styles.textMenu}>{ujian}</Text>
               </Pressable>
             )}
@@ -235,7 +229,7 @@ const Materi = (props) => {
       </View>
       <Loader loading={state.loading} />
       <Header
-        title={props.navigation.state.params.value.name}
+        title={getPetroSublevelTitle(props.navigation.state.params.value.name, lang)}
         onPress={() => props.navigation.goBack()}
       />
       <View style={styles.content}>
@@ -260,8 +254,10 @@ const Materi = (props) => {
         </View>
       </View>
       {examEnabled && (<View style={styles.footer}>
-        <Pressable style={styles.presableMenuFooter} onPress={() => openLinkPGexam(props.navigation.state.params.value.id, 'Ujian Pelajaran', props.navigation.state.params.level)}>
-          {lang=='id' ?
+        <Pressable style={styles.presableMenuFooter} onPress={() => openLinkPGexam(props.navigation.state.params.value.id, 'Ujian Pelajaran', props.navigation.state.params.levelDisplayTitle || props.navigation.state.params.level)}>
+          {isPetro ?
+            <Text style={styles.textFooter}>{lang == 'id' ? `${ujian} ${pelajaran}` : `${pelajaran} ${ujian}`}</Text>
+          : lang=='id' ?
             <Text style={styles.textFooter}>{ujian} {props.navigation.state.params.value.name.split(' ')[1]} {pelajaran}</Text>
           :
             <Text style={styles.textFooter}>{props.navigation.state.params.value.name.split(' ')[1]} {pelajaran} {ujian}</Text>

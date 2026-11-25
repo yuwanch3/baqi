@@ -16,6 +16,7 @@ import Loader from '@Loader'
 import Header from '@Header'
 import { svr } from '../../Configs/apikey';
 import axios from 'axios';
+import { getPetroLevelTitle } from '../../Helper/PetroTitles';
 
 const PetroLevel = (props) => {
   const { t } = useTranslation();
@@ -23,6 +24,7 @@ const PetroLevel = (props) => {
   let err_500 = t('common:err_500');
   let batal = t('common:batal');
   let informasi = t('common:informasi');
+  const lang = t('common:lang');
   const materi = props.navigation.state.params.materi; // 'petrofisika' | 'ceor' | 'mnk'
   const judul = props.navigation.state.params.title || '';
 
@@ -80,18 +82,22 @@ const PetroLevel = (props) => {
     })
   }
 
-  const selectMateri = (level, lid) => {
-    NavigatorService.navigate('SubLevel', {title: level, lid:lid})
+  const selectMateri = (level) => {
+    NavigatorService.navigate('SubLevel', {
+      title: level.name,
+      displayTitle: getPetroLevelTitle(level, lang),
+      lid: level.id,
+    })
   }
 
   const presableMenu = (item, index) => {
     return (
       <View style={{width:'100%', alignItems:'center'}}>
         <Pressable style={[styles.presableMenu, {backgroundColor: item.value.backgroundColor}]}
-          onPress={() => selectMateri(item.value.name, item.value.id)}>
+          onPress={() => selectMateri(item.value)}>
           <Image source={allLogo.icLevel} style={styles.icMateri} />
           <View style={styles.viewText}>
-            <Text style={styles.title}>{item.value.name}</Text>
+            <Text style={styles.title}>{getPetroLevelTitle(item.value, lang)}</Text>
           </View>
         </Pressable>
       </View>

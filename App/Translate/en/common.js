@@ -160,6 +160,8 @@ export default {
   verifikasi: "Verification",
   kirim:"Send",
   tonton: "Watch",
+  videoUnavailable: "Video is not available for this material yet.",
+  sesi: "Sessions",
   baca : "Read",
   unduh: "Download",
   unduh_sekarang: "Download Now",

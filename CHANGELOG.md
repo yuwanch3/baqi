@@ -8,6 +8,10 @@
 - Tombol **Tonton** disembunyikan pada materi yang tidak memiliki URL video, termasuk materi Migas Non-Konvensional.
 - Lebar kartu pada Beranda dikembalikan ke ukuran ringkas dan tetap terpusat.
 - Menu Ujian dan Ranking menambahkan kategori Migas Non-Konvensional untuk paket soal MNK.
+- Paket MNK mengaktifkan 880 soal bilingual: 240 soal materi, 240 Ujian Pelajaran, 80 Inisialisasi, 160 Final Test, dan 160 Final Advanced.
+- Posisi jawaban `option` tersebar merata pada A/B/C/D; opsi `multi` dan `drag` diacak tanpa mengubah kunci jawaban.
+- Tombol **Tonton** tetap ditampilkan pada materi tanpa video dengan tampilan redup dan pesan bahwa video belum tersedia.
+- Mode English menampilkan judul English untuk bab, sublevel, materi, serta header ujian Ilmu Perminyakan.
 
 ## v0.8.0 — Migas Non-Konvensional
 

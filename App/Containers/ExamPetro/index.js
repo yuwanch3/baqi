@@ -17,6 +17,7 @@ import Loader from '@Loader'
 import Header from '@Header'
 import { svr } from '../../Configs/apikey';
 import axios from 'axios';
+import { getPetroLevelTitle } from '../../Helper/PetroTitles';
 
 const ExamPetro = (props) => {
   const { t } = useTranslation();
@@ -27,6 +28,8 @@ const ExamPetro = (props) => {
   let youareGuest = t('common:guestAlert');
   let ujianBAB = t('common:ujianBab');
   let final_test = t('common:final_test');
+  const lang = t('common:lang');
+  const sesi = t('common:sesi');
   const materi = props.navigation.state.params.materi; // 'petrofisika' | 'ceor' | 'mnk'
   const judul = props.navigation.state.params.title || '';
 
@@ -108,11 +111,11 @@ const ExamPetro = (props) => {
   const presableMenu = (item, index) => {
     return (
       <Pressable style={[styles.presableMenu, {backgroundColor: item.value.backgroundColor}]}
-        onPress={() => openFinalTest(item.value.id, item.value.name)}>
+        onPress={() => openFinalTest(item.value.id, getPetroLevelTitle(item.value, lang))}>
         <Image source={allLogo.icLevel} style={styles.icMateri} />
         <View style={styles.viewText}>
-          <Text style={styles.title}>{item.value.name}</Text>
-          <Text style={styles.subtitle}>{ujianBAB} · 3 Sesi</Text>
+          <Text style={styles.title}>{getPetroLevelTitle(item.value, lang)}</Text>
+          <Text style={styles.subtitle}>{ujianBAB} · 3 {sesi}</Text>
         </View>
       </Pressable>
     )

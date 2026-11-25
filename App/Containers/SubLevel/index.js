@@ -19,6 +19,7 @@ import Loader from '@Loader'
 import Header from '@Header'
 //import { firebase } from '../../Configs/firebase'
 import { useTranslation } from 'react-i18next';
+import { getPetroSublevelTitle } from '../../Helper/PetroTitles';
 
 const SubLevel = (props) => {
   const { t } = useTranslation();
@@ -32,6 +33,7 @@ const SubLevel = (props) => {
   let informasi = t('common:informasi');
   let kembali   =  t('common:kembali');
   let youareGuest   =  t('common:guestAlert');
+  const lang = t('common:lang');
 
   const [state, setState] = useState({
     loading: false,
@@ -90,7 +92,12 @@ const SubLevel = (props) => {
   }
 
   const selectMateri = (value) => {
-    NavigatorService.navigate('Materi', {value, level: props.navigation.state.params.title, lid:props.navigation.state.params.lid})
+    NavigatorService.navigate('Materi', {
+      value,
+      level: props.navigation.state.params.title,
+      levelDisplayTitle: props.navigation.state.params.displayTitle || props.navigation.state.params.title,
+      lid:props.navigation.state.params.lid
+    })
   }
 
   const presableMenu = (backgroundColor, title, onPress) => {
@@ -113,7 +120,7 @@ const SubLevel = (props) => {
       </View>
       <Loader loading={state.loading} />
       <Header
-        title={props.navigation.state.params.title}
+        title={props.navigation.state.params.displayTitle || props.navigation.state.params.title}
         onPress={() => props.navigation.goBack()}
       />
       <View style={styles.content}>
@@ -129,7 +136,7 @@ const SubLevel = (props) => {
             data={state.arrayLevel}
             renderItem={({item, index}) => {
               return (
-                presableMenu(item.value.backgroundColor, item.value.name, () => selectMateri(item.value))
+                presableMenu(item.value.backgroundColor, getPetroSublevelTitle(item.value.name, lang), () => selectMateri(item.value))
               )
             }}
             ListFooterComponent={() => <View style={{height: toDp(24)}} />}

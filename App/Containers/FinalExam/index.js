@@ -62,6 +62,15 @@ const FinalExam = (props) => {
     let inf_endText =  t('common:inf_endText');
     let err_data404Grp =  t('common:err_data404Grp');
     let err_savingData =  t('common:err_savingData');
+    const displayExcerpt = lang == 'en'
+      ? ({
+          'Inisialisasi': 'Initialization',
+          'Ujian Pelajaran': 'Lesson Exam',
+          'Ujian Grammer': 'Grammar Exam',
+          'Final Test': 'Final Test',
+          'Final Advanced': 'Advanced Final Test'
+        }[props.navigation.state.params.excerpt] || props.navigation.state.params.excerpt)
+      : props.navigation.state.params.excerpt;
 
     //From page HameExam
     const [state, setState]= useState({
@@ -1756,7 +1765,7 @@ const FinalExam = (props) => {
        <StatusBar barStyle="light-content" backgroundColor={COLORS.primary} />
        <Header
         multiline
-        title={props.navigation.state.params.title +' - ' +  props.navigation.state.params.excerpt}
+        title={props.navigation.state.params.title +' - ' + displayExcerpt}
         onPress={() => props.navigation.goBack()}/>
         <Loader loading={state.loading} />
         {state.arraSoal.length > 0 ?
