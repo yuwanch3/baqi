@@ -6,7 +6,7 @@ import {
   Image,
   StatusBar,
   ImageBackground,
-  Pressable, ScrollView
+  Pressable, ScrollView, AsyncStorage
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -15,6 +15,24 @@ import NavigatorService from '@NavigatorService'
 import YoutubePlayer from "react-native-youtube-iframe";
 import { useTranslation } from 'react-i18next';
 import translate from 'translate-google-api';
+import getYoutubeId from '@YoutubeId';
+import VideoLanguageSwitch from '@VideoLanguageSwitch';
+
+const pickVideoLanguage = (preferred, hasIndonesian, hasEnglish) => {
+  if (preferred === 'id' && hasIndonesian) {
+    return 'id';
+  }
+  if (preferred === 'en' && hasEnglish) {
+    return 'en';
+  }
+  if (hasIndonesian) {
+    return 'id';
+  }
+  if (hasEnglish) {
+    return 'en';
+  }
+  return '';
+};
 
 const Watch = (props) => {
   const { t }   = useTranslation();
@@ -24,6 +42,18 @@ const Watch = (props) => {
   const [langTo,setTo]=useState('');
   const [nowlang,setNow]=useState('');
 
+  const params = props.navigation.state.params || {};
+  const material = params.value || {};
+  const indonesianUrl = material.watch_id;
+  const englishUrl = params.link || material.watch;
+  const hasIndonesian = Boolean(getYoutubeId(indonesianUrl));
+  const hasEnglish = Boolean(getYoutubeId(englishUrl));
+  const hasVideo = hasIndonesian || hasEnglish;
+
+  const [videoLanguage, setVideoLanguage] = useState(
+    pickVideoLanguage(lang, hasIndonesian, hasEnglish)
+  );
+
   useEffect(()=>{
     if(lang=='en'){
       setTo('en')
@@ -31,6 +61,39 @@ const Watch = (props) => {
       console.log('s-->' +langTo +'|'+nowlang);
     }
   },[])
+
+  useEffect(() => {
+    let active = true;
+    AsyncStorage.getItem('video-language')
+      .then((saved) => {
+        if (active) {
+          setVideoLanguage(pickVideoLanguage(saved || lang, hasIndonesian, hasEnglish));
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setVideoLanguage(pickVideoLanguage(lang, hasIndonesian, hasEnglish));
+        }
+      });
+    return () => {
+      active = false;
+    };
+  }, [lang, hasIndonesian, hasEnglish]);
+
+  const changeVideoLanguage = (next) => {
+    if (next === 'id' && !hasIndonesian) {
+      return;
+    }
+    if (next === 'en' && !hasEnglish) {
+      return;
+    }
+    setVideoLanguage(next);
+    AsyncStorage.setItem('video-language', next);
+  };
+
+  const videoId = videoLanguage === 'id'
+    ? getYoutubeId(indonesianUrl)
+    : getYoutubeId(englishUrl);
 
   const trans = (val, from, to)=>{
      let data=''
@@ -45,23 +108,40 @@ const Watch = (props) => {
   return (
     <View style={styles.container}>
       <Header
-        title={props.navigation.state.params.value.information}
+        title={material.information}
         onPress={() => props.navigation.goBack()}
       />
-      <YoutubePlayer
-        width={'100%'}
-        height={toDp(300)}
-        play={true}
-        videoId={props.navigation.state.params.link.split(".be/")[1]}
-      />
+      {hasVideo ? (
+        <YoutubePlayer
+          key={videoId}
+          width={'100%'}
+          height={toDp(300)}
+          play={true}
+          videoId={videoId}
+        />
+      ) : (
+        <View style={styles.videoUnavailable}>
+          <Text style={styles.videoUnavailableText}>{t('common:videoTidakTersedia')}</Text>
+        </View>
+      )}
 
-      <ScrollView style={styles.scrollView}>
+      <ScrollView
+        style={[styles.scrollView, !hasVideo ? styles.scrollViewNoVideo : null]}
+        contentContainerStyle={hasVideo ? styles.scrollContent : styles.scrollContentNoVideo}
+      >
+        {hasVideo && (
+          <VideoLanguageSwitch
+            value={videoLanguage}
+            available={{ id: hasIndonesian, en: hasEnglish }}
+            onChange={changeVideoLanguage}
+          />
+        )}
         <Text style={styles.desc}>
           {lang=='id' &&
-                props.navigation.state.params.value.description
+                material.description
           }
           {lang=='en' &&
-              trans(props.navigation.state.params.value.description, nowlang, langTo)
+              trans(material.description, nowlang, langTo)
           }
 
 
@@ -70,14 +150,14 @@ const Watch = (props) => {
         <View style={styles.viewButton}>
           {lang=="id" ?
               <Pressable
-                onPress={() => NavigatorService.navigate('Read', {link: props.navigation.state.params.value.doc, value: props.navigation.state.params.value})}
+                onPress={() => NavigatorService.navigate('Read', {link: material.doc, value: material})}
                 style={[styles.presableButton, {backgroundColor: '#7BA95C'}]}
               >
                 <Text style={styles.text}>{baca}</Text>
               </Pressable>
           :
               <Pressable
-                onPress={() => NavigatorService.navigate('Read', {link: props.navigation.state.params.value.doc_en, value: props.navigation.state.params.value})}
+                onPress={() => NavigatorService.navigate('Read', {link: material.doc_en, value: material})}
                 style={[styles.presableButton, {backgroundColor: '#7BA95C'}]}
               >
                 <Text style={styles.text}>{baca}</Text>
@@ -86,7 +166,7 @@ const Watch = (props) => {
           }
 
               <Pressable
-                onPress={() => NavigatorService.navigate('Exam', {value: props.navigation.state.params.val, uid:props.navigation.state.params.uid , title:props.navigation.state.params.value.information})}
+                onPress={() => NavigatorService.navigate('Exam', {value: params.val, uid:params.uid , title:material.information})}
                 style={[styles.presableButton, {backgroundColor: '#EE6C4D'}]}>
                 <Text style={styles.text}>{ujian}</Text>
               </Pressable>
@@ -109,6 +189,26 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     marginTop: toDp(-80)
+  },
+  scrollViewNoVideo: {
+    marginTop: 0
+  },
+  scrollContent: {
+    paddingTop: toDp(80)
+  },
+  scrollContentNoVideo: {
+    paddingTop: toDp(16)
+  },
+  videoUnavailable: {
+    width: '100%',
+    height: toDp(300),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#E9ECEF',
+  },
+  videoUnavailableText: {
+    color: '#666',
+    fontSize: toDp(14),
   },
   desc: {
     fontSize: toDp(14),

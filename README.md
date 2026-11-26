@@ -12,7 +12,7 @@
   - **Memahami Al-Quran** — belajar Al-Quran dengan materi, latihan, dan ujian per pelajaran.
   - **Memahami Ilmu Perminyakan** — Petrofisika & Chemical EOR: 12 bab, 36 sub-bab, 72 materi, dan **960 soal**.
   - **Migas Non-Konvensional** — 8 bab, 24 sublevel, 48 materi dari dua buku sumber, dan **880 soal bilingual**.
-- **🎬 Belajar Multi-Modal** — setiap materi memiliki menu **Tonton**, **Baca**, dan **Unduh**; materi tanpa video menampilkan status bahwa video belum tersedia.
+- **🎬 Belajar Multi-Modal** — setiap materi memiliki menu **Tonton**, **Baca**, dan **Unduh**; halaman Tonton menyediakan pilihan video **Indonesia / English** bila keduanya tersedia, dan materi tanpa video menampilkan status bahwa video belum tersedia.
 - **📝 Ujian Berjenjang**
   - Menu **Ujian** terpusat: pilih **Memahami Al-Quran / Petrofisika / Chemical EOR / Migas Non-Konvensional**, lalu pilih ujiannya.
   - Kuis per materi (5 soal)
@@ -22,6 +22,7 @@
 - **🏆 Ranking** — satu halaman ranking dengan tab **Semua**, **Qur'an**, **Petrofisika**, **CEOR**, dan **MNK**.
 - **👥 Grup Belajar** — buat dan ikuti grup, tambah atau keluarkan anggota, ubah nama/password grup, transfer admin saat admin keluar, serta lihat ranking anggota aktif.
 - **🌐 Multi-Bahasa** — antarmuka Bahasa Indonesia & English (React i18next).
+  - Halaman Tonton mengingat pilihan bahasa video dan otomatis memakai versi yang tersedia; batch awal menyediakan 25 video Indonesia materi Qur'an.
 - **👤 Akun & Autentikasi** — login/register, Google & Facebook sign-in, dan profil pengguna.
 
 ---
