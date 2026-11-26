@@ -1,5 +1,16 @@
 # Changelog BAQI
 
+## Unreleased — Pilihan Bahasa Video
+
+- Halaman **Watch** kini memiliki pemilih bahasa video: **Indonesia** / **English**.
+- Video Indonesia dibaca dari `watch_id`, video English tetap dari `watch` / `params.link`.
+- Pilihan tersimpan di `AsyncStorage` dengan kunci `video-language`; jika belum ada, mengikuti bahasa aplikasi dan jatuh ke versi yang tersedia.
+- Helper `getYoutubeId` menerima `youtu.be`, `watch?v=`, `embed/`, dan `shorts/`, termasuk tautan dengan `?si=...`.
+- Opsi tanpa video dinonaktifkan dan diberi label **Segera hadir** / **Coming soon**.
+- Jika kedua video kosong, pemilih disembunyikan dan halaman menampilkan pesan **Video belum tersedia**.
+- Batch awal Qur'an memetakan 25 video Indonesia: 6 materi Level 1 dan 19 materi Level 2; materi lainnya tetap berstatus **Segera hadir**.
+- Jarak antara player, pemilih bahasa video, dan teks deskripsi dirapatkan agar halaman Watch lebih nyaman dibaca.
+
 ## v0.8.1 — Konsistensi Tata Letak
 
 - Jarak kartu menu terhadap sisi kiri dan kanan layar diseragamkan pada layar utama, materi, ujian, ranking, dan grup.
