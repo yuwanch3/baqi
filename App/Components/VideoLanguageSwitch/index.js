@@ -58,7 +58,7 @@ const VideoLanguageSwitch = ({ value, onChange, available = {} }) => {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: toDp(16),
-    marginTop: toDp(16),
+    marginTop: toDp(8),
   },
   label: {
     color: '#444',

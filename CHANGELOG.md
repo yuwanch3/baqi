@@ -9,6 +9,7 @@
 - Opsi tanpa video dinonaktifkan dan diberi label **Segera hadir** / **Coming soon**.
 - Jika kedua video kosong, pemilih disembunyikan dan halaman menampilkan pesan **Video belum tersedia**.
 - Batch awal Qur'an memetakan 25 video Indonesia: 6 materi Level 1 dan 19 materi Level 2; materi lainnya tetap berstatus **Segera hadir**.
+- Jarak antara player, pemilih bahasa video, dan teks deskripsi dirapatkan agar halaman Watch lebih nyaman dibaca.
 
 ## v0.8.1 — Konsistensi Tata Letak
 

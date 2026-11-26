@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     marginTop: 0
   },
   scrollContent: {
-    paddingTop: toDp(80)
+    paddingTop: toDp(12)
   },
   scrollContentNoVideo: {
     paddingTop: toDp(16)
@@ -214,6 +214,7 @@ const styles = StyleSheet.create({
     fontSize: toDp(14),
     color: 'black',
     marginHorizontal: toDp(16),
+    marginTop: toDp(10),
   },
   viewButton: {
     marginTop: toDp(16),
