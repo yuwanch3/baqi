@@ -1,6 +1,6 @@
 # Changelog BAQI
 
-## Unreleased — Pilihan Bahasa Video
+## v0.8.2 — Pilihan Bahasa Video
 
 - Halaman **Watch** kini memiliki pemilih bahasa video: **Indonesia** / **English**.
 - Video Indonesia dibaca dari `watch_id`, video English tetap dari `watch` / `params.link`.

@@ -126,6 +126,14 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 
 ## 📜 Changelog
 
+### v0.8.2 — Pilihan Bahasa Video
+- Halaman **Tonton** menyediakan pilihan video **Indonesia / English** dan mengingat pilihan pengguna.
+- Pilihan awal mengikuti bahasa aplikasi serta otomatis memakai versi video yang tersedia.
+- Tautan YouTube mendukung format `youtu.be`, `watch?v=`, `embed/`, `shorts/`, dan parameter tambahan.
+- Opsi video yang belum tersedia dinonaktifkan dengan label **Segera hadir**; jika keduanya kosong, tampil pesan video belum tersedia.
+- Batch awal menyediakan 25 video Indonesia materi Qur'an; materi lainnya tetap berstatus **Segera hadir**.
+- Jarak player, pemilih bahasa video, dan deskripsi dirapikan agar konsisten di seluruh materi.
+
 ### v0.8.1 — Ujian MNK & Penyempurnaan Antarmuka
 - Menambahkan 880 soal bilingual MNK: materi, Ujian Pelajaran, Inisialisasi, Final Test, dan Final Advanced.
 - Posisi jawaban pilihan tunggal diacak merata pada A/B/C/D; opsi `multi` dan `drag` juga diacak tanpa mengubah kunci.
