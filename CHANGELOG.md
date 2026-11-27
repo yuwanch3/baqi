@@ -1,5 +1,12 @@
 # Changelog BAQI
 
+## v0.9.1 — Konsistensi Warna & Multi-Tambah Anggota
+
+- Warna kartu bab, sublevel, dan ujian Uji Sumur dan Pengasaman mengikuti pola hijau, oranye, kuning-hijau, dan biru gelap seperti kurikulum lain.
+- Hasil pencarian Tambah Anggota dapat dipilih lebih dari satu; kartu terpilih memakai border hijau, latar hijau lembut, dan indikator pilihan di kanan.
+- Tombol **Tambah Terpilih** menambahkan seluruh user yang ditandai dalam satu transaksi backend.
+- Fitur hapus beberapa anggota yang sudah tersedia tetap dipertahankan.
+
 ## v0.9.0 — Uji Sumur dan Pengasaman
 
 - Menu Ilmu Perminyakan menambahkan kategori **Uji Sumur dan Pengasaman** dengan ikon khusus.

@@ -4,69 +4,49 @@ import {
   Text,
   View,
   Image,
-  StatusBar,
-  ImageBackground,
   Pressable,
   Alert,
   TextInput,
-  FlatList,AsyncStorage,RefreshControl
+  FlatList,
+  AsyncStorage,
+  Platform,
 } from "react-native";
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
-import Modal from "react-native-modal";
-import NavigatorService from '@NavigatorService'
 import Loader from '@Loader'
 import HeaderTransparent from '@HeaderTransparent'
 //import { firebase } from '../../Configs/firebase'
 import { svr } from '../../../Configs/apikey';
 import axios from 'axios';
-import { sha1 } from 'react-native-sha1';
 import { useTranslation } from 'react-i18next';
 
 const TambahMember = (props) => {
   const { t }   = useTranslation();
   let err_data  = t('common:err_data');
-  let err_trima = t('common:err_trima');
-  let dataNull  = t('common:dataNull');
-  let err_404   = t('common:err_404');
   let err_500   = t('common:err_500');
   let batal = t('common:batal');
-  let gabung = t('common:gabung');
   let oke   = t('common:oke');
   let tambah   = t('common:tambah');
   let cari    =  t('common:cari');
-  let txt_konfirmagt =  t('common:txt_konfirmagt');
-  let txt_btambahkan   =  t('common:txt_btambahkan');
   let err_500V2     =  t('common:err_500V2');
   let grup_409join  =  t('common:grup_409join');
   let err_404V3Grup =  t('common:err_404V3Grup');
   let err_404V2 =  t('common:err_404V2');
   let informasi =  t('common:informasi');
   let kembali   =  t('common:kembali');
-  let err_404V3    =  t('common:err_404V3');
   let mg_menusatu =  t('common:mg_menusatu');
   let plc_amnamapg =  t('common:mg_menusatu');
 
-
-  //swipe refresh
-  const [refreshing, setRefreshing] = useState(false);
-  const [isModalVisible, setModalVisible] = useState(false);
   const [state, setState] = useState({
     loading: false,
-    total:0,
     arrayData:[],
     datafix:[],
     uid:'',
-    gid:'',
     thisdata:false,
     newKey:'',
-    password:''
   })
-  const[modalData,setModalData]=useState([]);
-
-  const toggleModal = () => {
-     setModalVisible(!isModalVisible);
-  };
+  const [selected, setSelected] = useState([]);
 
   useEffect(() => {
     AsyncStorage.getItem('uid').then(uids =>{
@@ -104,15 +84,21 @@ const TambahMember = (props) => {
                 id: doc.id,
                 value: doc
               }
-           })
+          })
           //console.log('New search => '+ JSON.stringify(data) )
-          setState(state => ({...state, loading: false, arrayData: data, total: data[0].total}))
-          setState(state => ({...state, loading: false }))
-          setState(state => ({...state, datafix: data, thisdata:true }))
+          setSelected([]);
+          setState(state => ({
+            ...state,
+            loading: false,
+            arrayData: data,
+            datafix: data,
+            thisdata: true,
+          }))
 
         }else if(result.data.status==404){
           // asfaalert("Data tidak ditemukan!");
-          setState(state => ({...state, loading: false,thisdata:false}))
+          setSelected([]);
+          setState(state => ({...state, loading: false, arrayData: [], datafix: [], thisdata:false}))
         }else if(result.data.status==500){
           showAlertone(err_500);
           setState(state => ({...state, loading: false }))
@@ -123,37 +109,28 @@ const TambahMember = (props) => {
     })
   }
 
-  const presableMenu = (item, index, OnPress) => {
+  const presableMenu = (item, isSelected, OnPress) => {
       return (
-        <Pressable style={[styles.presableMenu, {backgroundColor: 'white'}]} onPress={()=>OnPress()}>
+        <Pressable
+          style={[styles.presableMenu, isSelected && styles.presableMenuSelected]}
+          onPress={()=>OnPress()}
+        >
             <View style={styles.rowflatlist}>
                 <View style={{justifyContent:'center'}}>
                   <Image source={item.value.picture ? {uri: item.value.picture} : allLogo.icUsertemp} style={styles.logo} />
                 </View>
                 <View style={styles.viewText}>
-                    <Text style={styles.title}>{item.value.name}</Text>
-                    <Text style={styles.deskrip}>{item.value.email}</Text>
+                    <Text style={styles.title} numberOfLines={1}>{item.value.name}</Text>
+                    <Text style={styles.deskrip} numberOfLines={1}>{item.value.email}</Text>
                 </View>
             </View>
+            <Icon
+              name={isSelected ? 'check-circle' : 'radio-button-unchecked'}
+              size={toDp(28)}
+              color={isSelected ? '#2D6A4F' : '#A3A3A3'}
+            />
         </Pressable>
       )
-  }
-
-  const selectGroup= (id,title,desc,uid) => {
-      NavigatorService.navigate('GrupDetail', {idgrup: id, judulgrup:title, deskripsi:desc, uid:uid})
-  }
-
-  const searchFilterFunction = (text) => {
-    const newData = state.arrayData.filter(item => {
-      const itemData = `${item.value.title.toUpperCase()}
-                        ${item.value.descrip.toUpperCase()}`;
-
-       const textData = text.toUpperCase();
-
-       return itemData.indexOf(textData) > -1;
-    });
-
-    setState(state => ({...state, datafix: newData }))
   }
 
   const showAlert = (data) => {
@@ -163,26 +140,39 @@ const TambahMember = (props) => {
       [
         {
           text: oke,
-          onPress: () => {toggleModal()},
+          onPress: () => {},
           style: "cancel"
         }
       ]
     )
   }
 
-  const addToGrup= (uid, idgrup)=>{
+  const toggleUser = (uid) => {
+    setSelected(current => current.indexOf(uid) >= 0
+      ? current.filter(item => item !== uid)
+      : current.concat(uid)
+    );
+  };
+
+  const addToGrup = () => {
     const data = {
-      uid: uid,
-      gid: idgrup,
+      owner: state.uid,
+      members: selected,
     }
-    console.log('------------------------------->0'+ JSON.stringify(data));
     setState(state => ({...state, loading: true }))
-      axios.post(svr.url+'grup/addmember/'+state.uid+'/'+svr.api+'/', data)
+      axios.post(svr.url+'grup/addmembers/'+props.navigation.state.params.idgrup+'/'+svr.api+'/', data)
       .then(result =>{
-        //console.log('--------> '+ JSON.stringify(result));
           if(result.data.status==201){
-            setState(state => ({...state, loading: false }))
-            showAlert(txt_btambahkan)
+            const added = Number(result.data.added || selected.length);
+            const selectedIds = selected.slice();
+            setSelected([]);
+            setState(state => ({
+              ...state,
+              loading: false,
+              datafix: state.datafix.filter(item => selectedIds.indexOf(item.id) < 0),
+              arrayData: state.arrayData.filter(item => selectedIds.indexOf(item.id) < 0),
+            }))
+            showAlert(t('common:g_tambahAnggotaBerhasil', {total: added}))
           }else if(result.data.status==500){
             showAlertone(err_500V2)
             setState(state => ({...state, loading: false }))
@@ -194,6 +184,12 @@ const TambahMember = (props) => {
           }else if(result.data.status==409){
             showAlertone(grup_409join)
             setState(state => ({...state, loading: false }))
+          }else if(result.data.status==403){
+            showAlertone(t('common:g_adminOnly'))
+            setState(state => ({...state, loading: false }))
+          }else{
+            showAlertone(err_data)
+            setState(state => ({...state, loading: false }))
           }
       }).catch(err =>{
         //console.log(err)
@@ -202,10 +198,14 @@ const TambahMember = (props) => {
       })
   }
 
-  const selectjoinGrup= (uid) => {
+  const selectjoinGrup = () => {
+    if(selected.length === 0){
+      showAlertone(t('common:g_pilihAnggota'));
+      return;
+    }
     Alert.alert(
       ""+mg_menusatu,
-      ""+txt_konfirmagt,
+      ""+t('common:g_konfirmasiTambahAnggota', {total: selected.length}),
       [
         {
           text: batal,
@@ -214,7 +214,7 @@ const TambahMember = (props) => {
         },
         {
           text: tambah,
-          onPress: () => {addToGrup(uid, props.navigation.state.params.idgrup)},
+          onPress: addToGrup,
 
         }
       ]
@@ -243,9 +243,12 @@ const TambahMember = (props) => {
                    <Image source={allLogo.icSearch} style={styles.icVisibilitySrc} />
                  </View>
 
-                 <Pressable style={[styles.srcShowrg,{backgroundColor: state.newKey!='' ? '#757975': '#E8E8E8'}]} onPress={() =>getUsersall(state.newKey)
-                 }>
-                   <Text style={{color: state.newKey!='' ? '#FFF':'#898989'}}>{cari}</Text>
+                  <Pressable
+                    disabled={state.newKey.trim()===''}
+                    style={[styles.srcShowrg,{backgroundColor: state.newKey.trim()!=='' ? '#757975': '#E8E8E8'}]}
+                    onPress={() => getUsersall(state.newKey.trim())}
+                  >
+                   <Text style={{color: state.newKey.trim()!=='' ? '#FFF':'#898989'}}>{cari}</Text>
                  </Pressable>
            </View>
         </View>
@@ -258,9 +261,10 @@ const TambahMember = (props) => {
 
                     contentContainerStyle={{width:'100%',borderRadius: 30,}}
                     data={state.datafix}
+                    keyExtractor={item => item.id}
                     renderItem={({item,index}) => {
                       return (
-                        presableMenu(item, index, () => selectjoinGrup(item.id))
+                         presableMenu(item, selected.indexOf(item.id) >= 0, () => toggleUser(item.id))
                       )
                     }}
                     ListFooterComponent={() => <View style={{height: toDp(50), marginBottom:toDp(120)}} />}
@@ -275,8 +279,19 @@ const TambahMember = (props) => {
                    </Text>
                </View>
              </View>
-           }
-        </View>
+            }
+            {state.thisdata==true &&
+            <Pressable
+              disabled={selected.length === 0}
+              style={[styles.actionButton, selected.length === 0 && styles.actionDisabled]}
+              onPress={selectjoinGrup}
+            >
+              <Text style={styles.actionText}>
+                {t('common:g_tambahTerpilih', {total: selected.length})}
+              </Text>
+            </Pressable>
+            }
+         </View>
       </View>
     </View>
   )
@@ -340,7 +355,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: toDp(16),
     padding:5,
-    paddingHorizontal:15
+    paddingHorizontal:15,
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderWidth: toDp(2),
+    borderColor: 'transparent',
+  },
+  presableMenuSelected: {
+    borderColor: '#52B788',
+    backgroundColor: '#F4FBF7',
   },
   title: {
       fontSize: toDp(15),
@@ -352,8 +375,9 @@ const styles = StyleSheet.create({
       color: '#024024'
   },
   rowflatlist: {
+    flex: 1,
     flexDirection: 'row',
-    justifyContent:'space-between',
+    alignItems: 'center',
   },
   logo: {
     borderRadius: toDp(100),
@@ -362,6 +386,7 @@ const styles = StyleSheet.create({
     backgroundColor:'#ccc'
   },
   viewText: {
+    flex: 1,
     marginLeft: toDp(20),
     justifyContent:'center',
 
@@ -407,6 +432,24 @@ const styles = StyleSheet.create({
     width: toDp(28),
     height: toDp(28),
     tintColor: 'grey'
+  },
+  actionButton: {
+    position: 'absolute',
+    left: toDp(24),
+    right: toDp(24),
+    bottom: toDp(24),
+    height: toDp(50),
+    borderRadius: toDp(60),
+    backgroundColor: '#2D6A4F',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  actionDisabled: {
+    backgroundColor: '#9FCCBA',
+  },
+  actionText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 
     modal:{
