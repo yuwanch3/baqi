@@ -30,7 +30,7 @@ const ExamPetro = (props) => {
   let final_test = t('common:final_test');
   const lang = t('common:lang');
   const sesi = t('common:sesi');
-  const materi = props.navigation.state.params.materi; // 'petrofisika' | 'ceor' | 'mnk'
+  const materi = props.navigation.state.params.materi; // 'petrofisika' | 'ceor' | 'mnk' | 'acidizing'
   const judul = props.navigation.state.params.title || '';
 
   const [state, setState] = useState({
@@ -79,6 +79,7 @@ const ExamPetro = (props) => {
               const nama = String(doc.name || '');
               if (materi === 'ceor') return nama.startsWith('CEOR');
               if (materi === 'mnk') return nama.startsWith('Migas Non-Konvensional');
+              if (materi === 'acidizing') return nama.startsWith('Uji Sumur dan Pengasaman');
               return nama.startsWith('Petrofisika');
             })
             .map(doc => {

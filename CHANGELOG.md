@@ -1,5 +1,13 @@
 # Changelog BAQI
 
+## v0.9.0 — Uji Sumur dan Pengasaman
+
+- Menu Ilmu Perminyakan menambahkan kategori **Uji Sumur dan Pengasaman** dengan ikon khusus.
+- Kurikulum baru terdiri atas 4 bab, 17 sublevel, dan 37 materi yang dipetakan dari buku *Pengasaman Sumur Minyak*.
+- Setiap menu baca memakai potongan PDF sesuai batas topiknya; versi Indonesia dan English memakai dokumen sumber yang sama.
+- Paket ujian menyediakan 555 soal bilingual berbasis halaman dan kutipan sumber: 185 soal materi, 170 Ujian Pelajaran, 40 Inisialisasi, 80 Final Test, dan 80 Final Advanced.
+- Menu Ujian dan Ranking mendukung kategori baru; seluruh daftar kategori yang bertambah dapat digulir pada layar kecil.
+
 ## v0.8.2 — Pilihan Bahasa Video
 
 - Halaman **Watch** kini memiliki pemilih bahasa video: **Indonesia** / **English**.

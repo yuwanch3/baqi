@@ -36,7 +36,8 @@ const allLogo = {
   icPetro: require('./img/icon-petrofisika-chemical-eor.png'),
   icPetroDetail: require('./img/icon-petrofisika.png'),
   icCEOR: require('./img/icon-chemical-eor.png'),
-  icMigasNonKonvensional: require('./img/icon-migas-non-konvensional.png')
+  icMigasNonKonvensional: require('./img/icon-migas-non-konvensional.png'),
+  icUjiSumurPengasaman: require('./img/icon-well-acidizing.png')
 }
 
 export { allLogo }

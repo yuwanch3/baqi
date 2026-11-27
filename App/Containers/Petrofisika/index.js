@@ -5,6 +5,7 @@ import {
   View,
   Image,
   Pressable,
+  ScrollView,
 } from "react-native";
 import { allLogo } from '@Assets';
 import { toDp } from '@percentageToDP';
@@ -21,6 +22,8 @@ const Petrofisika = (props) => {
   let deskMenuPetroCEOR = t('common:deskMenuPetroCEOR');
   let menuPetroMNK = t('common:menuPetroMNK');
   let deskMenuPetroMNK = t('common:deskMenuPetroMNK');
+  let menuPetroAcidizing = t('common:menuPetroAcidizing');
+  let deskMenuPetroAcidizing = t('common:deskMenuPetroAcidizing');
 
   const goTo = (materi, title) => {
     NavigatorService.navigate('PetroLevel', { title: title, materi: materi })
@@ -47,7 +50,11 @@ const Petrofisika = (props) => {
         title={judul_petro}
         onPress={() => props.navigation.goBack()}
       />
-      <View style={styles.content}>
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
+      >
         {presableMenu(
           menuPetroPetro,
           deskMenuPetroPetro,
@@ -72,7 +79,15 @@ const Petrofisika = (props) => {
           'mnk',
           menuPetroMNK
         )}
-      </View>
+        {presableMenu(
+          menuPetroAcidizing,
+          deskMenuPetroAcidizing,
+          allLogo.icUjiSumurPengasaman,
+          '#7C3AED',
+          'acidizing',
+          menuPetroAcidizing
+        )}
+      </ScrollView>
     </View>
   )
 };
@@ -84,8 +99,11 @@ const styles = StyleSheet.create({
   },
   content: {
     width: '100%',
+  },
+  contentContainer: {
     alignItems: 'center',
-    marginTop: toDp(30)
+    paddingTop: toDp(30),
+    paddingBottom: toDp(24),
   },
   viewCenterAbsolute: {
     height: '100%',

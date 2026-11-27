@@ -23,6 +23,7 @@ const RANKING_SUBJECTS = {
   petro: { labelKey: 'kategoriPetro', color: '#1F618D' },
   ceor: { labelKey: 'kategoriCeor', color: '#EE6C4D' },
   mnk: { labelKey: 'kategoriMNK', color: '#9A6700' },
+  acidizing: { labelKey: 'kategoriAcidizing', color: '#7C3AED' },
 };
 
 const RANKING_TABS = [
