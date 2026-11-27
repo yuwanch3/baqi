@@ -127,6 +127,11 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 
 ## 📜 Changelog
 
+### v0.9.1 — Konsistensi Warna & Multi-Tambah Anggota
+- Menyamakan warna kartu bab, sublevel, dan ujian Pengasaman dengan pola warna kurikulum lainnya.
+- Tampilan user terpilih di Tambah Anggota kini memiliki border hijau, latar hijau lembut, dan indikator pilihan di sisi kanan.
+- Tambah Anggota mendukung pemilihan dan penambahan beberapa user sekaligus; hapus beberapa anggota tetap tersedia.
+
 ### v0.9.0 — Uji Sumur dan Pengasaman
 - Menambahkan kategori **Uji Sumur dan Pengasaman** pada menu Ilmu Perminyakan dengan ikon khusus.
 - Menambahkan 4 bab, 17 sublevel, dan 37 materi/PDF yang dipetakan dari buku *Pengasaman Sumur Minyak*.
