@@ -127,6 +127,14 @@ Lihat riwayat lengkap di [CHANGELOG.md](./CHANGELOG.md).
 
 ## 📜 Changelog
 
+### v0.9.0 — Uji Sumur dan Pengasaman
+- Menambahkan kategori **Uji Sumur dan Pengasaman** pada menu Ilmu Perminyakan dengan ikon khusus.
+- Menambahkan 4 bab, 17 sublevel, dan 37 materi/PDF yang dipetakan dari buku *Pengasaman Sumur Minyak*.
+- Menambahkan 555 soal bilingual berbasis sumber: 185 soal materi, 170 Ujian Pelajaran, 40 Inisialisasi, 80 Final Test, dan 80 Final Advanced.
+- Posisi jawaban untuk 386 soal pilihan tunggal tersebar merata: A 97, B 97, C 96, dan D 96; opsi `multi` serta `drag` juga diacak tanpa mengubah kunci jawaban.
+- Menu Ujian dan Ranking mendukung kategori Pengasaman, termasuk judul level, sublevel, dan materi dalam Bahasa Indonesia/English.
+- Daftar kategori Ilmu Perminyakan dan Ujian dapat digulir agar tetap nyaman pada layar kecil.
+
 ### v0.8.2 — Pilihan Bahasa Video
 - Halaman **Tonton** menyediakan pilihan video **Indonesia / English** dan mengingat pilihan pengguna.
 - Pilihan awal mengikuti bahasa aplikasi serta otomatis memakai versi video yang tersedia.
