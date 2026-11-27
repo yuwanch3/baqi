@@ -19,6 +19,10 @@ const ENGLISH_LEVEL_TITLES = {
   PFC000000018: 'Unconventional Oil and Gas Chapter 6 - Low-Permeability Oil',
   PFC000000019: 'Unconventional Oil and Gas Chapter 7 - Oil Rim',
   PFC000000020: 'Unconventional Oil and Gas Chapter 8 - Tight Reservoir',
+  PFC000000021: 'Well Testing and Acidizing Chapter 1 - Introduction',
+  PFC000000022: 'Well Testing and Acidizing Chapter 2 - Acidizing',
+  PFC000000023: 'Well Testing and Acidizing Chapter 3 - Acid Reactions',
+  PFC000000024: 'Well Testing and Acidizing Chapter 4 - Acid Distribution',
 };
 
 const ENGLISH_MATERIAL_TITLES = {
@@ -105,7 +109,8 @@ export const getPetroSublevelTitle = (name, lang) => {
   if (lang !== 'en') return name;
   return String(name || '')
     .replace(/^Petrofisika/, 'Petrophysics')
-    .replace(/^Migas Non-Konvensional/, 'Unconventional Oil and Gas');
+    .replace(/^Migas Non-Konvensional/, 'Unconventional Oil and Gas')
+    .replace(/^Uji Sumur dan Pengasaman/, 'Well Testing and Acidizing');
 };
 
 export const getPetroMaterialTitle = (material, lang) => {

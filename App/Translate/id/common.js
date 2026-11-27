@@ -25,6 +25,8 @@ export default {
   deskMenuPetroCEOR: "Belajar Chemical EOR",
   menuPetroMNK: "Migas Non-Konvensional",
   deskMenuPetroMNK: "Belajar Migas Non-Konvensional",
+  menuPetroAcidizing: "Uji Sumur dan Pengasaman",
+  deskMenuPetroAcidizing: "Belajar Uji Sumur dan Pengasaman",
   ujianBab: "Ujian Akhir Bab",
   baqi_desk: "Memahami Ilmu Secara Interaktif",
   fnama : "Nama",
@@ -62,6 +64,7 @@ export default {
   kategoriPetro: "Petrofisika",
   kategoriCeor: "CEOR",
   kategoriMNK: "MNK",
+  kategoriAcidizing: "Pengasaman",
   rankBelumAda: "Belum ada ranking",
 
   sandiBaru: "Sandi Baru",

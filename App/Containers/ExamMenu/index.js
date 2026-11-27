@@ -24,6 +24,8 @@ const ExamMenu = (props) => {
   let deskCeo = t('common:deskMenuPetroCEOR');
   let menuMNK = t('common:menuPetroMNK');
   let deskMNK = t('common:deskMenuPetroMNK');
+  let menuAcidizing = t('common:menuPetroAcidizing');
+  let deskAcidizing = t('common:deskMenuPetroAcidizing');
 
   const presableMenu = (label, deskripsi, icon, warna, onPress) => {
     return (
@@ -78,6 +80,13 @@ const ExamMenu = (props) => {
           allLogo.icMigasNonKonvensional,
           '#9A6700',
           () => NavigatorService.navigate('ExamPetro', { title: menuMNK, materi: 'mnk' })
+        )}
+        {presableMenu(
+          menuAcidizing,
+          deskAcidizing,
+          allLogo.icUjiSumurPengasaman,
+          '#7C3AED',
+          () => NavigatorService.navigate('ExamPetro', { title: menuAcidizing, materi: 'acidizing' })
         )}
       </ScrollView>
     </View>

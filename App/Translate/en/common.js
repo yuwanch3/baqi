@@ -25,6 +25,8 @@ export default {
   deskMenuPetroCEOR: "Learn Chemical EOR",
   menuPetroMNK: "Unconventional Oil and Gas",
   deskMenuPetroMNK: "Learn Unconventional Oil and Gas",
+  menuPetroAcidizing: "Well Testing and Acidizing",
+  deskMenuPetroAcidizing: "Learn Well Testing and Acidizing",
   ujianBab: "End of Chapter Exam",
   baqi_desk: "Understanding Knowledge Interactively",
   fnama : "Name",
@@ -62,6 +64,7 @@ export default {
   kategoriPetro: "Petrophysics",
   kategoriCeor: "CEOR",
   kategoriMNK: "UOG",
+  kategoriAcidizing: "Acidizing",
   rankBelumAda: "No ranking yet",
 
   sandiBaru : "New Password",
