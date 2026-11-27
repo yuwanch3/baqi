@@ -5,6 +5,8 @@
 - Warna kartu bab, sublevel, dan ujian Uji Sumur dan Pengasaman mengikuti pola hijau, oranye, kuning-hijau, dan biru gelap seperti kurikulum lain.
 - Hasil pencarian Tambah Anggota dapat dipilih lebih dari satu; kartu terpilih memakai border hijau, latar hijau lembut, dan indikator pilihan di kanan.
 - Tombol **Tambah Terpilih** menambahkan seluruh user yang ditandai dalam satu transaksi backend.
+- Tombol **Tambah Terpilih** diposisikan tetap di bagian bawah layar agar selalu terlihat setelah user dipilih.
+- Judul header halaman Quran mengikuti bahasa aplikasi: **Memahami Al-Qur'an** (ID) dan **Understand Qur'an** (EN).
 - Fitur hapus beberapa anggota yang sudah tersedia tetap dipertahankan.
 
 ## v0.9.0 — Uji Sumur dan Pengasaman

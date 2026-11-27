@@ -280,19 +280,19 @@ const TambahMember = (props) => {
                </View>
              </View>
             }
-            {state.thisdata==true &&
-            <Pressable
-              disabled={selected.length === 0}
-              style={[styles.actionButton, selected.length === 0 && styles.actionDisabled]}
-              onPress={selectjoinGrup}
-            >
-              <Text style={styles.actionText}>
-                {t('common:g_tambahTerpilih', {total: selected.length})}
-              </Text>
-            </Pressable>
-            }
          </View>
       </View>
+      {state.thisdata==true &&
+      <Pressable
+        disabled={selected.length === 0}
+        style={[styles.actionButton, selected.length === 0 && styles.actionDisabled]}
+        onPress={selectjoinGrup}
+      >
+        <Text style={styles.actionText}>
+          {t('common:g_tambahTerpilih', {total: selected.length})}
+        </Text>
+      </Pressable>
+      }
     </View>
   )
 };
@@ -443,6 +443,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#2D6A4F',
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 100,
+    elevation: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
   },
   actionDisabled: {
     backgroundColor: '#9FCCBA',

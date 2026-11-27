@@ -113,7 +113,7 @@ const UnderstandQuran = (props) => {
       </View>
       <Loader loading={state.loading} />
       <Header
-        title={'Understand Qur’an '}
+        title={pahami_quran}
         onPress={() => props.navigation.goBack()}
       />
       <View style={styles.content}>
