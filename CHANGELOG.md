@@ -1,6 +1,6 @@
 # Changelog BAQI
 
-## Belum Dirilis — Uji Sumur dan Pengasaman
+## v0.9.0 — Uji Sumur dan Pengasaman
 
 - Menu Ilmu Perminyakan menambahkan kategori **Uji Sumur dan Pengasaman** dengan ikon khusus.
 - Kurikulum baru terdiri atas 4 bab, 17 sublevel, dan 37 materi yang dipetakan dari buku *Pengasaman Sumur Minyak*.
